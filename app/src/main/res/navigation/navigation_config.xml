@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_config"
+    app:startDestination="@id/home">
+
+    <fragment
+        android:id="@+id/home"
+        android:name="com.shenkong.bzzmaster.ui.fragment.home.HomeFragment"
+        android:label="首页"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/product"
+        android:name="com.shenkong.bzzmaster.ui.fragment.product.ProductFragment"
+        android:label="产品"
+        tools:layout="@layout/fragment_product" />
+
+    <fragment
+        android:id="@+id/invitation"
+        android:name="com.shenkong.bzzmaster.ui.fragment.invitation.InvitationFragment"
+        android:label="邀请"
+        tools:layout="@layout/fragment_invitation" />
+
+    <fragment
+        android:id="@+id/mine"
+        android:name="com.shenkong.bzzmaster.ui.fragment.mine.MineFragment"
+        android:label="我的"
+        tools:layout="@layout/fragment_mine" />
+</navigation>
