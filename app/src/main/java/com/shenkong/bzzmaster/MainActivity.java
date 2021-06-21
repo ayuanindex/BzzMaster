@@ -11,7 +11,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textview.MaterialTextView;
-import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.ui.base.BaseActivity;
 
 public class MainActivity extends BaseActivity {
