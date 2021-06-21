@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:text="深空洪源"
+            android:text="@string/app_name"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@id/ivIconLogo"
             app:layout_constraintStart_toStartOf="@id/ivIconLogo"
