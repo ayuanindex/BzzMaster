@@ -37,13 +37,17 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilPhone"
-            style="@style/Widget.Design.TextInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="30dp"
             android:minHeight="40dp"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
             app:hintAnimationEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +66,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilVerificationCode"
-            style="@style/Widget.Design.TextInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -70,6 +74,10 @@
             android:layout_marginEnd="30dp"
             android:minHeight="40dp"
             android:orientation="horizontal"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
             app:layout_constraintEnd_toEndOf="@id/tilPhone"
             app:layout_constraintStart_toStartOf="@id/tilPhone"
             app:layout_constraintTop_toBottomOf="@id/tilPhone">
@@ -100,13 +108,17 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilInvitationCode"
-            style="@style/Widget.Design.TextInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
             android:minHeight="40dp"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
             app:layout_constraintEnd_toEndOf="@id/tilVerificationCode"
             app:layout_constraintStart_toStartOf="@id/tilVerificationCode"
             app:layout_constraintTop_toBottomOf="@id/tilVerificationCode">
