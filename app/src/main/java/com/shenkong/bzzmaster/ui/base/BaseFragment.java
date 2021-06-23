@@ -1,6 +1,5 @@
 package com.shenkong.bzzmaster.ui.base;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,28 +14,16 @@ import androidx.fragment.app.Fragment;
 
 public abstract class BaseFragment extends Fragment {
     public final String TAG = this.getClass().getSimpleName();
-    public Context context;
     public static Handler uiHandler = new Handler(Looper.getMainLooper());
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View inflate = inflater.inflate(getLayoutRes(), null, true);
+        View inflate = inflater.inflate(getLayoutRes(), null, false);
         initView(inflate);
-        return inflate;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         initEvent();
         initData();
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        this.context = context;
+        return inflate;
     }
 
     protected abstract @LayoutRes

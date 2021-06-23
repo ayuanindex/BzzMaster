@@ -12,8 +12,24 @@ import com.shenkong.bzzmaster.ui.base.BaseFragment;
 public class HomeBannerFragment extends BaseFragment {
 
     private String imgUrl;
-    private int defaultDrawableResId;
+    private int defaultDrawableResId = R.drawable.img_banner_1;
     private AppCompatImageView imgBanner;
+    public static HomeBannerFragment homeBannerFragment;
+
+
+    public static HomeBannerFragment getInstance() {
+        if (homeBannerFragment == null) {
+            synchronized (HomeBannerFragment.class) {
+                if (homeBannerFragment == null) {
+                    homeBannerFragment = new HomeBannerFragment();
+                }
+            }
+        }
+        return homeBannerFragment;
+    }
+
+    public HomeBannerFragment() {
+    }
 
     /**
      * @param imgUrl 图片网络地址
@@ -54,7 +70,7 @@ public class HomeBannerFragment extends BaseFragment {
         imgBanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(context, "Hello");
+                ToastUtil.showToast(getContext(), "Hello");
             }
         });
     }

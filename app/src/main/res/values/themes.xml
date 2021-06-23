@@ -20,4 +20,22 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:navigationBarColor">@color/transparent</item>-->
     </style>
+
+    <style name="tagStyle" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="android:textColor">#EC7636</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="tabLayoutStyle">
+        <item name="background">@color/transparent</item>
+        <item name="android:scrollIndicators">start</item>
+        <item name="tabIndicatorColor">#DFFFFFFF</item>
+        <item name="tabIndicatorFullWidth">true</item>
+        <item name="tabIndicatorGravity">center</item>
+        <item name="tabIndicatorHeight">10dp</item>
+        <item name="tabRippleColor">@color/transparent</item>
+        <item name="tabSelectedTextColor">#000000</item>
+        <item name="tabTextColor">#706E6E</item>
+        <item name="tabUnboundedRipple">true</item>
+    </style>
 </resources>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/echarts.js"></script>
+</head>
+<body style="height: 200px;margin: 5px">
+<div id="container" style="height: 200px;margin: 5px"></div>
+<script type="text/javascript">
+    var dom = document.getElementById("container");
+    var myChart = echarts.init(dom);
+    var app = {};
+
+    var option;
+
+
+    option = {
+        backgroundColor: '#fff',
+        title: {
+            itemGap: 4,
+            top: 10,
+            left: 10,
+            text: '0.0000',
+            subtext: '已挖0天',
+            textStyle: {
+                color: 'rgba(32, 133, 79, 1)',
+                fontSize: 15
+            },
+            subtextStyle: {fontSize: 10}
+        },
+        legend: {
+            top: '8%',
+            right: 10,
+            width: 500,
+            itemWidth: 7,
+            itemHeight: 7,
+            itemGap: 40,
+            orient: 'horizontal',
+            textStyle: {
+                color: '#999999',
+                fontSize: 10
+            }
+        },
+        tooltip: {
+            trigger: 'axis',
+            // axisPointer: {
+            //     type: 'cross'
+            // },
+            positionStatus: !0,
+            alwaysShowContent: !1,
+            backgroundColor: 'rgba(255,255,255,.8)',
+            textStyle: {
+                color: '#5c6c7c',
+                fontSize: '24px'
+            },
+            extraCssText: 'box-shadow: 1px 0 2px 0 rgba(163,163,163,0.5)'
+        },
+        grid: {
+            top: '20%',
+            bottom: 8,
+            left: '15',
+            right: '15'
+        },
+        xAxis: [{
+            type: 'time',
+            maxInterval: 3456e5,
+            data: [],
+            axisLine: {
+                show: !0,
+                lineStyle: {
+                    color: '#DCE2E8'
+                }
+            },
+            splitLine: {
+                show: !1
+            },
+            axisTick: {
+                show: !0,
+                inside: !0,
+                lineStyle: {
+                    color: '#D8D8D8'
+                }
+            },
+            axisLabel: {
+                interval: 0,
+                verticalAlign: 'bottom',
+                formatter: function (t, a) {
+                    var d = new Date(t),
+                        i = [d.getMonth() + 1, d.getDate()];
+                    return i.join('-')
+                },
+                padding: [0, 0, 10, 0],
+                textStyle: {
+                    color: '#5A6876',
+                    fontSize: 10
+                },
+                fontSize: 12,
+                margin: 5
+            },
+            boundaryGap: !0
+        }],
+        yAxis: [{
+            nameGap: 30,
+            type: 'value',
+            axisTick: {
+                show: !1
+            },
+            axisLine: {
+                show: !1,
+                lineStyle: {
+                    color: '#DCE2E8'
+                }
+            },
+            axisLabel: {
+                show: !1,
+                textStyle: {
+                    color: '#556677'
+                }
+            },
+            splitLine: {
+                show: !1
+            }
+        }],
+        series: [{
+            name: '挖矿收益',
+            type: 'line',
+            data: [
+                ['2021-6-15', 0],
+                ['2021-6-16', 0],
+                ['2021-6-17', 0],
+                ['2021-6-18', 0],
+                ['2021-6-19', 0],
+                ['2021-6-20', 0],
+                ['2021-6-21', 0]
+            ],
+            symbolSize: 5,
+            showSymbol: !0,
+            itemStyle: {
+                normal: {
+                    color: '#20854F',
+                    borderColor: '#20854F'
+                }
+            }
+        }]
+    };
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+
+</script>
+</body>
+</html>

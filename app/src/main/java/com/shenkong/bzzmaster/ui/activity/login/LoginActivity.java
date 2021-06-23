@@ -1,7 +1,5 @@
 package com.shenkong.bzzmaster.ui.activity.login;
 
-import android.view.View;
-
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -37,11 +35,9 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initEvent() {
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                jumpActivity(MainActivity.class);
-            }
+        btnLogin.setOnClickListener(v -> {
+            jumpActivity(MainActivity.class);
+            finish();
         });
     }
 
