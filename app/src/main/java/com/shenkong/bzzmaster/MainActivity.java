@@ -1,7 +1,7 @@
 package com.shenkong.bzzmaster;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.ui.base.BaseActivity;
@@ -19,16 +21,22 @@ import com.shenkong.bzzmaster.ui.fragment.product.ProductFragment;
 
 import java.util.ArrayList;
 
+
 public class MainActivity extends BaseActivity {
     private MaterialTextView tvTitle;
     private BottomNavigationView bottomNavigationView;
     private ViewPager2 viewPager2Replace;
     private static final ArrayList<Fragment> fragments = new ArrayList<>();
     private boolean single = true;
-
+    private long mExitTime;
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected void initEven() {
+
     }
 
     @Override
@@ -90,11 +98,28 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        // 回到主屏幕
+//        Intent home = new Intent(Intent.ACTION_MAIN);
+//        home.addCategory(Intent.CATEGORY_HOME);
+//        startActivity(home);
+//    }
     @Override
-    public void onBackPressed() {
-        // 回到主屏幕
-        Intent home = new Intent(Intent.ACTION_MAIN);
-        home.addCategory(Intent.CATEGORY_HOME);
-        startActivity(home);
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            exit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void exit() {
+        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+            ToastUtils.showShort(R.string.exit_tips);
+            mExitTime = System.currentTimeMillis();
+        } else {
+            AppUtils.exitApp();
+        }
     }
 }

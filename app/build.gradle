@@ -1,18 +1,16 @@
 plugins {
     id 'com.android.application'
 }
-
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.tools_version
 
     defaultConfig {
         applicationId "com.shenkong.bzzmaster"
-        minSdkVersion 23
-        targetSdkVersion 30
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -35,6 +33,26 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'androidx.navigation:navigation-fragment:2.3.0'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
+    //View injection
+    implementation deps.butterknife.runtime
+    annotationProcessor deps.butterknife.compiler
+    //RxJava
+    implementation deps.reactivex.rxandroid
+    implementation deps.reactivex.rxjava2
+    //rxlifecycle2
+    implementation deps.reactivex.components
+    implementation deps.reactivex.navi
+    //NetWork
+    implementation deps.okhttp.runtime
+
+    implementation deps.retrofit.runtime
+    implementation deps.retrofit.gson
+    implementation deps.retrofit.rxjava2
+    //ImageLoader
+    implementation deps.glide.runtime
+    //Utils
+    implementation deps.utils.utilcode
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

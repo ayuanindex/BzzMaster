@@ -12,9 +12,9 @@ import android.view.WindowManager;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends RxAppCompatActivity {
     public final String TAG = this.getClass().getSimpleName();
     public static Handler uiHandler = uiHandler = new Handler(Looper.getMainLooper());
 
@@ -29,14 +29,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(Color.TRANSPARENT);
         window.setNavigationBarColor(Color.TRANSPARENT);
-
         initView();
+        initEven();
         initEvent();
         initData();
     }
 
     public abstract @LayoutRes
     int getLayoutId();
+
+    protected abstract void initEven();
 
     protected abstract void initView();
 
