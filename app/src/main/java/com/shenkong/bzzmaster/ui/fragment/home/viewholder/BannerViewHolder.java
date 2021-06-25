@@ -55,7 +55,7 @@ public class BannerViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
     }
 
     static class BannerPagerAdapter extends FragmentStateAdapter {
-        private List<Fragment> fragments;
+        private final List<Fragment> fragments;
 
         public BannerPagerAdapter(@NonNull FragmentActivity fragmentActivity, List<Fragment> fragments) {
             super(fragmentActivity);
