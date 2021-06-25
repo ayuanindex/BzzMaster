@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/bannerPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_margin="30dp"
+        android:animateLayoutChanges="true"
+        android:background="@color/transparent"
+        android:scrollIndicators="start"
+        app:layout_constraintBottom_toBottomOf="@id/bannerPager"
+        app:layout_constraintEnd_toEndOf="@id/bannerPager"
+        app:layout_constraintStart_toStartOf="@id/bannerPager"
+        app:tabBackground="@drawable/xml_tab_indicator_tabitem"
+        app:tabIndicator="@drawable/xml_tab_indicator_tabitem"
+        app:tabIndicatorColor="#DFFFFFFF"
+        app:tabIndicatorFullWidth="true"
+        app:tabIndicatorGravity="center"
+        app:tabIndicatorHeight="10dp"
+        app:tabRippleColor="#00000000"
+        app:tabSelectedTextColor="#000000"
+        app:tabTextColor="#706E6E"
+        app:tabUnboundedRipple="true" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.shenkong.bzzmaster.ui.fragment.homebanner;
+package com.shenkong.bzzmaster.ui.fragment.home;
 
 import android.view.View;
 
@@ -14,30 +14,7 @@ public class HomeBannerFragment extends BaseFragment {
     private String imgUrl;
     private int defaultDrawableResId = R.drawable.img_banner_1;
     private AppCompatImageView imgBanner;
-    public static HomeBannerFragment homeBannerFragment;
 
-
-    public static HomeBannerFragment getInstance() {
-        if (homeBannerFragment == null) {
-            synchronized (HomeBannerFragment.class) {
-                if (homeBannerFragment == null) {
-                    homeBannerFragment = new HomeBannerFragment();
-                }
-            }
-        }
-        return homeBannerFragment;
-    }
-
-    public HomeBannerFragment() {
-    }
-
-    /**
-     * @param imgUrl 图片网络地址
-     */
-    public HomeBannerFragment(String imgUrl) {
-        super();
-        this.imgUrl = imgUrl;
-    }
 
     /**
      * @param defaultDrawableResId 默认图片ID
@@ -50,7 +27,7 @@ public class HomeBannerFragment extends BaseFragment {
      * @param imgUrl               网络中的图片地址
      * @param defaultDrawableResId 默认图片地址
      */
-    public HomeBannerFragment(String imgUrl, int defaultDrawableResId) {
+    public HomeBannerFragment(String imgUrl, @DrawableRes int defaultDrawableResId) {
         this.imgUrl = imgUrl;
         this.defaultDrawableResId = defaultDrawableResId;
     }
@@ -67,17 +44,11 @@ public class HomeBannerFragment extends BaseFragment {
 
     @Override
     protected void initEvent() {
-        imgBanner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.showToast(getContext(), "Hello");
-            }
-        });
+        imgBanner.setOnClickListener(v -> ToastUtil.showToast(getContext(), "Hello"));
     }
 
     @Override
     protected void initData() {
         imgBanner.setImageResource(defaultDrawableResId);
-
     }
 }
