@@ -1,6 +1,7 @@
 package com.shenkong.bzzmaster.ui.activity.main;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -89,7 +90,8 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
             ToastUtils.showShort(R.string.exit_tips);
             mExitTime = System.currentTimeMillis();
         } else {
-            AppUtils.exitApp();
+            onBackPressed();
+            uiHandler.postDelayed(AppUtils::exitApp, 1000);
         }
     }
 
