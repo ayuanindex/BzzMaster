@@ -11,15 +11,18 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment<M extends BaseViewMode> extends Fragment {
     public final String TAG = this.getClass().getSimpleName();
-    public static Handler uiHandler = new Handler(Looper.getMainLooper());
+    public Handler uiHandler = new Handler(Looper.getMainLooper());
+    public M customerViewModel;
 
     @Nullable
     @Override
+
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View inflate = inflater.inflate(getLayoutRes(), null, false);
+        View inflate = inflater.inflate(getLayoutRes(), container, false);
         initView(inflate);
         initEvent();
         initData();
@@ -34,4 +37,9 @@ public abstract class BaseFragment extends Fragment {
     protected abstract void initEvent();
 
     protected abstract void initData();
+
+    public void initViewModel(Class<? extends M> mClass) {
+        ViewModelProvider.AndroidViewModelFactory factory = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication());
+        customerViewModel = new ViewModelProvider(this, factory).get(mClass);
+    }
 }

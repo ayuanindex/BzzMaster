@@ -1,6 +1,5 @@
 package com.shenkong.bzzmaster.ui.fragment.home;
 
-import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shenkong.bzzmaster.R;
-import com.shenkong.bzzmaster.bean.BannerBean;
-import com.shenkong.bzzmaster.bean.ProductBean;
-import com.shenkong.bzzmaster.bean.ProfitBean;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 import com.shenkong.bzzmaster.ui.fragment.home.viewholder.BannerViewHolder;
@@ -21,7 +17,7 @@ import com.shenkong.bzzmaster.ui.fragment.home.viewholder.ProfitViewHolder;
 
 import java.util.ArrayList;
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment<HomeViewModel> implements HomeEvent {
     public static HomeFragment homeFragment;
     private RecyclerView recyclerView;
 
@@ -44,6 +40,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initView(View inflate) {
         recyclerView = (RecyclerView) inflate.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
@@ -52,25 +49,30 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ArrayList<MultipleAdapter.LayoutType> listBeans = new ArrayList<>();
+        initViewModel(HomeViewModel.class);
+        customerViewModel.setUiRefreshCallBack(this);
 
-        // 添加广告栏数据
-        listBeans.add(new BannerBean(
-                R.drawable.img_banner_1,
-                R.drawable.img_banner_1,
-                R.drawable.img_banner_swarm
-        ));
+        customerViewModel.initRecyclerView();
+    }
 
-        // 添加收益数据
-        listBeans.add(new ProfitBean());
+    @Override
+    public void showLoading() {
 
-        // 添加推荐产品数据
-        for (int i = 0; i < 10; i++) {
-            listBeans.add(new ProductBean("Chia早期矿工满存挖矿计划" + i));
-        }
+    }
 
-        recyclerView.setAdapter(new MultipleAdapter(getActivity(), listBeans) {
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showToastMsg(String msg, int type) {
+
+    }
+
+    @Override
+    public void setRecyclerViewAdapter(ArrayList<MultipleAdapter.LayoutType> listBeans) {
+        uiHandler.post(() -> recyclerView.setAdapter(new MultipleAdapter(getActivity(), listBeans) {
             @NonNull
             @Override
             public MultipleBaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -88,12 +90,6 @@ public class HomeFragment extends BaseFragment {
                         return new ProductViewHolder(inflate);
                 }
             }
-        });
-    }
-
-    @SuppressLint("SetJavaScriptEnabled")
-    @Override
-    public void onResume() {
-        super.onResume();
+        }));
     }
 }
