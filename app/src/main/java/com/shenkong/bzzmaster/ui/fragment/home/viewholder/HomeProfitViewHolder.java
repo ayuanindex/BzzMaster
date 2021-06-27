@@ -9,13 +9,13 @@ import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
-public class ProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
+public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
     public View rootView;
     public MaterialTextView tvProfitName;
     public TabLayout tabSwitchDisplay;
     public WebView webViewChart;
 
-    public ProfitViewHolder(View rootView) {
+    public HomeProfitViewHolder(View rootView) {
         super(rootView);
         this.rootView = rootView;
         this.tvProfitName = (MaterialTextView) rootView.findViewById(R.id.tvProfitName);

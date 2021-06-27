@@ -9,6 +9,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
+        tools:listitem="@layout/item_hot_product"
         android:layout_height="match_parent"
         android:animationCache="true"
         app:layout_constraintBottom_toBottomOf="parent"

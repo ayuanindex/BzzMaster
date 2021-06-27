@@ -11,15 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
-import com.shenkong.bzzmaster.ui.fragment.home.viewholder.BannerViewHolder;
-import com.shenkong.bzzmaster.ui.fragment.home.viewholder.ProductViewHolder;
-import com.shenkong.bzzmaster.ui.fragment.home.viewholder.ProfitViewHolder;
+import com.shenkong.bzzmaster.ui.fragment.home.viewholder.HomeBannerViewHolder;
+import com.shenkong.bzzmaster.ui.fragment.home.viewholder.HomeHotProductViewHolder;
+import com.shenkong.bzzmaster.ui.fragment.home.viewholder.HomeProfitViewHolder;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class HomeFragment extends BaseFragment<HomeViewModel> implements HomeEvent {
+public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> implements HomeEvent {
     public static HomeFragment homeFragment;
     private RecyclerView recyclerView;
+    private MultipleAdapter multipleAdapter;
 
     public static HomeFragment getInstance() {
         if (homeFragment == null) {
@@ -52,7 +53,31 @@ public class HomeFragment extends BaseFragment<HomeViewModel> implements HomeEve
         initViewModel(HomeViewModel.class);
         customerViewModel.setUiRefreshCallBack(this);
 
-        customerViewModel.initRecyclerView();
+        multipleAdapter = new MultipleAdapter(requireActivity()) {
+            @NonNull
+            @Override
+            public MultipleBaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View inflate;
+                switch (viewType) {
+                    case Types.BANNER_LAYOUT:
+                        inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_banner, parent, false);
+                        return new HomeBannerViewHolder(inflate);
+                    case Types.PROFIT_LAYOUT:
+                        inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_profit, parent, false);
+                        return new HomeProfitViewHolder(inflate);
+                    case Types.PRODUCT_LAYOUT:
+                    default:
+                        inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_hot_product, parent, false);
+                        return new HomeHotProductViewHolder(inflate);
+                }
+            }
+        };
+
+        uiHandler.post(() -> recyclerView.setAdapter(multipleAdapter));
+
+        customerViewModel.initHomeBannerData();
+        customerViewModel.initHomeProfitData();
+        customerViewModel.initHomeHotProductData();
     }
 
     @Override
@@ -71,25 +96,17 @@ public class HomeFragment extends BaseFragment<HomeViewModel> implements HomeEve
     }
 
     @Override
-    public void setRecyclerViewAdapter(ArrayList<MultipleAdapter.LayoutType> listBeans) {
-        uiHandler.post(() -> recyclerView.setAdapter(new MultipleAdapter(getActivity(), listBeans) {
-            @NonNull
-            @Override
-            public MultipleBaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View inflate;
-                switch (viewType) {
-                    case Types.BANNER_LAYOUT:
-                        inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_banner, parent, false);
-                        return new BannerViewHolder(inflate);
-                    case Types.PROFIT_LAYOUT:
-                        inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_profit, parent, false);
-                        return new ProfitViewHolder(inflate);
-                    case Types.PRODUCT_LAYOUT:
-                    default:
-                        inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_hot_product, parent, false);
-                        return new ProductViewHolder(inflate);
-                }
-            }
-        }));
+    public void initHomeBannerData(MultipleAdapter.LayoutType layoutType) {
+        multipleAdapter.addData(layoutType, 0);
+    }
+
+    @Override
+    public void initProfitData(MultipleAdapter.LayoutType layoutType) {
+        multipleAdapter.addData(layoutType, 1);
+    }
+
+    @Override
+    public void initHotProductData(List<MultipleAdapter.LayoutType> layoutTypeList) {
+        uiHandler.post(() -> multipleAdapter.addAllData(layoutTypeList));
     }
 }

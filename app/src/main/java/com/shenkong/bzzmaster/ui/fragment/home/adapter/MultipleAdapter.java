@@ -9,15 +9,16 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class MultipleAdapter extends RecyclerView.Adapter<MultipleAdapter.MultipleBaseViewHolder> {
     private FragmentActivity fragmentActivity;
-    private List<LayoutType> listBeans;
+    private List<LayoutType> dataList = new ArrayList<>();
+    public static final int HEAD = 0;
 
-    public MultipleAdapter(FragmentActivity fragmentActivity, List<LayoutType> listBeans) {
+    public MultipleAdapter(FragmentActivity fragmentActivity) {
         this.fragmentActivity = fragmentActivity;
-        this.listBeans = listBeans;
     }
 
     @NonNull
@@ -26,7 +27,7 @@ public abstract class MultipleAdapter extends RecyclerView.Adapter<MultipleAdapt
 
     @Override
     public int getItemViewType(int position) {
-        return listBeans.get(position).getLayoutType();
+        return dataList.get(position).getLayoutType();
     }
 
     @Override
@@ -36,11 +37,11 @@ public abstract class MultipleAdapter extends RecyclerView.Adapter<MultipleAdapt
 
     @Override
     public int getItemCount() {
-        return listBeans.size();
+        return dataList.size();
     }
 
     public Object getBean(int position) {
-        return listBeans.get(position);
+        return dataList.get(position);
     }
 
     public FragmentActivity getFragmentActivity() {
@@ -51,12 +52,33 @@ public abstract class MultipleAdapter extends RecyclerView.Adapter<MultipleAdapt
         this.fragmentActivity = fragmentActivity;
     }
 
-    public List<LayoutType> getListBeans() {
-        return listBeans;
+    public List<LayoutType> getDataList() {
+        return dataList;
     }
 
-    public void setListBeans(List<LayoutType> listBeans) {
-        this.listBeans = listBeans;
+    public void setDataList(List<LayoutType> dataList) {
+        this.dataList = dataList;
+    }
+
+    public void addAllData(List<LayoutType> layoutTypeList) {
+        dataList.addAll(layoutTypeList);
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 在指定位置添加
+     *
+     * @param layoutType 添加数据
+     * @param position   指定位置，靠前的位置
+     */
+    public void addData(LayoutType layoutType, int position) {
+        dataList.add(position, layoutType);
+        notifyDataSetChanged();
+    }
+
+    public void addData(LayoutType layoutType) {
+        dataList.add(layoutType);
+        notifyDataSetChanged();
     }
 
     public static abstract class MultipleBaseViewHolder extends RecyclerView.ViewHolder {
@@ -67,7 +89,7 @@ public abstract class MultipleAdapter extends RecyclerView.Adapter<MultipleAdapt
         public abstract void load(MultipleAdapter multipleAdapter, int position);
     }
 
-    public static abstract interface LayoutType {
+    public interface LayoutType {
         int getLayoutType();
     }
 }

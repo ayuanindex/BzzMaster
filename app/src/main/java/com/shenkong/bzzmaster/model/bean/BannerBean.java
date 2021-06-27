@@ -1,4 +1,4 @@
-package com.shenkong.bzzmaster.bean;
+package com.shenkong.bzzmaster.model.bean;
 
 import androidx.annotation.DrawableRes;
 

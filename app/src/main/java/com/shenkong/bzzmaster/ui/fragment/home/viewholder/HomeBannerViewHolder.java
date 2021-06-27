@@ -11,21 +11,21 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.shenkong.bzzmaster.R;
-import com.shenkong.bzzmaster.bean.BannerBean;
+import com.shenkong.bzzmaster.model.bean.BannerBean;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 import com.shenkong.bzzmaster.ui.fragment.home.HomeBannerFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BannerViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
+public class HomeBannerViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
     public View rootView;
     public ViewPager2 bannerPager;
     public TabLayout tabLayout;
     private MultipleAdapter multipleAdapter;
     private BannerBean bannerBean;
 
-    public BannerViewHolder(View rootView) {
+    public HomeBannerViewHolder(View rootView) {
         super(rootView);
         this.rootView = rootView;
         this.bannerPager = (ViewPager2) rootView.findViewById(R.id.bannerPager);

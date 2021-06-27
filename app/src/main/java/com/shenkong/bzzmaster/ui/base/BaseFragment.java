@@ -13,7 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-public abstract class BaseFragment<M extends BaseViewMode> extends Fragment {
+import com.shenkong.bzzmaster.event.BaseEven;
+
+public abstract class BaseFragment<M extends BaseViewMode<E>, E extends BaseEven> extends Fragment {
     public final String TAG = this.getClass().getSimpleName();
     public Handler uiHandler = new Handler(Looper.getMainLooper());
     public M customerViewModel;
@@ -38,7 +40,7 @@ public abstract class BaseFragment<M extends BaseViewMode> extends Fragment {
 
     protected abstract void initData();
 
-    public void initViewModel(Class<? extends M> mClass) {
+    public void initViewModel(Class<M> mClass) {
         ViewModelProvider.AndroidViewModelFactory factory = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication());
         customerViewModel = new ViewModelProvider(this, factory).get(mClass);
     }

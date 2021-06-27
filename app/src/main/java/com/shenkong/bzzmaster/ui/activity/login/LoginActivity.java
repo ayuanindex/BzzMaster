@@ -8,6 +8,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.model.bean.User;
+import com.shenkong.bzzmaster.ui.activity.main.MainActivity;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
 
 public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements LoginEven {
