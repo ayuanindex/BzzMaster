@@ -7,6 +7,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.shenkong.bzzmaster.R;
+import com.shenkong.bzzmaster.common.utils.SpUtil;
 import com.shenkong.bzzmaster.model.bean.User;
 import com.shenkong.bzzmaster.ui.activity.main.MainActivity;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
@@ -21,6 +22,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     private TextInputEditText tieInvitationCode;
     private MaterialButton btnLogin;
     private String bizid = "null";
+    private TextInputLayout tilPhone;
 
     @Override
     public int getLayoutId() {
@@ -30,6 +32,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
 
     @Override
     protected void initView() {
+        tilPhone = findViewById(R.id.tilPhone);
         tiePhone = findViewById(R.id.tiePhone);
         tilVerificationCode = findViewById(R.id.tilVerificationCode);
         tieVerificationCode = findViewById(R.id.tieVerificationCode);
@@ -37,8 +40,8 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
         tilInvitationCode = findViewById(R.id.tilInvitationCode);
         tieInvitationCode = findViewById(R.id.tieInvitationCode);
         btnLogin = findViewById(R.id.btnLogin);
-        btnLogin.setOnClickListener(this::onClick);
-        btnGetVerificationCode.setOnClickListener(this::onClick);
+        btnLogin.setOnClickListener(this);
+        btnGetVerificationCode.setOnClickListener(this);
     }
 
     @Override
@@ -49,9 +52,14 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
 
     @Override
     protected void initData() {
-
+        // 是否已经登录
+        if (SpUtil.getBoolean(this, "isLogin", false)) {
+            jumpActivity(MainActivity.class);
+            finish();
+            return;
+        }
+        tiePhone.setText(SpUtil.getString(this, "phone", ""));
     }
-
 
     @Override
     public void onClick(View view) {
@@ -60,7 +68,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
                 mPresenter.login(this);
                 break;
             case R.id.btnGetVerificationCode:
-                mPresenter.sendSmsCode(this);
+                mPresenter.requestSmsCode(this);
                 break;
         }
     }
@@ -86,23 +94,37 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     }
 
     @Override
-    public void Login(User user) {
+    public void setVerCodeBtnIsEnable(boolean isEnable) {
+        uiHandler.post(() -> btnGetVerificationCode.setEnabled(isEnable));
+    }
 
+    @Override
+    public void setBtnVerCodeText(String text) {
+        uiHandler.post(() -> btnGetVerificationCode.setText(text));
+    }
+
+    @Override
+    public void Login(User user) {
+        // 保存用户信息到SP中
+        SpUtil.putBoolean(this, "isLogin", true);
+        SpUtil.putString(this, "phone", user.getPhonenumber());
+        jumpActivity(MainActivity.class);
+        finish();
     }
 
     @Override
     public String getPhoneNumber() {
-        return null;
+        return tiePhone.getEditableText().toString().trim();
     }
 
     @Override
-    public String getCode() {
-        return null;
+    public String getInvitationCode() {
+        return tieInvitationCode.getEditableText().toString().trim();
     }
 
     @Override
     public String getVerificationCode() {
-        return null;
+        return tieVerificationCode.getEditableText().toString().trim();
     }
 
     @Override

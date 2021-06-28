@@ -3,6 +3,7 @@ package com.shenkong.bzzmaster.ui.base;
 import androidx.lifecycle.ViewModel;
 
 public class BaseViewMode<V> extends ViewModel {
+    private final String TAG = this.getClass().getSimpleName();
 
     public V uiRefreshCallBack;
 

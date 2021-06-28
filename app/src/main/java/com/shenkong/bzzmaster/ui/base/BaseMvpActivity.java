@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 import com.shenkong.bzzmaster.common.utils.PMUtil;
 import com.shenkong.bzzmaster.event.BaseEven;
 import com.shenkong.bzzmaster.model.presenter.BasePresenter;
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 
 /**

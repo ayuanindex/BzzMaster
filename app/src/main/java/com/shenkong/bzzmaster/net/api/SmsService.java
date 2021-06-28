@@ -14,9 +14,10 @@ import retrofit2.http.POST;
 public interface SmsService {
     /**
      * 发送登录验证码
+     *
      * @param user
      * @return
      */
-    @POST(ModelPath.User+"/login/code")
-    Observable<ResultBean<String>> LoginCode(@Body User user);
+    @POST(ModelPath.Sms + "/send")
+    Observable<ResultBean<String>> requestSmsCode(@Body User user);
 }

@@ -16,24 +16,43 @@ public interface LoginEven extends BaseEven {
 
     /**
      * 手机号
+     *
      * @return
      */
     String getPhoneNumber();
 
     /**
      * 邀请码
+     *
      * @return
      */
-    String getCode();
+    String getInvitationCode();
 
     /**
      * 验证码
+     *
      * @return
      */
     String getVerificationCode();
+
     /**
      * 验证码
+     *
      * @return
      */
     String getBizid();
+
+    /**
+     * 设置发送验证码按钮是否可用
+     *
+     * @param isEnable 是否可用的标志true可用false不可用
+     */
+    void setVerCodeBtnIsEnable(boolean isEnable);
+
+    /**
+     * 设置获取验证码按钮的文字
+     *
+     * @param text 需要设置的文字
+     */
+    void setBtnVerCodeText(String text);
 }
