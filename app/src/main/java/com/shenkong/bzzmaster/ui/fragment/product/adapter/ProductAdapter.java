@@ -21,6 +21,7 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
     private List<ProductBean> productBeans = new ArrayList<>();
     private final Context context;
+    private OnItemClickListener onItemClickListener;
 
     public ProductAdapter(Context context) {
         this.context = context;
@@ -45,6 +46,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         ProductBean productBean = productBeans.get(position);
         holder.tvProductTitle.setText(productBean.getTitle());
 
+        holder.rootView.setOnClickListener((View v) -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(v, productBeans.get(position), position);
+            }
+        });
+
         holder.llTags.removeAllViews();
         holder.llTags.addView(createTag("头矿红利"));
         holder.llTags.addView(createTag("火爆热销"));
@@ -53,6 +60,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @Override
     public int getItemCount() {
         return productBeans.size();
+    }
+
+    public ProductBean getItemBean(int position) {
+        return this.productBeans.get(position);
+    }
+
+    // 条目点击接口
+    public interface OnItemClickListener {
+        void onItemClick(View view, ProductBean productBean, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     /**

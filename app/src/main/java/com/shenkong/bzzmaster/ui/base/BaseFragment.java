@@ -26,8 +26,8 @@ public abstract class BaseFragment<M extends BaseViewMode<E>, E extends BaseEven
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View inflate = inflater.inflate(getLayoutRes(), container, false);
         initView(inflate);
-        initEvent();
         initData();
+        initEvent();
         return inflate;
     }
 

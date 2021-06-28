@@ -5,6 +5,7 @@ import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
 public class ProductBean implements MultipleAdapter.LayoutType {
     private String title;
+    private String imgUrl;
 
     public ProductBean(String title) {
         this.title = title;
@@ -16,6 +17,14 @@ public class ProductBean implements MultipleAdapter.LayoutType {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     @Override

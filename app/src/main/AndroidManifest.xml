@@ -13,8 +13,8 @@
         android:resizeableActivity="false"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.BzzMaster"
+        android:usesCleartextTraffic="true"
         tools:targetApi="n">
         <activity
             android:name=".ui.activity.login.LoginActivity"
@@ -28,6 +28,11 @@
 
         <activity
             android:name=".ui.activity.main.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.productinfo.ProductInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
     </application>

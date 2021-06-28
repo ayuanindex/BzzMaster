@@ -1,5 +1,6 @@
 package com.shenkong.bzzmaster.ui.fragment.product;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.view.View;
 
@@ -12,6 +13,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.model.bean.ProductBean;
+import com.shenkong.bzzmaster.ui.activity.productinfo.ProductInfoActivity;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
 import com.shenkong.bzzmaster.ui.fragment.product.adapter.ProductAdapter;
 
@@ -86,6 +88,15 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
 
             }
         });
+
+        productAdapter.setOnItemClickListener(new ProductAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, ProductBean productBean, int position) {
+                ToastUtil.showToast(getContext(), productAdapter.getItemBean(position).getTitle());
+                Intent intent = new Intent(getContext(), ProductInfoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -124,5 +135,13 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
             productAdapter.updateDataList(productBeanList);
             hideLoading();
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 加载数据
+        showLoading();
+        customerViewModel.initProductData(Objects.requireNonNull(tabSwitchProduct.getTabAt(0)).getText().toString().trim());
     }
 }

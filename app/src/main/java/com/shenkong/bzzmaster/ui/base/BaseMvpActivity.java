@@ -40,8 +40,8 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends RxAppComp
         window.setNavigationBarColor(Color.TRANSPARENT);
         initView();
         initEven();
-        initEvent();
         initData();
+        initEvent();
     }
 
     public abstract @LayoutRes
