@@ -38,4 +38,10 @@
         <item name="tabTextColor">#706E6E</item>
         <item name="tabUnboundedRipple">true</item>
     </style>
+
+    <!--圆形图片-->
+    <style name="circleImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

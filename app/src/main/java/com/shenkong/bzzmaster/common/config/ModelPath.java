@@ -5,7 +5,7 @@ package com.shenkong.bzzmaster.common.config;
  */
 public class ModelPath {
 
-    public static final String baseUrl="http://192.168.43.100:8081/";
+    public static final String baseUrl="http://59.110.13.163/";
     /**
      * 用户
      */

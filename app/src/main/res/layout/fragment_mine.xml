@@ -1,14 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/backgroundColor"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor">
+
+    <!--用户头像-->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivHeadPortrait"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:background="#EDEDED"
+        android:src="@drawable/icon_mine"
+        app:layout_constraintBottom_toBottomOf="@+id/btnCollection"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnCollection"
+        app:shapeAppearanceOverlay="@style/circleImageStyle" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvUserNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="我的"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="5dp"
+        android:inputType="phone"
+        android:text="17682109472"
+        app:layout_constraintBottom_toBottomOf="@id/ivHeadPortrait"
+        app:layout_constraintStart_toEndOf="@id/ivHeadPortrait"
+        app:layout_constraintTop_toTopOf="@id/ivHeadPortrait" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCollection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:insetLeft="5dp"
+        android:insetTop="8dp"
+        android:insetRight="5dp"
+        android:insetBottom="8dp"
+        android:text="收款"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/btnTransferAccounts"
+        app:layout_constraintEnd_toStartOf="@id/btnTransferAccounts"
+        app:layout_constraintTop_toTopOf="@id/btnTransferAccounts" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnTransferAccounts"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:insetLeft="5dp"
+        android:insetTop="8dp"
+        android:insetRight="5dp"
+        android:insetBottom="8dp"
+        android:text="转账"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clWalletCard"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/img_card_bg"
+        android:minHeight="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCollection">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvUSDTAvailable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="USDT可用余额"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/tvUSDTBalance"
+            app:layout_constraintEnd_toStartOf="@id/tvXCHAvailable"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvUSDTBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="0.0000"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tvUSDTAvailable"
+            app:layout_constraintTop_toBottomOf="@+id/tvUSDTAvailable" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvXCHAvailable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="XCH可用余额"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/tvXCHBalance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvUSDTAvailable"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvXCHBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="0.0000"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tvXCHAvailable"
+            app:layout_constraintTop_toBottomOf="@+id/tvXCHAvailable" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="50dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clWalletCard">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>
