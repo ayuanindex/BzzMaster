@@ -35,6 +35,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'androidx.navigation:navigation-fragment:2.3.0'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
+    implementation 'androidx.preference:preference:1.1.1'
     //View injection
     implementation deps.butterknife.runtime
     annotationProcessor deps.butterknife.compiler

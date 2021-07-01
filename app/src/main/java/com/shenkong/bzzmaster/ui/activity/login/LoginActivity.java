@@ -53,12 +53,12 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     @Override
     protected void initData() {
         // 是否已经登录
-        if (SpUtil.getBoolean(this, "isLogin", false)) {
+        if (SpUtil.getBoolean(this, SpUtil.loginStatus, false)) {
             jumpActivity(MainActivity.class);
             finish();
             return;
         }
-        tiePhone.setText(SpUtil.getString(this, "phone", ""));
+        tiePhone.setText(SpUtil.getString(this, SpUtil.phone, ""));
     }
 
     @Override
@@ -105,9 +105,11 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
 
     @Override
     public void Login(User user) {
-        // 保存用户信息到SP中
-        SpUtil.putBoolean(this, "isLogin", true);
-        SpUtil.putString(this, "phone", user.getPhonenumber());
+        // 保存用户登录信息到SP中
+        SpUtil.putBoolean(this, SpUtil.loginStatus, true);
+        SpUtil.putString(this, SpUtil.phone, user.getPhonenumber());
+        SpUtil.putString(this, SpUtil.code, user.getCode());
+        SpUtil.putString(this, SpUtil.token, user.getToken());
         jumpActivity(MainActivity.class);
         finish();
     }

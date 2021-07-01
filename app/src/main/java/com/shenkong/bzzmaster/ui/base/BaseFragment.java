@@ -41,7 +41,8 @@ public abstract class BaseFragment<M extends BaseViewMode<E>, E extends BaseEven
     protected abstract void initData();
 
     public void initViewModel(Class<M> mClass) {
-        ViewModelProvider.AndroidViewModelFactory factory = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication());
-        customerViewModel = new ViewModelProvider(this, factory).get(mClass);
+        customerViewModel = new ViewModelProvider(requireActivity()).get(mClass);
+        /*ViewModelProvider.AndroidViewModelFactory factory = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication());
+        customerViewModel = new ViewModelProvider(this, factory).get(mClass);*/
     }
 }

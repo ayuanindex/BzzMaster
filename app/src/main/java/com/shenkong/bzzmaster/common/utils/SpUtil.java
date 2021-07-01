@@ -5,6 +5,10 @@ import android.content.SharedPreferences;
 
 
 public class SpUtil {
+    public static final String loginStatus = "loginStatus";
+    public static final String token = "token";
+    public static final String phone = "phone";
+    public static final String code = "code";
     private static SharedPreferences sharedPreferences;
 
     private static SharedPreferences doesItExist(Context context) {
