@@ -20,7 +20,7 @@ public class ObjectLoader {
                 ; //指定在主线程中
     }
 
-    protected <T> Observable<T> observefg(Observable<T> observable, LifecycleProvider<FragmentEvent> lifecycleProvider) {
+    public static <T> Observable<T> observefg(Observable<T> observable, LifecycleProvider<FragmentEvent> lifecycleProvider) {
         return observable.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .compose(lifecycleProvider.<T>bindToLifecycle())

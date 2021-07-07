@@ -5,7 +5,9 @@ import android.graphics.Rect;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.widget.ContentLoadingProgressBar;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,15 +19,14 @@ import com.shenkong.bzzmaster.ui.activity.productinfo.ProductInfoActivity;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
 import com.shenkong.bzzmaster.ui.fragment.product.adapter.ProductAdapter;
 
-import java.util.List;
-import java.util.Objects;
-
 public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent> implements ProductEvent {
     public static ProductFragment productFragment;
     private TabLayout tabSwitchProduct;
     private RecyclerView rcProduct;
     private ProductAdapter productAdapter;
     private ContentLoadingProgressBar progressLoadingData;
+    private AppCompatImageView viewById;
+    private AppCompatImageView ivEmptyView;
 
     public static ProductFragment getInstance() {
         if (productFragment == null) {
@@ -47,7 +48,8 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
     protected void initView(View inflate) {
         tabSwitchProduct = inflate.findViewById(R.id.tabSwitchProduct);
         rcProduct = inflate.findViewById(R.id.rcProduct);
-        progressLoadingData = (ContentLoadingProgressBar) inflate.findViewById(R.id.progressLoadingData);
+        progressLoadingData = inflate.findViewById(R.id.progressLoadingData);
+        ivEmptyView = inflate.findViewById(R.id.ivEmptyView);
 
         setRcProductStyle();
     }
@@ -74,7 +76,10 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
             public void onTabSelected(TabLayout.Tab tab) {
                 if (customerViewModel != null) {
                     showLoading();
-                    customerViewModel.initProductData(Objects.requireNonNull(tab.getText()).toString().trim());
+                    if (customerViewModel.getProductList().getValue() != null) {
+                        ProductBean productBean = customerViewModel.getProductList().getValue().get(tab.getPosition());
+                        customerViewModel.initProductData(productBean, ProductFragment.this);
+                    }
                 }
             }
 
@@ -89,13 +94,10 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
             }
         });
 
-        productAdapter.setOnItemClickListener(new ProductAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, ProductBean productBean, int position) {
-                ToastUtil.showToast(getContext(), productAdapter.getItemBean(position).getTitle());
-                Intent intent = new Intent(getContext(), ProductInfoActivity.class);
-                startActivity(intent);
-            }
+        productAdapter.setOnItemClickListener((view, productPlanBean, position) -> {
+            ToastUtil.showToast(getContext(), productAdapter.getItemBean(position).getName());
+            Intent intent = new Intent(getContext(), ProductInfoActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -105,11 +107,36 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         initViewModel(ProductViewModel.class);
         customerViewModel.setUiRefreshCallBack(this);
 
-        tabSwitchProduct.addTab(tabSwitchProduct.newTab().setText("XCH"));
-        tabSwitchProduct.addTab(tabSwitchProduct.newTab().setText("BZZ"));
+        // 数据订阅
+        initDataSubscribe();
+
+        customerViewModel.initProduct(this);
 
         productAdapter = new ProductAdapter(requireContext());
         rcProduct.setAdapter(productAdapter);
+    }
+
+    /**
+     * 数据订阅
+     */
+    private void initDataSubscribe() {
+        customerViewModel.setProductList(new MutableLiveData<>());
+        customerViewModel.getProductList().observe(this, productBeanList -> {
+            for (ProductBean productBean : productBeanList) {
+                tabSwitchProduct.addTab(tabSwitchProduct.newTab().setText(productBean.getName()));
+            }
+        });
+
+        customerViewModel.setProductPlan(new MutableLiveData<>());
+        customerViewModel.getProductPlan().observe(this, productPlanBeans -> {
+            if (productPlanBeans.isEmpty()) {
+                isShowEmptyView(true);
+            } else {
+                isShowEmptyView(false);
+            }
+            productAdapter.updateDataList(productPlanBeans);
+            hideLoading();
+        });
     }
 
     @Override
@@ -124,24 +151,17 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         progressLoadingData.hide();
     }
 
+    public void isShowEmptyView(boolean isShow) {
+        ivEmptyView.setVisibility(isShow ? View.VISIBLE : View.GONE);
+    }
+
     @Override
     public void showToastMsg(String msg, int type) {
 
     }
 
     @Override
-    public void updateProductAdapter(List<ProductBean> productBeanList) {
-        uiHandler.post(() -> {
-            productAdapter.updateDataList(productBeanList);
-            hideLoading();
-        });
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        // 加载数据
-        showLoading();
-        customerViewModel.initProductData(Objects.requireNonNull(tabSwitchProduct.getTabAt(0)).getText().toString().trim());
     }
 }

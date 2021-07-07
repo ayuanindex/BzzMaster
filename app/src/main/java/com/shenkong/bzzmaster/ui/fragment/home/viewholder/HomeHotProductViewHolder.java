@@ -42,7 +42,7 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
     public void load(MultipleAdapter multipleAdapter, int position) {
         this.multipleAdapter = multipleAdapter;
         productBean = (ProductBean) multipleAdapter.getBean(position);
-        this.tvProductTitle.setText(productBean.getTitle());
+        this.tvProductTitle.setText(productBean.getName());
 
         llTags.removeAllViews();
         llTags.addView(createTag("头矿红利"));
@@ -50,12 +50,12 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
 
         rootView.setOnClickListener(null);
         rootView.setOnClickListener(v -> {
-            ToastUtil.showToast(multipleAdapter.getFragmentActivity(), productBean.getTitle());
+            ToastUtil.showToast(multipleAdapter.getFragmentActivity(), productBean.getName());
         });
 
         btnPurchase.setOnClickListener(null);
         btnPurchase.setOnClickListener(v -> {
-            ToastUtil.showToast(multipleAdapter.getFragmentActivity(), "购买" + productBean.getTitle());
+            ToastUtil.showToast(multipleAdapter.getFragmentActivity(), "购买" + productBean.getName());
         });
     }
 

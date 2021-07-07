@@ -27,7 +27,9 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
         new Thread(() -> {
             ArrayList<MultipleAdapter.LayoutType> productBeanList = new ArrayList<>();
             for (int i = 0; i < 100; i++) {
-                productBeanList.add(new ProductBean("Chia早期矿工满存挖矿计划" + i));
+                ProductBean e = new ProductBean();
+                e.setName("Chia早期矿工满存挖矿计划" + i);
+                productBeanList.add(e);
             }
             uiRefreshCallBack.initHotProductData(productBeanList);
         }).start();

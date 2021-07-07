@@ -6,5 +6,4 @@ import com.shenkong.bzzmaster.model.bean.ProductBean;
 import java.util.List;
 
 public interface ProductEvent extends BaseEven {
-    void updateProductAdapter(List<ProductBean> productBeanList);
 }

@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.shenkong.bzzmaster.event.BaseEven;
 
-public abstract class BaseFragment<M extends BaseViewMode<E>, E extends BaseEven> extends Fragment {
+public abstract class BaseFragment<M extends BaseViewMode<E>, E extends BaseEven> extends RxFragment {
     public final String TAG = this.getClass().getSimpleName();
     public Handler uiHandler = new Handler(Looper.getMainLooper());
     public M customerViewModel;
