@@ -40,6 +40,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.3.0'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
     implementation 'androidx.preference:preference:1.1.1'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01'
     //View injection
     implementation deps.butterknife.runtime
     annotationProcessor deps.butterknife.compiler
