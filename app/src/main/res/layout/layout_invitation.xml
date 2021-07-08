@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivInvitationBg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/img_yaoqing_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="350dp"
+        app:cardBackgroundColor="#17000000"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivInvitationBg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivInvitationBg">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardInvitationCopy"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvTip1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的专属邀请链接点击复制"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvInvitationLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="http://www.baidu.com"
+                android:textColor="@color/orange_primary_dark"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTip1" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvTip2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="我的邀请码点击复制"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvInvitationLink" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvInvitationCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/xml_bg_white_radius"
+                android:padding="4dp"
+                android:text="1234567"
+                android:textColor="@color/green_primary"
+                app:layout_constraintBottom_toBottomOf="@id/tvTip2"
+                app:layout_constraintStart_toEndOf="@id/tvTip2"
+                app:layout_constraintTop_toTopOf="@id/tvTip2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardInvitationTip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView3">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivShare"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/icon_fenxiang"
+                app:layout_constraintBottom_toTopOf="@id/tvShareText"
+                app:layout_constraintEnd_toEndOf="@+id/tvShareText"
+                app:layout_constraintStart_toStartOf="@+id/tvShareText"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearance="@style/circleImageStyle" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvShareText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="分享成功"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@+id/tvShareInfo"
+                app:layout_constraintEnd_toEndOf="@+id/tvShareInfo"
+                app:layout_constraintStart_toStartOf="@+id/tvShareInfo" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvShareInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="被邀请用户成功注册并登陆"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvPlaceAnOrderInfo"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivPlaceAnOrder"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/icon_xiadan"
+                app:layout_constraintBottom_toTopOf="@+id/tvPlaceAnOrderText"
+                app:layout_constraintEnd_toEndOf="@+id/tvPlaceAnOrderText"
+                app:layout_constraintStart_toStartOf="@+id/tvPlaceAnOrderText"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearance="@style/circleImageStyle" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvPlaceAnOrderText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="用户下单"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/tvShareInfo"
+                app:layout_constraintEnd_toEndOf="@+id/tvPlaceAnOrderInfo"
+                app:layout_constraintStart_toStartOf="@+id/tvPlaceAnOrderInfo" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvPlaceAnOrderInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="被邀请用户成功下单完成并开始挖矿"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvProfitInfo"
+                app:layout_constraintStart_toEndOf="@id/tvShareInfo" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivProfit"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/icon_shouyi"
+                app:layout_constraintBottom_toTopOf="@+id/tvProfitText"
+                app:layout_constraintEnd_toEndOf="@+id/tvProfitText"
+                app:layout_constraintStart_toStartOf="@+id/tvProfitText"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearance="@style/circleImageStyle" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvProfitText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="获得收益"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@+id/tvProfitInfo"
+                app:layout_constraintEnd_toEndOf="@+id/tvProfitInfo"
+                app:layout_constraintStart_toStartOf="@+id/tvProfitInfo" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvProfitInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="邀请成功的用户越多,收益越多"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvPlaceAnOrderInfo" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvInvitationCountTip"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:text="累计成功邀请用户"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/tvInvitationCount"
+        app:layout_constraintEnd_toStartOf="@+id/view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvInvitationCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="0"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="@+id/tvInvitationCountTip"
+        app:layout_constraintStart_toStartOf="@+id/tvInvitationCountTip"
+        app:layout_constraintTop_toBottomOf="@+id/tvInvitationCountTip" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="1dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/xml_bg_gray_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardInvitationTip" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvInvitationRewardTip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="累计邀请奖励"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/tvInvitationReward"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/view" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvInvitationReward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="0.0000USDT\n0.0000XCH"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="@+id/tvInvitationRewardTip"
+        app:layout_constraintStart_toStartOf="@+id/tvInvitationRewardTip"
+        app:layout_constraintTop_toBottomOf="@+id/tvInvitationRewardTip" />
+
+    <!--<com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvInvitationRecordTip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:drawableStart="@drawable/xml_text_drawable_start"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:text="我的邀请记录"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInvitationReward" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvInvitationRule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:drawableEnd="@drawable/xml_arrow_next"
+        android:gravity="center"
+        android:text="邀请活动规则"
+        app:layout_constraintBottom_toBottomOf="@+id/tvInvitationRecordTip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvInvitationRecordTip" />-->
+
+   <!-- <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcInvitationRecord"
+        android:layout_width="match_parent"
+        android:layout_height="800dp"
+        android:nestedScrollingEnabled="false"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInvitationRecordTip"
+        tools:listitem="@layout/item_hot_product" />-->
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,12 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
+import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
+    private static final String TAG = "ProductAdapter";
     private List<ProductPlanBean> productPlanBeans = new ArrayList<>();
     private final Context context;
     private OnItemClickListener onItemClickListener;
@@ -37,6 +39,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @io.reactivex.annotations.NonNull
     @Override
     public ProductAdapter.ViewHolder onCreateViewHolder(@NonNull @io.reactivex.annotations.NonNull ViewGroup parent, int viewType) {
+        LoggerUtils.d(TAG, "执行了我");
         View inflate = LayoutInflater.from(context).inflate(R.layout.item_product, parent, false);
         return new ViewHolder(inflate);
     }
