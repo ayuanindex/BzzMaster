@@ -60,11 +60,8 @@ public class HomeBannerViewHolder extends MultipleAdapter.MultipleBaseViewHolder
         }).attach();
 
         // 订阅数据变化
-        itemPosition.observe(multipleAdapter.getFragmentActivity(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer item) {
-                bannerPager.setCurrentItem(item);
-            }
+        itemPosition.observe(multipleAdapter.getFragmentActivity(), (Integer item) -> {
+            bannerPager.setCurrentItem(item);
         });
 
         startBannerLooper(bannerPagerAdapter.getItemCount());

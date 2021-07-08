@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +16,7 @@ import com.shenkong.bzzmaster.ui.fragment.home.viewholder.HomeBannerViewHolder;
 import com.shenkong.bzzmaster.ui.fragment.home.viewholder.HomeHotProductViewHolder;
 import com.shenkong.bzzmaster.ui.fragment.home.viewholder.HomeProfitViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> implements HomeEvent {
@@ -52,6 +54,7 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
     protected void initData() {
         initViewModel(HomeViewModel.class);
         customerViewModel.setUiRefreshCallBack(this);
+        customerViewModel.setLifecycleProvider(this);
 
         multipleAdapter = new MultipleAdapter(requireActivity()) {
             @NonNull
@@ -72,12 +75,20 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
                 }
             }
         };
+        recyclerView.setAdapter(multipleAdapter);
 
-        uiHandler.post(() -> recyclerView.setAdapter(multipleAdapter));
+        initDataSubscribe();
 
         customerViewModel.initHomeBannerData();
         customerViewModel.initHomeProfitData();
         customerViewModel.initHomeHotProductData();
+    }
+
+    private void initDataSubscribe() {
+        customerViewModel.setProductPlanList(new MutableLiveData<>());
+        customerViewModel.getProductPlanList().observe(this, (List<MultipleAdapter.LayoutType> productPlanBeanList) -> {
+            multipleAdapter.resetDataList(productPlanBeanList);
+        });
     }
 
     @Override
@@ -106,7 +117,9 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
     }
 
     @Override
-    public void initHotProductData(List<MultipleAdapter.LayoutType> layoutTypeList) {
-        uiHandler.post(() -> multipleAdapter.addAllData(layoutTypeList));
+    public void initHotProductData(ArrayList<MultipleAdapter.LayoutType> productPlanBeanList) {
+        uiHandler.post(() -> {
+            multipleAdapter.resetDataList(productPlanBeanList);
+        });
     }
 }

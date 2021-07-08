@@ -1,8 +1,9 @@
 package com.shenkong.bzzmaster.model.bean;
 
-import java.util.Date;
+import com.shenkong.bzzmaster.ui.fragment.home.Types;
+import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
-public class ProductPlanBean {
+public class ProductPlanBean implements MultipleAdapter.LayoutType {
 
     /**
      * 计划ID
@@ -291,5 +292,10 @@ public class ProductPlanBean {
                 ", servicecharge=" + servicecharge +
                 ", updatetime='" + updatetime + '\'' +
                 '}';
+    }
+
+    @Override
+    public int getLayoutType() {
+        return Types.PRODUCT_LAYOUT;
     }
 }

@@ -8,13 +8,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class MultipleAdapter extends RecyclerView.Adapter<MultipleAdapter.MultipleBaseViewHolder> {
     private FragmentActivity fragmentActivity;
     private List<LayoutType> dataList = new ArrayList<>();
+    private List<LayoutType> productPlanBeanList;
     public static final int HEAD = 0;
 
     public MultipleAdapter(FragmentActivity fragmentActivity) {
@@ -62,6 +62,19 @@ public abstract class MultipleAdapter extends RecyclerView.Adapter<MultipleAdapt
 
     public void addAllData(List<LayoutType> layoutTypeList) {
         dataList.addAll(layoutTypeList);
+        notifyDataSetChanged();
+    }
+
+    public void resetDataList(List<LayoutType> productPlanBeanList) {
+        if (this.productPlanBeanList == null) {
+            this.productPlanBeanList = new ArrayList<>();
+        }
+
+        dataList.removeAll(this.productPlanBeanList);
+        this.productPlanBeanList.clear();
+        this.productPlanBeanList.addAll(productPlanBeanList);
+
+        dataList.addAll(productPlanBeanList);
         notifyDataSetChanged();
     }
 

@@ -1,5 +1,6 @@
 package com.shenkong.bzzmaster.ui.fragment.home.viewholder;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.view.View;
 
@@ -8,8 +9,8 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
-import com.shenkong.bzzmaster.model.bean.ProductBean;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
+import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
 public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
@@ -18,12 +19,13 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
     public LinearLayoutCompat llTags;
     public MaterialTextView tvPrice;
     public MaterialTextView tvPriceUnit;
+    public MaterialTextView tvMinimumSale;
     public MaterialTextView tvRevenueDate;
     public MaterialTextView tvDay;
     public MaterialTextView tvTip;
     public MaterialButton btnPurchase;
     private MultipleAdapter multipleAdapter;
-    private ProductBean productBean;
+    private ProductPlanBean productPlanBean;
 
     public HomeHotProductViewHolder(View rootView) {
         super(rootView);
@@ -32,30 +34,42 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
         this.llTags = (LinearLayoutCompat) rootView.findViewById(R.id.llTags);
         this.tvPrice = (MaterialTextView) rootView.findViewById(R.id.tvPrice);
         this.tvPriceUnit = (MaterialTextView) rootView.findViewById(R.id.tvPriceUnit);
+        this.tvMinimumSale = (MaterialTextView) rootView.findViewById(R.id.tvMinimumSale);
         this.tvRevenueDate = (MaterialTextView) rootView.findViewById(R.id.tvRevenueDate);
         this.tvDay = (MaterialTextView) rootView.findViewById(R.id.tvDay);
         this.tvTip = (MaterialTextView) rootView.findViewById(R.id.tvTip);
         this.btnPurchase = (MaterialButton) rootView.findViewById(R.id.btnPurchase);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void load(MultipleAdapter multipleAdapter, int position) {
         this.multipleAdapter = multipleAdapter;
-        productBean = (ProductBean) multipleAdapter.getBean(position);
-        this.tvProductTitle.setText(productBean.getName());
+        productPlanBean = (ProductPlanBean) multipleAdapter.getBean(position);
+
+        tvProductTitle.setText(productPlanBean.getName());
 
         llTags.removeAllViews();
-        llTags.addView(createTag("头矿红利"));
-        llTags.addView(createTag("火爆热销"));
+        if (productPlanBean.getTag() != null && !productPlanBean.getTag().isEmpty()) {
+            for (String s : productPlanBean.getTag().split(",")) {
+                llTags.addView(createTag(s));
+            }
+        }
+
+        tvPrice.setText(String.valueOf(productPlanBean.getPrice()));
+        tvPriceUnit.setText(productPlanBean.getCurrency());
+        tvMinimumSale.setText(productPlanBean.getMincompany() + "TiB起售");
+        tvRevenueDate.setText(productPlanBean.getRuntime() + "天");
+        tvDay.setText(productPlanBean.getPacktime());
 
         rootView.setOnClickListener(null);
         rootView.setOnClickListener(v -> {
-            ToastUtil.showToast(multipleAdapter.getFragmentActivity(), productBean.getName());
+            ToastUtil.showToast(multipleAdapter.getFragmentActivity(), productPlanBean.getName());
         });
 
         btnPurchase.setOnClickListener(null);
         btnPurchase.setOnClickListener(v -> {
-            ToastUtil.showToast(multipleAdapter.getFragmentActivity(), "购买" + productBean.getName());
+            ToastUtil.showToast(multipleAdapter.getFragmentActivity(), "购买" + productPlanBean.getName());
         });
     }
 

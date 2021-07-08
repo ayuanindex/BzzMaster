@@ -4,6 +4,7 @@ import com.shenkong.bzzmaster.event.BaseEven;
 import com.shenkong.bzzmaster.model.bean.ProductBean;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface HomeEvent extends BaseEven {
@@ -11,5 +12,5 @@ public interface HomeEvent extends BaseEven {
 
     void initProfitData(MultipleAdapter.LayoutType layoutType);
 
-    void initHotProductData(List<MultipleAdapter.LayoutType> layoutTypeList);
+    void initHotProductData(ArrayList<MultipleAdapter.LayoutType> productPlanBeanList);
 }
