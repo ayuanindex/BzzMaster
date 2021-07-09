@@ -11,6 +11,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
+import com.shenkong.bzzmaster.common.utils.SpUtil;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
@@ -75,16 +76,12 @@ public class InvitationFragment extends BaseFragment<InvitationViewModel, Invita
         // 获取剪切板管理器
         clipboardManager = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
 
-        ProductAdapter adapter = new ProductAdapter(getContext());
+        // 回填邀请码
+        tvInvitationCode.setText(SpUtil.getString(getContext(), SpUtil.code, "1234"));
+        /*ProductAdapter adapter = new ProductAdapter(getContext());
         rcInvitationRecord.setAdapter(adapter);
         ArrayList<ProductPlanBean> productBeans = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            ProductPlanBean e = new ProductPlanBean();
-            e.setName("test");
-            e.setTag("test,test,test");
-            productBeans.add(e);
-        }
-        adapter.addDataList(productBeans);
+        adapter.addDataList(productBeans);*/
     }
 
     @Override

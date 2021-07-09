@@ -85,6 +85,11 @@ public abstract class MultipleAdapter extends RecyclerView.Adapter<MultipleAdapt
      * @param position   指定位置，靠前的位置
      */
     public void addData(LayoutType layoutType, int position) {
+       /* if (dataList.size() >= 2) {
+            dataList.add(position, layoutType);
+        } else {
+            dataList.add(0, layoutType);
+        }*/
         dataList.add(position, layoutType);
         notifyDataSetChanged();
     }

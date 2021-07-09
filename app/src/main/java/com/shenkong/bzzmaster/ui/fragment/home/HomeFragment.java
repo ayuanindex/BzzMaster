@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shenkong.bzzmaster.R;
+import com.shenkong.bzzmaster.model.bean.BannerBean;
+import com.shenkong.bzzmaster.model.bean.ProfitBean;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 import com.shenkong.bzzmaster.ui.fragment.home.viewholder.HomeBannerViewHolder;
@@ -42,7 +44,7 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
 
     @Override
     protected void initView(View inflate) {
-        recyclerView = (RecyclerView) inflate.findViewById(R.id.recyclerView);
+        recyclerView = inflate.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
@@ -67,11 +69,11 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
                         return new HomeBannerViewHolder(inflate);
                     case Types.PROFIT_LAYOUT:
                         inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_profit, parent, false);
-                        return new HomeProfitViewHolder(inflate);
+                        return new HomeProfitViewHolder(inflate, requireActivity());
                     case Types.PRODUCT_LAYOUT:
                     default:
                         inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_hot_product, parent, false);
-                        return new HomeHotProductViewHolder(inflate);
+                        return new HomeHotProductViewHolder(inflate, requireActivity());
                 }
             }
         };
@@ -79,12 +81,26 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
 
         initDataSubscribe();
 
-        customerViewModel.initHomeBannerData();
+        customerViewModel.getBannerBeanData().setValue(new BannerBean(R.drawable.img_banner_1, null));
+        customerViewModel.getProfitBeanData().setValue(new ProfitBean());
+
+        multipleAdapter.addData(customerViewModel.getBannerBeanData().getValue(), 0);
+        multipleAdapter.addData(customerViewModel.getProfitBeanData().getValue(), 1);
+
         customerViewModel.initHomeProfitData();
-        customerViewModel.initHomeHotProductData();
     }
 
     private void initDataSubscribe() {
+        customerViewModel.setBannerBeanData(new MutableLiveData<>());
+        customerViewModel.getBannerBeanData().observe(this, bannerBean -> {
+            multipleAdapter.notifyDataSetChanged();
+        });
+
+        customerViewModel.setProfitBeanData(new MutableLiveData<>());
+        customerViewModel.getProfitBeanData().observe(this, profitBean -> {
+            multipleAdapter.notifyDataSetChanged();
+        });
+
         customerViewModel.setProductPlanList(new MutableLiveData<>());
         customerViewModel.getProductPlanList().observe(this, (List<MultipleAdapter.LayoutType> productPlanBeanList) -> {
             multipleAdapter.resetDataList(productPlanBeanList);
@@ -121,5 +137,12 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
         uiHandler.post(() -> {
             multipleAdapter.resetDataList(productPlanBeanList);
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        customerViewModel.initHomeBannerData();
+        customerViewModel.initHomeHotProductData();
     }
 }

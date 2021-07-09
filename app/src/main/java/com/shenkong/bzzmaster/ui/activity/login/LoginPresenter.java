@@ -124,7 +124,7 @@ public class LoginPresenter extends BasePresenter<LoginEven> {
             map.put("bizid", bizid);
         ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(UserService.class).LoginCode(map), lifecycleProvider).map(new Function<ResultBean<User>, ResultBean<User>>() {
             @Override
-            public ResultBean<User> apply(ResultBean<User> userResultBean) throws Exception {
+            public ResultBean<User> apply(@NonNull ResultBean<User> userResultBean) throws Exception {
                 return userResultBean;
             }
         }).subscribe(new Observer<ResultBean<User>>() {
@@ -134,17 +134,18 @@ public class LoginPresenter extends BasePresenter<LoginEven> {
             }
 
             @Override
-            public void onNext(ResultBean<User> userResultBean) {
+            public void onNext(@NonNull ResultBean<User> userResultBean) {
                 if (userResultBean.getCode() == 200) {
                     mView.showToastMsg("登录成功", 0);
                     mView.Login(userResultBean.getDate());
                 } else {
                     mView.showToastMsg(userResultBean.getMsg(), userResultBean.getCode());
                 }
+                LoggerUtils.d(TAG, userResultBean.toString());
             }
 
             @Override
-            public void onError(Throwable e) {
+            public void onError(@NonNull Throwable e) {
                 mView.showToastMsg("登录失败，请稍后重试", 0);
             }
 

@@ -1,5 +1,6 @@
 package com.shenkong.bzzmaster.ui.fragment.mine;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.google.android.material.button.MaterialButton;
@@ -7,6 +8,12 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.SpUtil;
+import com.shenkong.bzzmaster.common.utils.ToastUtil;
+import com.shenkong.bzzmaster.ui.activity.transfer.TransferActivity;
+import com.shenkong.bzzmaster.ui.activity.contact.ContactActivity;
+import com.shenkong.bzzmaster.ui.activity.orders.OrdersActivity;
+import com.shenkong.bzzmaster.ui.activity.receive.ReceivePaymentActivity;
+import com.shenkong.bzzmaster.ui.activity.settings.SettingsActivity;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
 
 public class MineFragment extends BaseFragment<MineViewModel, MineEvent> implements MineEvent {
@@ -54,24 +61,34 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
 
     @Override
     protected void initEvent() {
+        btnCollection.setOnClickListener(v -> {
+            startActivity(new Intent(requireContext(), ReceivePaymentActivity.class));
+        });
+
+        btnTransferAccounts.setOnClickListener(v -> startActivity(new Intent(getContext(), TransferActivity.class)));
+
         // 我的订单
         tvMyOrder.setOnClickListener(v -> {
-
+            Intent intent = new Intent(requireContext(), OrdersActivity.class);
+            intent.putExtra("type", 0);
+            startActivity(intent);
         });
 
         // 收支明细
         tvRevenueAndExpenditure.setOnClickListener(v -> {
-
+            Intent intent = new Intent(requireContext(), OrdersActivity.class);
+            intent.putExtra("type", 1);
+            startActivity(intent);
         });
 
         // 联系我们
         tvContactUs.setOnClickListener(v -> {
-
+            startActivity(new Intent(requireContext(), ContactActivity.class));
         });
 
         // 设置
         tvSetting.setOnClickListener(v -> {
-
+            startActivity(new Intent(requireContext(), SettingsActivity.class));
         });
     }
 
@@ -79,6 +96,7 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
     protected void initData() {
         initViewModel(MineViewModel.class);
         customerViewModel.setUiRefreshCallBack(this);
+
 
         // 从Sp中获取用户登录信息
         String phone = SpUtil.getString(getContext(), SpUtil.phone, "");
@@ -97,6 +115,6 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
 
     @Override
     public void showToastMsg(String msg, int type) {
-
+        ToastUtil.showToast(getContext(), msg);
     }
 }

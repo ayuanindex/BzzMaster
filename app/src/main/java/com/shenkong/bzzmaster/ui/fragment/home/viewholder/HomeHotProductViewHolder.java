@@ -1,19 +1,25 @@
 package com.shenkong.bzzmaster.ui.fragment.home.viewholder;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
+import com.shenkong.bzzmaster.common.base.SharedBean;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
+import com.shenkong.bzzmaster.ui.activity.submit.SubmitOrderActivity;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
 public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
+    private final FragmentActivity fragmentActivity;
     public View rootView;
     public MaterialTextView tvProductTitle;
     public LinearLayoutCompat llTags;
@@ -27,9 +33,10 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
     private MultipleAdapter multipleAdapter;
     private ProductPlanBean productPlanBean;
 
-    public HomeHotProductViewHolder(View rootView) {
+    public HomeHotProductViewHolder(View rootView, FragmentActivity fragmentActivity) {
         super(rootView);
         this.rootView = rootView;
+        this.fragmentActivity = fragmentActivity;
         this.tvProductTitle = (MaterialTextView) rootView.findViewById(R.id.tvProductTitle);
         this.llTags = (LinearLayoutCompat) rootView.findViewById(R.id.llTags);
         this.tvPrice = (MaterialTextView) rootView.findViewById(R.id.tvPrice);
@@ -69,7 +76,9 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
 
         btnPurchase.setOnClickListener(null);
         btnPurchase.setOnClickListener(v -> {
-            ToastUtil.showToast(multipleAdapter.getFragmentActivity(), "购买" + productPlanBean.getName());
+            SharedBean.putData(SharedBean.ProductPlanBean, productPlanBean);
+            Intent intent = new Intent(fragmentActivity, SubmitOrderActivity.class);
+            fragmentActivity.startActivity(intent);
         });
     }
 

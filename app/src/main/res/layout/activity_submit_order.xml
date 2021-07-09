@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:minHeight="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivArrowBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/xml_arrow_back" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="订单提交"
+            android:textColor="@color/green_primary" />
+    </RelativeLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvProductName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Chia早期矿工满存挖矿计划"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleLayout" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvProductPriceTip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="单份申购价格"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/tvProductName"
+        app:layout_constraintTop_toBottomOf="@+id/tvProductName" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvProductPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="1份=1TiB=90USDT"
+        app:layout_constraintBottom_toBottomOf="@+id/tvProductPriceTip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvProductPriceTip" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvNeedCountTip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="申购份数"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/tvProductPriceTip"
+        app:layout_constraintTop_toBottomOf="@+id/tvProductPriceTip" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llNeedCountLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/tvNeedCountTip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvNeedCountTip">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnReduce"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:gravity="center"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            android:text="—"
+            app:cornerRadius="100dp" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etNeedCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:inputType="number"
+            android:minWidth="50dp"
+            android:text="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAdd"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:gravity="center"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            android:text="+"
+            app:cornerRadius="100dp" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvOrderAmountTip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="订单金额"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/tvNeedCountTip"
+        app:layout_constraintTop_toBottomOf="@+id/tvNeedCountTip" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvOrderAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="90USDT"
+        android:textColor="@color/green_primary_dark"
+        app:layout_constraintBottom_toBottomOf="@+id/tvOrderAmountTip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvOrderAmountTip" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvWalletBalanceTip"
+        android:layout_width="87dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:minHeight="30dp"
+        android:text="钱包可用额度"
+        app:layout_constraintStart_toStartOf="@+id/tvNeedCountTip"
+        app:layout_constraintTop_toBottomOf="@+id/tvOrderAmountTip" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvWalletBalance"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:gravity="center"
+        android:text="0.0000USDT"
+        android:textColor="@color/green_primary_dark"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvWalletBalanceTip"
+        app:layout_constraintStart_toEndOf="@+id/tvWalletBalanceTip"
+        app:layout_constraintTop_toTopOf="@+id/tvWalletBalanceTip" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRechargeImmediately"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:drawableEnd="@drawable/xml_arrow_next"
+        android:drawableTint="@color/green_primary_dark"
+        android:insetTop="0dp"
+        app:cornerRadius="10dp"
+        android:insetBottom="0dp"
+        android:text="立即充值"
+        app:layout_constraintBottom_toBottomOf="@+id/tvWalletBalance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvWalletBalance" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSubmitOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:insetTop="4dp"
+        android:insetBottom="4dp"
+        android:text="提交订单"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvWalletBalanceTip" />
+</androidx.constraintlayout.widget.ConstraintLayout>

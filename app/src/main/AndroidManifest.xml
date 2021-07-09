@@ -17,7 +17,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
         <activity
-            android:name=".ui.activity.login.LoginActivity"
+            android:name=".ui.activity.start.StartPagerActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +26,17 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".broadcast.LogOutBroadCast">
+            <intent-filter>
+                <action android:name="logOut" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".ui.activity.login.LoginActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.activity.main.MainActivity"
             android:launchMode="singleTask"
@@ -33,6 +44,36 @@
 
         <activity
             android:name=".ui.activity.productinfo.ProductInfoActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.receive.ReceivePaymentActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.transfer.TransferActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.orders.OrdersActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.contact.ContactActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.settings.SettingsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.submit.SubmitOrderActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
     </application>

@@ -6,11 +6,12 @@ import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.base.ResultBean;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.BannerBean;
-import com.shenkong.bzzmaster.model.bean.ProductBean;
+import com.shenkong.bzzmaster.model.bean.CarouselBean;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 import com.shenkong.bzzmaster.model.bean.ProfitBean;
 import com.shenkong.bzzmaster.net.NetManager;
 import com.shenkong.bzzmaster.net.ObjectLoader;
+import com.shenkong.bzzmaster.net.api.CarouselService;
 import com.shenkong.bzzmaster.net.api.PlanService;
 import com.shenkong.bzzmaster.ui.base.BaseViewMode;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
@@ -19,18 +20,22 @@ import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class HomeViewModel extends BaseViewMode<HomeEvent> {
     private static final String TAG = "HomeViewModel";
     private LifecycleProvider<FragmentEvent> lifecycleProvider;
-    private MutableLiveData<List<MultipleAdapter.LayoutType>> productPlanList;
-
     private MutableLiveData<BannerBean> bannerBeanData;
+    private MutableLiveData<ProfitBean> profitBeanData;
+    private MutableLiveData<List<MultipleAdapter.LayoutType>> productPlanList;
 
     public void setLifecycleProvider(LifecycleProvider<FragmentEvent> lifecycleProvider) {
         this.lifecycleProvider = lifecycleProvider;
@@ -52,41 +57,58 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
         this.bannerBeanData = bannerBeanData;
     }
 
+    public MutableLiveData<ProfitBean> getProfitBeanData() {
+        return profitBeanData;
+    }
+
+    public void setProfitBeanData(MutableLiveData<ProfitBean> profitBeanData) {
+        this.profitBeanData = profitBeanData;
+    }
+
     public void initHomeBannerData() {
-        BannerBean bannerBean = new BannerBean(R.drawable.img_banner_1,
-                R.drawable.img_banner_1,
-                R.drawable.img_banner_swarm
-        );
-        uiRefreshCallBack.initHomeBannerData(bannerBean);
+        ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(CarouselService.class).requestCarousel(), lifecycleProvider)
+                .subscribe(new Observer<ResultBean<List<CarouselBean>>>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull ResultBean<List<CarouselBean>> listResultBean) {
+                        if (listResultBean.getCode() == 200) {
+                            if (bannerBeanData.getValue() != null) {
+                                bannerBeanData.getValue().setCarouselBeanList(listResultBean.getDate());
+                            }
+                        }
+                        LoggerUtils.d(TAG, listResultBean.toString());
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        LoggerUtils.d(TAG, "请求出错", e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     public void initHomeProfitData() {
-        ProfitBean profitBean = new ProfitBean();
-        uiRefreshCallBack.initProfitData(profitBean);
+        /*ProfitBean profitBean = new ProfitBean();
+        uiRefreshCallBack.initProfitData(profitBean);*/
     }
 
     public void initHomeHotProductData() {
-        new Thread(() -> {
-            ArrayList<MultipleAdapter.LayoutType> productPlanBeanList = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
-                ProductPlanBean e = new ProductPlanBean();
-                e.setName("Chia早期矿工满存挖矿计划" + i);
-                productPlanBeanList.add(e);
-            }
-            uiRefreshCallBack.initHotProductData(productPlanBeanList);
-        }).start();
-
         ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(PlanService.class).requestHotProductPlan(), lifecycleProvider)
                 .retry(3)
-                .map(new Function<ResultBean<List<ProductPlanBean>>, ResultBean<List<MultipleAdapter.LayoutType>>>() {
-                    @Override
-                    public ResultBean<List<MultipleAdapter.LayoutType>> apply(@NonNull ResultBean<List<ProductPlanBean>> listResultBean) throws Exception {
-                        ResultBean<List<MultipleAdapter.LayoutType>> resultBean = new ResultBean<>();
-                        resultBean.setCode(listResultBean.getCode());
-                        resultBean.setMsg(listResultBean.getMsg());
-                        resultBean.setDate(new ArrayList<>(listResultBean.getDate()));
-                        return resultBean;
-                    }
+                .map(listResultBean -> {
+                    ResultBean<List<MultipleAdapter.LayoutType>> resultBean = new ResultBean<>();
+                    resultBean.setCode(listResultBean.getCode());
+                    resultBean.setMsg(listResultBean.getMsg());
+                    resultBean.setDate(new ArrayList<>(listResultBean.getDate()));
+                    return resultBean;
                 })
                 .subscribe(new Observer<ResultBean<List<MultipleAdapter.LayoutType>>>() {
                     @Override

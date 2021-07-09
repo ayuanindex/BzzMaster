@@ -5,23 +5,17 @@ import androidx.annotation.DrawableRes;
 import com.shenkong.bzzmaster.ui.fragment.home.Types;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
+import java.util.List;
+
 public class BannerBean implements MultipleAdapter.LayoutType {
     @DrawableRes
     private int defaultImgRes;
 
-    @DrawableRes
-    private int[] imgResources = {};
+    private List<CarouselBean> carouselBeanList;
 
-    private String[] imgUrls = {};
-
-    public BannerBean(@DrawableRes int defaultImgRes, @DrawableRes int... imgResources) {
+    public BannerBean(int defaultImgRes, List<CarouselBean> carouselBeanList) {
         this.defaultImgRes = defaultImgRes;
-        this.imgResources = imgResources;
-    }
-
-    public BannerBean(@DrawableRes int defaultImgRes, String... imgUrls) {
-        this.defaultImgRes = defaultImgRes;
-        this.imgUrls = imgUrls;
+        this.carouselBeanList = carouselBeanList;
     }
 
     public int getDefaultImgRes() {
@@ -32,20 +26,12 @@ public class BannerBean implements MultipleAdapter.LayoutType {
         this.defaultImgRes = defaultImgRes;
     }
 
-    public int[] getImgResources() {
-        return imgResources;
+    public List<CarouselBean> getCarouselBeanList() {
+        return carouselBeanList;
     }
 
-    public void setImgResources(@DrawableRes int... imgResources) {
-        this.imgResources = imgResources;
-    }
-
-    public String[] getImgUrls() {
-        return imgUrls;
-    }
-
-    public void setImgUrls(String... imgUrls) {
-        this.imgUrls = imgUrls;
+    public void setCarouselBeanList(List<CarouselBean> carouselBeanList) {
+        this.carouselBeanList = carouselBeanList;
     }
 
     @Override

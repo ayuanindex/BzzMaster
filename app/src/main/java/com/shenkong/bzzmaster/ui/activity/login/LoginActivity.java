@@ -52,12 +52,6 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
 
     @Override
     protected void initData() {
-        // 是否已经登录
-        if (SpUtil.getBoolean(this, SpUtil.loginStatus, false)) {
-            jumpActivity(MainActivity.class);
-            finish();
-            return;
-        }
         tiePhone.setText(SpUtil.getString(this, SpUtil.phone, ""));
     }
 

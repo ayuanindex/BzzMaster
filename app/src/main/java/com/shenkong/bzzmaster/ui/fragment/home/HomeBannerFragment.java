@@ -1,34 +1,34 @@
 package com.shenkong.bzzmaster.ui.fragment.home;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 
 import androidx.annotation.DrawableRes;
 import androidx.appcompat.widget.AppCompatImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.shenkong.bzzmaster.R;
-import com.shenkong.bzzmaster.common.utils.ToastUtil;
+import com.shenkong.bzzmaster.model.bean.CarouselBean;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
 
 public class HomeBannerFragment extends BaseFragment {
 
-    private String imgUrl;
+    private CarouselBean carouselBean = null;
     private int defaultDrawableResId = R.drawable.img_banner_1;
     private AppCompatImageView imgBanner;
 
-
-    /**
-     * @param defaultDrawableResId 默认图片ID
-     */
-    public HomeBannerFragment(@DrawableRes int defaultDrawableResId) {
+    public HomeBannerFragment(int defaultDrawableResId) {
         this.defaultDrawableResId = defaultDrawableResId;
     }
 
     /**
-     * @param imgUrl               网络中的图片地址
+     * @param carouselBean         网络中的图片地址
      * @param defaultDrawableResId 默认图片地址
      */
-    public HomeBannerFragment(String imgUrl, @DrawableRes int defaultDrawableResId) {
-        this.imgUrl = imgUrl;
+    public HomeBannerFragment(CarouselBean carouselBean, @DrawableRes int defaultDrawableResId) {
+        this.carouselBean = carouselBean;
         this.defaultDrawableResId = defaultDrawableResId;
     }
 
@@ -44,11 +44,28 @@ public class HomeBannerFragment extends BaseFragment {
 
     @Override
     protected void initEvent() {
-        imgBanner.setOnClickListener(v -> ToastUtil.showToast(getContext(), "Hello"));
+
     }
 
     @Override
     protected void initData() {
-        imgBanner.setImageResource(defaultDrawableResId);
+        if (carouselBean != null) {
+            Glide.with(requireContext())
+                    .load(carouselBean.getSkiplink())
+                    .placeholder(defaultDrawableResId)
+                    .error(defaultDrawableResId)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(imgBanner);
+
+            imgBanner.setOnClickListener(v -> {
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse(carouselBean.getSkiplink());
+                intent.setData(content_url);
+                startActivity(intent);
+            });
+        } else {
+            imgBanner.setImageResource(defaultDrawableResId);
+        }
     }
 }

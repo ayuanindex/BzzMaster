@@ -44,4 +44,9 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+    <style name="dialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/xml_in</item>
+        <item name="android:windowExitAnimation">@anim/xml_out</item>
+    </style>
 </resources>

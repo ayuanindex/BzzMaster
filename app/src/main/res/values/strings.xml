@@ -6,4 +6,17 @@
     <string name="Please_input_SMS_verification_code">请输入短信验证码</string>
     <string name="Get_verification_code">获取验证码</string>
     <string name="exit_tips">再按一次退出程序</string>
+
+    <string name="TransferTips">
+        • 请勿向上述地址充值任何非USDT的数字货币，否则资产将不可找回。\n
+        • 请确认转账的地址为ERC20地址，否则资产将不可找回。\n
+        • 您充值至上述地址后，需要全部网络节点的确认，1次网络确认后到账。\n
+        • 请务必确认电脑及浏览器安全，防止信息被篡改或泄漏\n
+        • 100USDT起充，充值少于100USDT系统不会到账，请注意。
+    </string>
+
+    <string-array name="Currency">
+        <item>USDT</item>
+        <item>BZZ</item>
+    </string-array>
 </resources>

@@ -14,6 +14,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.model.bean.BannerBean;
+import com.shenkong.bzzmaster.model.bean.CarouselBean;
 import com.shenkong.bzzmaster.ui.fragment.home.HomeBannerFragment;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
@@ -48,8 +49,13 @@ public class HomeBannerViewHolder extends MultipleAdapter.MultipleBaseViewHolder
         BannerPagerAdapter bannerPagerAdapter = new BannerPagerAdapter(multipleAdapter.getFragmentActivity(), fragments);
         bannerPager.setAdapter(bannerPagerAdapter);
 
-        for (int imgResource : bannerBean.getImgResources()) {
-            fragments.add(new HomeBannerFragment(imgResource));
+        if (bannerBean.getCarouselBeanList() != null) {
+            for (CarouselBean carouselBean : bannerBean.getCarouselBeanList()) {
+                fragments.add(new HomeBannerFragment(carouselBean, bannerBean.getDefaultImgRes()));
+            }
+        } else {
+            fragments.add(new HomeBannerFragment(bannerBean.getDefaultImgRes()));
+            fragments.add(new HomeBannerFragment(bannerBean.getDefaultImgRes()));
         }
 
         bannerPagerAdapter.notifyDataSetChanged();

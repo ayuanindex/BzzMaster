@@ -2,6 +2,7 @@ package com.shenkong.bzzmaster.ui.activity.main;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
+import com.shenkong.bzzmaster.broadcast.LogOutBroadCast;
 import com.shenkong.bzzmaster.ui.activity.login.LoginActivity;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
 
@@ -74,6 +76,10 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     @Override
     protected void initData() {
         mPresenter.initViewPager();
+
+        LogOutBroadCast receiver = new LogOutBroadCast();
+        receiver.setCallBack(this::finish);
+        registerReceiver(receiver, new IntentFilter("logOut"));
     }
 
     @Override

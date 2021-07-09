@@ -15,6 +15,18 @@ public class ModelPath {
      */
     public static final String Sms = "sms";
 
+    /**
+     * 产品
+     */
     public static final String Product = "product";
+
+    /**
+     * 计划
+     */
     public static final String Plan = "plan";
+
+    /**
+     * 轮播图
+     */
+    public static final String Carousel = "carousel";
 }
