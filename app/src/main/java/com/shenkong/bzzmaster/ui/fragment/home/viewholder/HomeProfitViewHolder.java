@@ -11,7 +11,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
-import com.shenkong.bzzmaster.ui.activity.orders.OrdersActivity;
+import com.shenkong.bzzmaster.ui.activity.orders.OrderActivity;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
 public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
@@ -38,7 +38,7 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
         this.cardSwarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(fragmentActivity, OrdersActivity.class);
+                Intent intent = new Intent(fragmentActivity, OrderActivity.class);
                 intent.putExtra("type", 0);
                 fragmentActivity.startActivity(intent);
             }

@@ -3,12 +3,14 @@ package com.shenkong.bzzmaster.ui.activity.login;
 import android.view.View;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.blankj.utilcode.util.Utils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.SpUtil;
 import com.shenkong.bzzmaster.model.bean.User;
+import com.shenkong.bzzmaster.net.NetManager;
 import com.shenkong.bzzmaster.ui.activity.main.MainActivity;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
 
@@ -100,10 +102,13 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     @Override
     public void Login(User user) {
         // 保存用户登录信息到SP中
-        SpUtil.putBoolean(this, SpUtil.loginStatus, true);
-        SpUtil.putString(this, SpUtil.phone, user.getPhonenumber());
-        SpUtil.putString(this, SpUtil.code, user.getCode());
-        SpUtil.putString(this, SpUtil.token, user.getToken());
+        SpUtil.putBoolean(Utils.getApp(), SpUtil.loginStatus, true);
+        SpUtil.putString(Utils.getApp(), SpUtil.phone, user.getPhonenumber());
+        SpUtil.putString(Utils.getApp(), SpUtil.code, user.getCode());
+        SpUtil.putString(Utils.getApp(), SpUtil.token, user.getToken());
+        SpUtil.putString(Utils.getApp(), SpUtil.userId, String.valueOf(user.getUserid()));
+
+        NetManager.setsInstance(new NetManager());
         jumpActivity(MainActivity.class);
         finish();
     }

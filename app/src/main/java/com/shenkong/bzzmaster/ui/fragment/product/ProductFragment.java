@@ -95,8 +95,8 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         });
 
         productAdapter.setOnItemClickListener((view, productPlanBean, position) -> {
-            ToastUtil.showToast(getContext(), productAdapter.getItemBean(position).getName());
             Intent intent = new Intent(getContext(), ProductInfoActivity.class);
+            intent.putExtra("picUrl", productPlanBean.getPic());
             startActivity(intent);
         });
     }
@@ -129,11 +129,7 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
 
         customerViewModel.setProductPlan(new MutableLiveData<>());
         customerViewModel.getProductPlan().observe(this, productPlanBeans -> {
-            if (productPlanBeans.isEmpty()) {
-                isShowEmptyView(true);
-            } else {
-                isShowEmptyView(false);
-            }
+            isShowEmptyView(productPlanBeans.isEmpty());
             productAdapter.updateDataList(productPlanBeans);
             hideLoading();
         });

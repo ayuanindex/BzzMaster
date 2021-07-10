@@ -58,7 +58,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.orders.OrdersActivity"
+            android:name=".ui.activity.orders.OrderActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 

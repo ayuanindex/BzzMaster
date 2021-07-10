@@ -34,4 +34,6 @@ public class ModelPath {
      * app升级接口
      */
     public static final String App = "app";
+
+    public static final String Capital = "capital";
 }

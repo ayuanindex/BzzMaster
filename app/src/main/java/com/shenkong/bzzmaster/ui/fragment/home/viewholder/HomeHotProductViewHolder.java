@@ -15,6 +15,7 @@ import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.base.SharedBean;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
+import com.shenkong.bzzmaster.ui.activity.productinfo.ProductInfoActivity;
 import com.shenkong.bzzmaster.ui.activity.submit.SubmitOrderActivity;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
@@ -71,7 +72,9 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
 
         rootView.setOnClickListener(null);
         rootView.setOnClickListener(v -> {
-            ToastUtil.showToast(multipleAdapter.getFragmentActivity(), productPlanBean.getName());
+            SharedBean.putData(SharedBean.ProductPlanBean, productPlanBean);
+            Intent intent = new Intent(fragmentActivity, ProductInfoActivity.class);
+            fragmentActivity.startActivity(intent);
         });
 
         btnPurchase.setOnClickListener(null);

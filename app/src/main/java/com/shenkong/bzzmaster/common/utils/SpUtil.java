@@ -9,6 +9,7 @@ public class SpUtil {
     public static final String token = "token";
     public static final String phone = "phone";
     public static final String code = "code";
+    public static final String userId = "userId";
     private static SharedPreferences sharedPreferences;
 
     private static SharedPreferences doesItExist(Context context) {
@@ -40,6 +41,14 @@ public class SpUtil {
 
     public static boolean getBoolean(Context context, String key, boolean defValue) {
         return doesItExist(context).getBoolean(key, defValue);
+    }
+
+    public static void putLong(Context context, String key, long value) {
+        doesItExist(context).edit().putLong(key, value).apply();
+    }
+
+    public static long getLong(Context context, String key, long defValue) {
+        return doesItExist(context).getLong(key, defValue);
     }
 
     public static void removeTag(Context context, String key) {

@@ -10,7 +10,7 @@ public class User implements Serializable {
     /**
      * 用户ID
      */
-    private Long userid;
+    private long userid;
 
     /**
      * 手机号
@@ -46,19 +46,19 @@ public class User implements Serializable {
      * 权限
      * default: 0
      */
-    private Long jurisdiction;
+    private long jurisdiction;
 
     /**
      * 状态
      * default: 0
      */
-    private Long status;
+    private long status;
 
     /**
      * 实名
      * default: 0
      */
-    private Long authentication;
+    private long authentication;
 
     /**
      * 性别
@@ -78,7 +78,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Long userid, String phonenumber, String pwd, String icon, String code, String email, String fundpassword, Long jurisdiction, Long status, Long authentication, String sex, Date birthday, String token) {
+    public User(long userid, String phonenumber, String pwd, String icon, String code, String email, String fundpassword, long jurisdiction, long status, long authentication, String sex, Date birthday, String token) {
         this.userid = userid;
         this.phonenumber = phonenumber;
         this.pwd = pwd;
@@ -94,11 +94,11 @@ public class User implements Serializable {
         this.token = token;
     }
 
-    public Long getUserid() {
+    public long getUserid() {
         return userid;
     }
 
-    public void setUserid(Long userid) {
+    public void setUserid(long userid) {
         this.userid = userid;
     }
 
@@ -150,27 +150,27 @@ public class User implements Serializable {
         this.fundpassword = fundpassword;
     }
 
-    public Long getJurisdiction() {
+    public long getJurisdiction() {
         return jurisdiction;
     }
 
-    public void setJurisdiction(Long jurisdiction) {
+    public void setJurisdiction(long jurisdiction) {
         this.jurisdiction = jurisdiction;
     }
 
-    public Long getStatus() {
+    public long getStatus() {
         return status;
     }
 
-    public void setStatus(Long status) {
+    public void setStatus(long status) {
         this.status = status;
     }
 
-    public Long getAuthentication() {
+    public long getAuthentication() {
         return authentication;
     }
 
-    public void setAuthentication(Long authentication) {
+    public void setAuthentication(long authentication) {
         this.authentication = authentication;
     }
 

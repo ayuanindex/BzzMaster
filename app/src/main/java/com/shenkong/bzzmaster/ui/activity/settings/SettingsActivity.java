@@ -3,6 +3,7 @@ package com.shenkong.bzzmaster.ui.activity.settings;
 import android.content.Intent;
 import android.view.View;
 
+import com.blankj.utilcode.util.Utils;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.SpUtil;
 import com.shenkong.bzzmaster.ui.activity.login.LoginActivity;
@@ -32,8 +33,9 @@ public class SettingsActivity extends BaseMvpActivity<SettingsPresenter> impleme
         ivArrowBack.setOnClickListener(v -> finish());
 
         btnLogOut.setOnClickListener(v -> {
-            SpUtil.removeTag(this, SpUtil.loginStatus);
-            SpUtil.removeTag(this, SpUtil.token);
+            SpUtil.removeTag(Utils.getApp(), SpUtil.loginStatus);
+            SpUtil.removeTag(Utils.getApp(), SpUtil.token);
+            SpUtil.removeTag(Utils.getApp(), SpUtil.userId);
             startActivity(new Intent(this, LoginActivity.class));
             sendBroadcast(new Intent("logOut"));
             finish();

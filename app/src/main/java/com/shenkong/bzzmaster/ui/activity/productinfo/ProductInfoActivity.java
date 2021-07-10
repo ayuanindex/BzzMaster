@@ -1,6 +1,7 @@
 package com.shenkong.bzzmaster.ui.activity.productinfo;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
@@ -11,6 +12,9 @@ import androidx.appcompat.widget.AppCompatImageView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
+import com.shenkong.bzzmaster.common.base.SharedBean;
+import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
+import com.shenkong.bzzmaster.ui.activity.submit.SubmitOrderActivity;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
 
 public class ProductInfoActivity extends BaseMvpActivity<ProductInfoPresenter> implements ProductInfoEvent {
@@ -19,6 +23,7 @@ public class ProductInfoActivity extends BaseMvpActivity<ProductInfoPresenter> i
     private com.google.android.material.textview.MaterialTextView tvTitle;
     private android.webkit.WebView webViewProductInfo;
     private com.google.android.material.button.MaterialButton btnPurchase;
+    private ProductPlanBean data;
 
     @Override
     public int getLayoutId() {
@@ -40,7 +45,9 @@ public class ProductInfoActivity extends BaseMvpActivity<ProductInfoPresenter> i
         });
 
         btnPurchase.setOnClickListener(v -> {
-            // TODO: 2021/6/28 购买产品按钮功能
+            SharedBean.putData(SharedBean.ProductPlanBean, data);
+            Intent intent = new Intent(this, SubmitOrderActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -48,12 +55,14 @@ public class ProductInfoActivity extends BaseMvpActivity<ProductInfoPresenter> i
     @Override
     @JavascriptInterface
     protected void initData() {
+        data = (ProductPlanBean) SharedBean.getData(SharedBean.ProductPlanBean);
+
         WebSettings webSettings = webViewProductInfo.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webViewProductInfo.setVisibility(View.INVISIBLE);
         webViewProductInfo.loadUrl("file:///android_asset/web/productinfo.html");
         uiHandler.postDelayed(() -> {
-            webViewProductInfo.loadUrl("javascript:setImgUrl('https://pool-chia.oss-cn-hangzhou.aliyuncs.com/img/chia1.png')");
+            webViewProductInfo.loadUrl("javascript:setImgUrl('" + data.getPic() + "')");
             webViewProductInfo.setVisibility(View.VISIBLE);
         }, 1000);
     }

@@ -11,7 +11,7 @@ import com.shenkong.bzzmaster.common.utils.SpUtil;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.ui.activity.transfer.TransferActivity;
 import com.shenkong.bzzmaster.ui.activity.contact.ContactActivity;
-import com.shenkong.bzzmaster.ui.activity.orders.OrdersActivity;
+import com.shenkong.bzzmaster.ui.activity.orders.OrderActivity;
 import com.shenkong.bzzmaster.ui.activity.receive.ReceivePaymentActivity;
 import com.shenkong.bzzmaster.ui.activity.settings.SettingsActivity;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
@@ -69,14 +69,14 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
 
         // 我的订单
         tvMyOrder.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), OrdersActivity.class);
+            Intent intent = new Intent(requireContext(), OrderActivity.class);
             intent.putExtra("type", 0);
             startActivity(intent);
         });
 
         // 收支明细
         tvRevenueAndExpenditure.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), OrdersActivity.class);
+            Intent intent = new Intent(requireContext(), OrderActivity.class);
             intent.putExtra("type", 1);
             startActivity(intent);
         });
@@ -96,7 +96,11 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
     protected void initData() {
         initViewModel(MineViewModel.class);
         customerViewModel.setUiRefreshCallBack(this);
+        customerViewModel.setLifecycleProvider(this);
 
+        customerViewModel.requestBalance();
+
+        customerViewModel.requestAllBalance();
 
         // 从Sp中获取用户登录信息
         String phone = SpUtil.getString(getContext(), SpUtil.phone, "");

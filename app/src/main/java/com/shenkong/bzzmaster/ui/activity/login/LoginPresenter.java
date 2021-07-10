@@ -136,6 +136,7 @@ public class LoginPresenter extends BasePresenter<LoginEven> {
             @Override
             public void onNext(@NonNull ResultBean<User> userResultBean) {
                 if (userResultBean.getCode() == 200) {
+
                     mView.showToastMsg("登录成功", 0);
                     mView.Login(userResultBean.getDate());
                 } else {

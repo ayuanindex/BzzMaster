@@ -22,7 +22,7 @@ import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class OrdersActivity extends BaseMvpActivity<OrderPresenter> implements OrderEvent {
+public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements OrderEvent {
     private RelativeLayout titleLayout;
     private AppCompatImageView ivArrowBack;
     private MaterialTextView tvTitle;

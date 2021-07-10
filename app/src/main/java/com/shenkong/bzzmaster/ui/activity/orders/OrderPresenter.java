@@ -14,9 +14,7 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.List;
 
-import io.reactivex.Observer;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 public class OrderPresenter extends BasePresenter<OrderEvent> {
     private static final String TAG = "OrderPresenter";
@@ -38,7 +36,21 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
     public void initProductCategory() {
         ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(ProductService.class).requestAllProduct(), lifecycleProvider)
                 .retry(3)
-                .subscribe(new Observer<ResultBean<List<ProductBean>>>() {
+                .subscribe(new Consumer<ResultBean<List<ProductBean>>>() {
+                    @Override
+                    public void accept(ResultBean<List<ProductBean>> listResultBean) throws Exception {
+                        if (listResultBean.getCode() == 200) {
+                            productList.postValue(listResultBean.getDate());
+                        }
+                        LoggerUtils.d(TAG, listResultBean.toString());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        LoggerUtils.d(TAG, "网络请求发生错误，请检查网络链接是否正常");
+                    }
+                });
+                /*.subscribe(new Observer<ResultBean<List<ProductBean>>>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
 
@@ -60,6 +72,8 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
                     @Override
                     public void onComplete() {
                     }
-                });
+                })*/
+        ;
+
     }
 }

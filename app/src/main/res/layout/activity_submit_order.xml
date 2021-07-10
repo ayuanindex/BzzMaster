@@ -85,6 +85,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnReduce"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:gravity="center"
@@ -107,6 +108,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAdd"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:gravity="center"
@@ -171,9 +173,9 @@
         android:drawableEnd="@drawable/xml_arrow_next"
         android:drawableTint="@color/green_primary_dark"
         android:insetTop="0dp"
-        app:cornerRadius="10dp"
         android:insetBottom="0dp"
         android:text="立即充值"
+        app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvWalletBalance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvWalletBalance" />
