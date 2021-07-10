@@ -3,11 +3,13 @@ package com.shenkong.bzzmaster.ui.activity.main;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -18,6 +20,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.broadcast.LogOutBroadCast;
+import com.shenkong.bzzmaster.common.base.ResultBean;
+import com.shenkong.bzzmaster.common.utils.AlertDialogUtil;
+import com.shenkong.bzzmaster.common.utils.ApkVersionInfoUtil;
+import com.shenkong.bzzmaster.databinding.DialogUpdateAppBinding;
+import com.shenkong.bzzmaster.model.bean.AppUpdateBean;
 import com.shenkong.bzzmaster.ui.activity.login.LoginActivity;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
 
@@ -75,6 +82,10 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
     @Override
     protected void initData() {
+        mPresenter.setLifecycleProvider(this);
+
+        mPresenter.checkAppWhetherUpdate(ApkVersionInfoUtil.getVersionCode(this));
+
         mPresenter.initViewPager();
 
         LogOutBroadCast receiver = new LogOutBroadCast();
@@ -135,5 +146,25 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
                 return fragments.get(position);
             }
         });
+    }
+
+    @Override
+    public void showUpdateDialog(AppUpdateBean appUpdateBean) {
+        DialogUpdateAppBinding updateAppBinding = DialogUpdateAppBinding.inflate(getLayoutInflater());
+        AlertDialog alertDialog = AlertDialogUtil.getAlertDialog(this, updateAppBinding.getRoot());
+
+        updateAppBinding.tvUpdateTip.setText(appUpdateBean.getMessage());
+        updateAppBinding.btnNextTime.setOnClickListener(v -> alertDialog.dismiss());
+
+        updateAppBinding.btnUpdate.setOnClickListener(v -> {
+            // 跳转到浏览器下载
+            Intent intent = new Intent();
+            intent.setAction("android.intent.action.VIEW");
+            Uri content_url = Uri.parse(appUpdateBean.getDownloadurl());
+            intent.setData(content_url);
+            startActivity(intent);
+            alertDialog.dismiss();
+        });
+        alertDialog.show();
     }
 }

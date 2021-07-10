@@ -5,7 +5,7 @@ package com.shenkong.bzzmaster.common.config;
  */
 public class ModelPath {
 
-    public static final String baseUrl = "http://192.168.1.104:8085/";
+    public static final String baseUrl = "http://192.168.1.103:8085/";
     /**
      * 用户
      */
@@ -29,4 +29,9 @@ public class ModelPath {
      * 轮播图
      */
     public static final String Carousel = "carousel";
+
+    /**
+     * app升级接口
+     */
+    public static final String App = "app";
 }
