@@ -5,6 +5,8 @@ import android.content.ClipboardManager;
 import android.graphics.Bitmap;
 import android.view.View;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
@@ -50,7 +52,19 @@ public class ReceivePaymentActivity extends BaseMvpActivity<ReceivePaymentPresen
         // 获取剪贴板管理器
         clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
-        mPresenter.createQRCodeBitmap(tvCollectionAddress.getText().toString().trim(), 200);
+        initDataSubscribe();
+
+        mPresenter.setLifecycleProvider(this);
+        mPresenter.requestBalance();
+    }
+
+    private void initDataSubscribe() {
+        mPresenter.setCapitalBeanListLiveData(new MutableLiveData<>());
+        mPresenter.getCapitalBeanListLiveData().observe(this, capitalBeans -> {
+            tvCollectionAddress.setVisibility(View.VISIBLE);
+            tvCollectionAddress.setText(capitalBeans.get(0).getAdress());
+            mPresenter.createQRCodeBitmap(capitalBeans.get(0).getAdress(), 200);
+        });
     }
 
     @Override
@@ -76,5 +90,6 @@ public class ReceivePaymentActivity extends BaseMvpActivity<ReceivePaymentPresen
     @Override
     public void setQrCodeToView(Bitmap qrCodeBitmap) {
         ivQrCode.setImageBitmap(qrCodeBitmap);
+        ivQrCode.setVisibility(View.VISIBLE);
     }
 }

@@ -4,7 +4,8 @@ import java.util.HashMap;
 
 public class SharedBean {
     private static final HashMap<String, Object> shareData = new HashMap<>();
-    public static String ProductPlanBean = "productPlanBean";
+    public static final String ProductPlanBean = "productPlanBean";
+    public static final String Product = "product";
 
     public static void putData(String key, Object o) {
         shareData.put(key, o);

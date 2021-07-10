@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
 
     <RelativeLayout
         android:id="@+id/titleLayout"
@@ -53,6 +54,7 @@
         android:maxWidth="200dp"
         android:maxHeight="200dp"
         android:src="@drawable/img_test_qrcode"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvNameOfCurrency" />
@@ -67,7 +69,8 @@
         android:ellipsize="end"
         android:gravity="center"
         android:lines="1"
-        android:text="测试地址:0xc3a19099ba7e8c3c7a89d3bb43f4829f3e19b7cb"
+        android:text="测试地址:aaaa-bbbb-cccc-dddd-eeee"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivQrCode" />

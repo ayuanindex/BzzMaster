@@ -7,6 +7,11 @@ public class CapitalBean {
     private long capitalid;
 
     /**
+     * 币种名称
+     */
+    private String name;
+
+    /**
      * 产品ID
      */
     private long pid;
@@ -82,10 +87,19 @@ public class CapitalBean {
         this.adress = adress;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
-        return "Capital{" +
+        return "CapitalBean{" +
                 "capitalid=" + capitalid +
+                ", name='" + name + '\'' +
                 ", pid=" + pid +
                 ", uid=" + uid +
                 ", staue=" + staue +
