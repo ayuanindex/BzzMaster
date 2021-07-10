@@ -33,6 +33,7 @@ public class OrdersActivity extends BaseMvpActivity<OrderPresenter> implements O
     private AppCompatImageView ivEmptyView;
     private androidx.swiperefreshlayout.widget.SwipeRefreshLayout refreshLayout;
     private OrderAdapter orderAdapter;
+    private int type;
 
     @Override
     public int getLayoutId() {
@@ -67,7 +68,9 @@ public class OrdersActivity extends BaseMvpActivity<OrderPresenter> implements O
         tabSwitchProduct.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                LoggerUtils.d(TAG, orderAdapter.getOrderBeanList().get(tab.getPosition()).toString());
+                if (type == 0) {
+                    LoggerUtils.d(TAG, orderAdapter.getOrderBeanList().get(tab.getPosition()).toString());
+                }
             }
 
             @Override
@@ -84,7 +87,7 @@ public class OrdersActivity extends BaseMvpActivity<OrderPresenter> implements O
 
     @Override
     protected void initData() {
-        int type = getIntent().getIntExtra("type", 0);
+        type = getIntent().getIntExtra("type", 0);
         mPresenter.setLifecycleProvider(this);
 
         initDataSubscribe();

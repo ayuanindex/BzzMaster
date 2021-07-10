@@ -148,6 +148,9 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         });
     }
 
+    /**
+     * app更新提示弹窗
+     */
     @Override
     public void showUpdateDialog(AppUpdateBean appUpdateBean) {
         DialogUpdateAppBinding updateAppBinding = DialogUpdateAppBinding.inflate(getLayoutInflater());
