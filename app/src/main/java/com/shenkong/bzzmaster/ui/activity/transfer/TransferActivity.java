@@ -2,31 +2,50 @@ package com.shenkong.bzzmaster.ui.activity.transfer;
 
 import android.annotation.SuppressLint;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.AlertDialogUtil;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.databinding.DialogConfirmBinding;
+import com.shenkong.bzzmaster.databinding.ItemSpinnerDropdownBinding;
+import com.shenkong.bzzmaster.model.bean.CapitalBean;
+import com.shenkong.bzzmaster.model.bean.ProductBean;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
+
+import java.util.List;
 
 public class TransferActivity extends BaseMvpActivity<TransferPresent> implements TransferEvent {
 
-    private android.widget.RelativeLayout titleLayout;
-    private androidx.appcompat.widget.AppCompatImageView ivArrowBack;
-    private com.google.android.material.textview.MaterialTextView tvTitle;
-    private com.google.android.material.card.MaterialCardView cardSelectCurrency;
-    private androidx.appcompat.widget.AppCompatSpinner spCurrency;
-    private androidx.appcompat.widget.LinearLayoutCompat llBalanceContent;
-    private com.google.android.material.textview.MaterialTextView tvBalance;
-    private com.google.android.material.textfield.TextInputLayout inputAddressLayout;
-    private com.google.android.material.textfield.TextInputEditText inputAddress;
-    private com.google.android.material.textfield.TextInputLayout inputAmountOfMoneyLayout;
-    private com.google.android.material.textfield.TextInputEditText inputAmountOfMoney;
-    private androidx.appcompat.widget.LinearLayoutCompat tvTipLayout;
-    private com.google.android.material.textview.MaterialTextView tvWaringTip;
-    private com.google.android.material.button.MaterialButton btnConfirmTransfer;
+    private RelativeLayout titleLayout;
+    private AppCompatImageView ivArrowBack;
+    private MaterialTextView tvTitle;
+    private MaterialCardView cardSelectCurrency;
+    private AppCompatSpinner spCurrency;
+    private LinearLayoutCompat llBalanceContent;
+    private MaterialTextView tvBalance;
+    private MaterialTextView tvCurrency;
+    private TextInputLayout inputAddressLayout;
+    private TextInputEditText inputAddress;
+    private TextInputLayout inputAmountOfMoneyLayout;
+    private TextInputEditText inputAmountOfMoney;
+    private LinearLayoutCompat tvTipLayout;
+    private MaterialTextView tvWaringTip;
+    private MaterialButton btnConfirmTransfer;
 
     @Override
     public int getLayoutId() {
@@ -42,6 +61,7 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
         spCurrency = findViewById(R.id.spCurrency);
         llBalanceContent = findViewById(R.id.llBalanceContent);
         tvBalance = findViewById(R.id.tvBalance);
+        tvCurrency = findViewById(R.id.tvCurrency);
         inputAddressLayout = findViewById(R.id.inputAddressLayout);
         inputAddress = findViewById(R.id.inputAddress);
         inputAmountOfMoneyLayout = findViewById(R.id.inputAmountOfMoneyLayout);
@@ -56,13 +76,54 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
         ivArrowBack.setOnClickListener(v -> finish());
 
         btnConfirmTransfer.setOnClickListener(v -> {
+            // TODO: 2021/7/11 转账功能待完成
             mPresenter.confirmTransfer(inputAddress.getEditableText().toString().trim(), inputAmountOfMoney.getEditableText().toString().trim());
+        });
+
+        spCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mPresenter.retrievalBalance(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
         });
     }
 
     @Override
     protected void initData() {
+        mPresenter.setLifecycleProvider(this);
 
+        initDataSubscribe();
+
+        mPresenter.requestAllProduct();
+    }
+
+    private void initDataSubscribe() {
+        mPresenter.setProductBeanListLiveData(new MutableLiveData<>());
+        mPresenter.getProductBeanListLiveData().observe(this, productBeanList -> {
+            // 设置spinner的适配器
+            CustomerSpinnerAdapter customerSpinnerAdapter = new CustomerSpinnerAdapter(productBeanList);
+            spCurrency.setAdapter(customerSpinnerAdapter);
+            mPresenter.requestAllBalance();
+        });
+
+        mPresenter.setCapitalBeanListLiveData(new MutableLiveData<>());
+        mPresenter.getCapitalBeanListLiveData().observe(this, capitalBeans -> {
+            if (mPresenter.getProductBeanListLiveData().getValue() != null) {
+                ProductBean productBean = mPresenter.getProductBeanListLiveData().getValue().get(0);
+                for (CapitalBean capitalBean : capitalBeans) {
+                    if (capitalBean.getPid() == productBean.getProductid()) {
+                        capitalBean.setName(productBean.getCurrency());
+                        setBalanceText(capitalBean);
+                        break;
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -95,5 +156,49 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
         confirmBinding.tvBalance.setText("转账金额:" + doubleAmountOfMoney);
         confirmBinding.btnCancel.setOnClickListener(v -> alertDialog.dismiss());
         alertDialog.show();
+    }
+
+    @Override
+    public void setBalanceText(CapitalBean capitalBean) {
+        tvCurrency.setText("余额(" + capitalBean.getName() + ")");
+        tvBalance.setText(capitalBean.getBalance() + "");
+    }
+
+    class CustomerSpinnerAdapter extends BaseAdapter {
+        private final List<ProductBean> productBeanList;
+
+        public CustomerSpinnerAdapter(List<ProductBean> productBeanList) {
+            this.productBeanList = productBeanList;
+        }
+
+        @Override
+        public int getCount() {
+            return productBeanList.size();
+        }
+
+        @Override
+        public ProductBean getItem(int position) {
+            return productBeanList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder = new ViewHolder(ItemSpinnerDropdownBinding.inflate(getLayoutInflater(), parent, false));
+            viewHolder.itemSpinnerDropdownBinding.text1.setText(productBeanList.get(position).getCurrency());
+            return viewHolder.itemSpinnerDropdownBinding.getRoot();
+        }
+
+        class ViewHolder {
+            public ItemSpinnerDropdownBinding itemSpinnerDropdownBinding;
+
+            public ViewHolder(ItemSpinnerDropdownBinding itemSpinnerDropdownBinding) {
+                this.itemSpinnerDropdownBinding = itemSpinnerDropdownBinding;
+            }
+        }
     }
 }

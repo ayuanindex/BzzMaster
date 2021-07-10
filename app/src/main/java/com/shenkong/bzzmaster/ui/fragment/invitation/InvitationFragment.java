@@ -1,5 +1,6 @@
 package com.shenkong.bzzmaster.ui.fragment.invitation;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.blankj.utilcode.util.Utils;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.SpUtil;
@@ -68,6 +70,7 @@ public class InvitationFragment extends BaseFragment<InvitationViewModel, Invita
         });
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
         initViewModel(InvitationViewModel.class);
@@ -77,7 +80,10 @@ public class InvitationFragment extends BaseFragment<InvitationViewModel, Invita
         clipboardManager = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
 
         // 回填邀请码
-        tvInvitationCode.setText(SpUtil.getString(getContext(), SpUtil.code, "1234"));
+        tvInvitationCode.setText(SpUtil.getString(Utils.getApp(), SpUtil.code, "1234"));
+        tvInvitationLink.setText("https://shenkonghongyuan.com:10080/?code=" + SpUtil.getString(Utils.getApp(), SpUtil.code, ""));
+
+        //https://shenkonghongyuan.com:10080/?code=75102489
         /*ProductAdapter adapter = new ProductAdapter(getContext());
         rcInvitationRecord.setAdapter(adapter);
         ArrayList<ProductPlanBean> productBeans = new ArrayList<>();

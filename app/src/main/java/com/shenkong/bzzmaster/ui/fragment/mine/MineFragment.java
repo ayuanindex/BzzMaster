@@ -121,7 +121,6 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
 
         initDataSubscribe();
 
-        customerViewModel.requestAllProduct();
         // 从Sp中获取用户登录信息
         String phone = SpUtil.getString(getContext(), SpUtil.phone, "");
         tvUserPhone.setText(phone.replace(phone.substring(3), "********"));
@@ -155,5 +154,11 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
     @Override
     public void showToastMsg(String msg, int type) {
         ToastUtil.showToast(getContext(), msg);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        customerViewModel.requestAllProduct();
     }
 }
