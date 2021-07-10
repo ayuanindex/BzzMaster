@@ -1,7 +1,7 @@
 package com.shenkong.bzzmaster.ui.fragment.product.adapter;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +9,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
+import com.shenkong.bzzmaster.common.base.SharedBean;
+import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
+import com.shenkong.bzzmaster.ui.activity.submit.SubmitOrderActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +27,11 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
     private static final String TAG = "ProductAdapter";
     private List<ProductPlanBean> productPlanBeans = new ArrayList<>();
-    private final Context context;
+    private final FragmentActivity fragmentActivity;
     private OnItemClickListener onItemClickListener;
 
-    public ProductAdapter(Context context) {
-        this.context = context;
-    }
-
-    public ProductAdapter(Context context, List<ProductPlanBean> productPlanBeans) {
-        this.context = context;
-        this.productPlanBeans = productPlanBeans;
+    public ProductAdapter(FragmentActivity fragmentActivity) {
+        this.fragmentActivity = fragmentActivity;
     }
 
     @NonNull
@@ -40,13 +39,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @Override
     public ProductAdapter.ViewHolder onCreateViewHolder(@NonNull @io.reactivex.annotations.NonNull ViewGroup parent, int viewType) {
         LoggerUtils.d(TAG, "执行了我");
-        View inflate = LayoutInflater.from(context).inflate(R.layout.item_product, parent, false);
+        View inflate = LayoutInflater.from(fragmentActivity).inflate(R.layout.item_product, parent, false);
         return new ViewHolder(inflate);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull @io.reactivex.annotations.NonNull ProductAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductAdapter.ViewHolder holder, int position) {
         ProductPlanBean productPlanBean = productPlanBeans.get(position);
 
         holder.tvProductTitle.setText(productPlanBean.getName());
@@ -59,12 +58,21 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.tvPrice.setText(String.valueOf(productPlanBean.getPrice()));
         holder.tvPriceUnit.setText(productPlanBean.getCurrency());
         holder.tvMinimumSale.setText(productPlanBean.getMincompany() + "TiB起售");
-        holder.tvRevenueDate.setText(productPlanBean.getRuntime() + "天");
-        holder.tvDay.setText(productPlanBean.getPacktime());
+        holder.tvRevenueDate.setText(Formatter.dateToDayFormat(productPlanBean.getRuntime()) + "天");
+        holder.tvDay.setText(Formatter.dateToDayFormat(productPlanBean.getPacktime()) + "天");
 
         holder.rootView.setOnClickListener((View v) -> {
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(v, productPlanBeans.get(position), position);
+            }
+        });
+
+        holder.btnPurchase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedBean.putData(SharedBean.ProductPlanBean, productPlanBean);
+                Intent intent = new Intent(fragmentActivity, SubmitOrderActivity.class);
+                fragmentActivity.startActivity(intent);
             }
         });
     }
@@ -94,7 +102,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
      * @return 返回标签控件
      */
     private MaterialTextView createTag(String tagTitle) {
-        MaterialTextView materialTextView = new MaterialTextView(context);
+        MaterialTextView materialTextView = new MaterialTextView(fragmentActivity);
         materialTextView.setText(tagTitle);
         materialTextView.setTextSize(12);
         materialTextView.setPadding(2, 2, 2, 2);

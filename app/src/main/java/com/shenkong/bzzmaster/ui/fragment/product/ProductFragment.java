@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.shenkong.bzzmaster.R;
-import com.shenkong.bzzmaster.common.utils.ToastUtil;
+import com.shenkong.bzzmaster.common.base.SharedBean;
 import com.shenkong.bzzmaster.model.bean.ProductBean;
 import com.shenkong.bzzmaster.ui.activity.productinfo.ProductInfoActivity;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
@@ -78,7 +78,7 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
                     showLoading();
                     if (customerViewModel.getProductList().getValue() != null) {
                         ProductBean productBean = customerViewModel.getProductList().getValue().get(tab.getPosition());
-                        customerViewModel.initProductData(productBean, ProductFragment.this);
+                        customerViewModel.initProductPlanData(productBean, ProductFragment.this);
                     }
                 }
             }
@@ -95,8 +95,8 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         });
 
         productAdapter.setOnItemClickListener((view, productPlanBean, position) -> {
+            SharedBean.putData(SharedBean.ProductPlanBean, productPlanBean);
             Intent intent = new Intent(getContext(), ProductInfoActivity.class);
-            intent.putExtra("picUrl", productPlanBean.getPic());
             startActivity(intent);
         });
     }
@@ -110,9 +110,8 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         // 数据订阅
         initDataSubscribe();
 
-        customerViewModel.initProduct(this);
 
-        productAdapter = new ProductAdapter(requireContext());
+        productAdapter = new ProductAdapter(requireActivity());
         rcProduct.setAdapter(productAdapter);
     }
 
@@ -122,6 +121,7 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
     private void initDataSubscribe() {
         customerViewModel.setProductList(new MutableLiveData<>());
         customerViewModel.getProductList().observe(this, productBeanList -> {
+            tabSwitchProduct.removeAllTabs();
             for (ProductBean productBean : productBeanList) {
                 tabSwitchProduct.addTab(tabSwitchProduct.newTab().setText(productBean.getName()));
             }
@@ -159,5 +159,6 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
     @Override
     public void onResume() {
         super.onResume();
+        customerViewModel.initProduct(this);
     }
 }

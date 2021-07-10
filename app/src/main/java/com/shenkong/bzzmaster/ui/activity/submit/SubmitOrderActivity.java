@@ -12,16 +12,22 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
+import com.blankj.utilcode.util.Utils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.base.SharedBean;
 import com.shenkong.bzzmaster.common.utils.AlertDialogUtil;
+import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
+import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.databinding.DialogSubmitOrderBinding;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 import com.shenkong.bzzmaster.ui.activity.receive.ReceivePaymentActivity;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> {
     private RelativeLayout titleLayout;
@@ -43,6 +49,7 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> {
     private MaterialButton btnSubmitOrder;
 
     private int count = 1;
+    private int minCount = 0;
     private ProductPlanBean productPlanBean;
 
     @Override
@@ -78,7 +85,7 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> {
         btnAdd.setOnClickListener(v -> etNeedCount.setText(String.valueOf(++count)));
 
         btnReduce.setOnClickListener(v -> {
-            if (count > 1) {
+            if (count > minCount) {
                 etNeedCount.setText(String.valueOf(--count));
             }
         });
@@ -98,10 +105,9 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> {
                 LoggerUtils.d(TAG, s.toString());
                 if (!TextUtils.isEmpty(s.toString())) {
                     count = Integer.parseInt(s.toString());
-                    tvOrderAmount.setText(String.valueOf(count * productPlanBean.getPrice()));
+                    tvOrderAmount.setText(Formatter.numberFormat(count * productPlanBean.getPrice()));
                 } else {
-                    count = 0;
-                    tvOrderAmount.setText(String.valueOf(0));
+                    tvOrderAmount.setText(Formatter.numberFormat(0));
                 }
             }
         });
@@ -111,8 +117,12 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> {
         btnSubmitOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2021/7/9 进行余额判断 并决定是否需要弹出
-                showSubmitDialog();
+                // TODO: 2021/7/9 进行余额和最小购买数量判断 并决定是否需要弹出
+                if (count >= minCount) {
+                    showSubmitDialog();
+                } else {
+                    ToastUtil.showToast(SubmitOrderActivity.this, "购买数量少于最低购买数量");
+                }
             }
         });
     }
@@ -120,10 +130,11 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> {
     @Override
     protected void initData() {
         productPlanBean = (ProductPlanBean) SharedBean.getData(SharedBean.ProductPlanBean);
+        count = minCount = productPlanBean.getMincompany();
 
         tvProductName.setText(productPlanBean.getName());
-        tvProductPrice.setText(String.valueOf(productPlanBean.getPrice()));
-        tvOrderAmount.setText(String.valueOf(productPlanBean.getPrice()));
+        tvProductPrice.setText(Formatter.numberFormat(productPlanBean.getPrice()));
+        tvOrderAmount.setText(Formatter.numberFormat(count * productPlanBean.getPrice()));
 
         etNeedCount.setText(String.valueOf(count));
     }

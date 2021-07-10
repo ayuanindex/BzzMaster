@@ -3,6 +3,8 @@ package com.shenkong.bzzmaster.model.bean;
 import com.shenkong.bzzmaster.ui.fragment.home.Types;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
+import java.util.Date;
+
 public class ProductPlanBean implements MultipleAdapter.LayoutType {
 
     /**
@@ -48,17 +50,17 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
     /**
      * 创建时间
      */
-    private String createtime;
+    private Date createtime;
 
     /**
      * 开始时间
      */
-    private String starttime;
+    private Date starttime;
 
     /**
      * 结束时间
      */
-    private String endtime;
+    private Date endtime;
 
     /**
      * 管理员ID
@@ -78,12 +80,12 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
     /**
      * 挖矿周期
      */
-    private String runtime;
+    private Date runtime;
 
     /**
      * 封装周期
      */
-    private String packtime;
+    private Date packtime;
 
     /**
      * 信息
@@ -103,7 +105,7 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
     /**
      * 更新时间
      */
-    private String updatetime;
+    private Date updatetime;
 
     public ProductPlanBean() {
     }
@@ -172,27 +174,27 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
         this.staues = staues;
     }
 
-    public String getCreatetime() {
+    public Date getCreatetime() {
         return createtime;
     }
 
-    public void setCreatetime(String createtime) {
+    public void setCreatetime(Date createtime) {
         this.createtime = createtime;
     }
 
-    public String getStarttime() {
+    public Date getStarttime() {
         return starttime;
     }
 
-    public void setStarttime(String starttime) {
+    public void setStarttime(Date starttime) {
         this.starttime = starttime;
     }
 
-    public String getEndtime() {
+    public Date getEndtime() {
         return endtime;
     }
 
-    public void setEndtime(String endtime) {
+    public void setEndtime(Date endtime) {
         this.endtime = endtime;
     }
 
@@ -220,19 +222,19 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
         this.mincompany = mincompany;
     }
 
-    public String getRuntime() {
+    public Date getRuntime() {
         return runtime;
     }
 
-    public void setRuntime(String runtime) {
+    public void setRuntime(Date runtime) {
         this.runtime = runtime;
     }
 
-    public String getPacktime() {
+    public Date getPacktime() {
         return packtime;
     }
 
-    public void setPacktime(String packtime) {
+    public void setPacktime(Date packtime) {
         this.packtime = packtime;
     }
 
@@ -260,38 +262,12 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
         this.servicecharge = servicecharge;
     }
 
-    public String getUpdatetime() {
+    public Date getUpdatetime() {
         return updatetime;
     }
 
-    public void setUpdatetime(String updatetime) {
+    public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
-    }
-
-    @Override
-    public String toString() {
-        return "ProductPlanBean{" +
-                "planid=" + planid +
-                ", productid=" + productid +
-                ", name='" + name + '\'' +
-                ", introduce='" + introduce + '\'' +
-                ", pic='" + pic + '\'' +
-                ", price=" + price +
-                ", currency='" + currency + '\'' +
-                ", staues=" + staues +
-                ", createtime='" + createtime + '\'' +
-                ", starttime='" + starttime + '\'' +
-                ", endtime='" + endtime + '\'' +
-                ", aid=" + aid +
-                ", tag='" + tag + '\'' +
-                ", mincompany=" + mincompany +
-                ", runtime='" + runtime + '\'' +
-                ", packtime='" + packtime + '\'' +
-                ", note='" + note + '\'' +
-                ", detailslink='" + detailslink + '\'' +
-                ", servicecharge=" + servicecharge +
-                ", updatetime='" + updatetime + '\'' +
-                '}';
     }
 
     @Override

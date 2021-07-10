@@ -66,7 +66,7 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
                 switch (viewType) {
                     case Types.BANNER_LAYOUT:
                         inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_banner, parent, false);
-                        return new HomeBannerViewHolder(inflate);
+                        return new HomeBannerViewHolder(inflate, requireActivity());
                     case Types.PROFIT_LAYOUT:
                         inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_profit, parent, false);
                         return new HomeProfitViewHolder(inflate, requireActivity());

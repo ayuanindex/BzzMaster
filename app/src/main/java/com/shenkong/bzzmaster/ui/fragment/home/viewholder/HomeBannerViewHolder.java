@@ -24,6 +24,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class HomeBannerViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
+    private final FragmentActivity fragmentActivity;
     public View rootView;
     public ViewPager2 bannerPager;
     public TabLayout tabLayout;
@@ -33,9 +34,10 @@ public class HomeBannerViewHolder extends MultipleAdapter.MultipleBaseViewHolder
     private static Timer bannerTimer;
     private static TimerTask bannerTimerTask;
 
-    public HomeBannerViewHolder(View rootView) {
+    public HomeBannerViewHolder(View rootView, FragmentActivity fragmentActivity) {
         super(rootView);
         this.rootView = rootView;
+        this.fragmentActivity = fragmentActivity;
         this.bannerPager = rootView.findViewById(R.id.bannerPager);
         this.tabLayout = rootView.findViewById(R.id.tabLayout);
     }
@@ -46,7 +48,7 @@ public class HomeBannerViewHolder extends MultipleAdapter.MultipleBaseViewHolder
         bannerBean = (BannerBean) multipleAdapter.getBean(position);
 
         ArrayList<Fragment> fragments = new ArrayList<>();
-        BannerPagerAdapter bannerPagerAdapter = new BannerPagerAdapter(multipleAdapter.getFragmentActivity(), fragments);
+        BannerPagerAdapter bannerPagerAdapter = new BannerPagerAdapter(fragmentActivity, fragments);
         bannerPager.setAdapter(bannerPagerAdapter);
 
         if (bannerBean.getCarouselBeanList() != null) {

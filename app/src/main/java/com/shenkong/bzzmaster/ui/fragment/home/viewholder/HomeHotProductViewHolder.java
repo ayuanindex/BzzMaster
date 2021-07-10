@@ -13,11 +13,15 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.base.SharedBean;
+import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 import com.shenkong.bzzmaster.ui.activity.productinfo.ProductInfoActivity;
 import com.shenkong.bzzmaster.ui.activity.submit.SubmitOrderActivity;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
     private final FragmentActivity fragmentActivity;
@@ -67,8 +71,8 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
         tvPrice.setText(String.valueOf(productPlanBean.getPrice()));
         tvPriceUnit.setText(productPlanBean.getCurrency());
         tvMinimumSale.setText(productPlanBean.getMincompany() + "TiB起售");
-        tvRevenueDate.setText(productPlanBean.getRuntime() + "天");
-        tvDay.setText(productPlanBean.getPacktime());
+        tvRevenueDate.setText(Formatter.dateToDayFormat(productPlanBean.getRuntime()) + "天");
+        tvDay.setText(Formatter.dateToDayFormat(productPlanBean.getPacktime()) + "天");
 
         rootView.setOnClickListener(null);
         rootView.setOnClickListener(v -> {

@@ -18,19 +18,18 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 public class ProductViewModel extends BaseViewMode<ProductEvent> {
     private static final String TAG = "ProductViewModel";
     private final HashMap<String, List<ProductBean>> productMap = new HashMap<>();
+
     private MutableLiveData<List<ProductBean>> productList;
     private MutableLiveData<List<ProductPlanBean>> productPlan;
     private Timer timer;
     private TimerTask timerTask;
+    private Disposable productPlanSubscribe;
 
     /**
      * @return 产品列表集合
@@ -77,33 +76,15 @@ public class ProductViewModel extends BaseViewMode<ProductEvent> {
                         LoggerUtils.d(TAG, "网络请求发生错误，请检查网络链接是否正常", throwable.getMessage());
                     }
                 });
-               /* .subscribe(new Observer<ResultBean<List<ProductBean>>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(@NonNull ResultBean<List<ProductBean>> listResultBean) {
-                        if (listResultBean.getCode() == 200) {
-                            productList.postValue(listResultBean.getDate());
-                        }
-                        LoggerUtils.d(TAG, listResultBean.toString());
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        LoggerUtils.d(TAG, "网络请求发生错误，请检查网络链接是否正常");
-                    }
-
-                    @Override
-                    public void onComplete() {
-                    }
-                });*/
     }
 
-    public void initProductData(ProductBean productBean, LifecycleProvider<FragmentEvent> lifecycleProvider) {
-        ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(ProductService.class).requestProductPlan(productBean), lifecycleProvider)
+    public void initProductPlanData(ProductBean productBean, LifecycleProvider<FragmentEvent> lifecycleProvider) {
+        if (productPlanSubscribe != null && !productPlanSubscribe.isDisposed()) {
+            productPlanSubscribe.dispose();
+            productPlanSubscribe = null;
+        }
+
+        productPlanSubscribe = ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(ProductService.class).requestProductPlan(productBean), lifecycleProvider)
                 .subscribe(new Consumer<ResultBean<List<ProductPlanBean>>>() {
                     @Override
                     public void accept(ResultBean<List<ProductPlanBean>> listResultBean) throws Exception {
@@ -121,36 +102,6 @@ public class ProductViewModel extends BaseViewMode<ProductEvent> {
                         uiRefreshCallBack.hideLoading();
                     }
                 });
-
-/*
-        observefg.subscribe(new Observer<ResultBean<List<ProductPlanBean>>>() {
-            @Override
-            public void onSubscribe(@NonNull Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(@NonNull ResultBean<List<ProductPlanBean>> listResultBean) {
-                if (listResultBean.getCode() == 200) {
-                    productPlan.postValue(listResultBean.getDate());
-                } else {
-                    uiRefreshCallBack.hideLoading();
-                }
-                LoggerUtils.d(TAG, listResultBean.toString());
-            }
-
-            @Override
-            public void onError(@NonNull Throwable e) {
-                LoggerUtils.d(TAG, "网络出现问题" + e.getMessage());
-                uiRefreshCallBack.hideLoading();
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
-*/
     }
 
     private void startSingleTimerTask(TimerTask task) {
