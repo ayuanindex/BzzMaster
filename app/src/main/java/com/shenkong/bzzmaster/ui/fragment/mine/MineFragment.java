@@ -14,6 +14,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.base.SharedBean;
+import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.SpUtil;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.model.bean.ProductBean;
@@ -81,11 +82,13 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
 
     @Override
     protected void initEvent() {
+        // 收款
         btnCollection.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), ReceivePaymentActivity.class);
             startActivity(intent);
         });
 
+        // 转账
         btnTransferAccounts.setOnClickListener(v -> startActivity(new Intent(getContext(), TransferActivity.class)));
 
         // 我的订单
@@ -134,10 +137,10 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
         customerViewModel.setCapitalBeanListLiveData(new MutableLiveData<>());
         customerViewModel.getCapitalBeanListLiveData().observe(this, capitalBeans -> {
             tvUSDTAvailable.setText(capitalBeans.get(1).getName() + "可用余额");
-            tvUSDTBalance.setText(capitalBeans.get(1).getBalance() + "");
+            tvUSDTBalance.setText(Formatter.numberFormat(capitalBeans.get(1).getBalance()) + "");
 
             tvXCHAvailable.setText(capitalBeans.get(0).getName() + "可用余额");
-            tvXCHBalance.setText(capitalBeans.get(0).getBalance() + "");
+            tvXCHBalance.setText(Formatter.numberFormat(capitalBeans.get(0).getBalance()) + "");
         });
     }
 

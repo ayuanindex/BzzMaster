@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.AlertDialogUtil;
+import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.databinding.DialogConfirmBinding;
 import com.shenkong.bzzmaster.databinding.ItemSpinnerDropdownBinding;
@@ -83,7 +84,7 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
         spCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mPresenter.retrievalBalance(position);
+                mPresenter.requestBalance(position);
             }
 
             @Override
@@ -103,26 +104,18 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
     }
 
     private void initDataSubscribe() {
+        // 产品集合数据订阅
         mPresenter.setProductBeanListLiveData(new MutableLiveData<>());
         mPresenter.getProductBeanListLiveData().observe(this, productBeanList -> {
             // 设置spinner的适配器
             CustomerSpinnerAdapter customerSpinnerAdapter = new CustomerSpinnerAdapter(productBeanList);
             spCurrency.setAdapter(customerSpinnerAdapter);
-            mPresenter.requestAllBalance();
         });
 
+        // 币种余额数据订阅
         mPresenter.setCapitalBeanListLiveData(new MutableLiveData<>());
         mPresenter.getCapitalBeanListLiveData().observe(this, capitalBeans -> {
-            if (mPresenter.getProductBeanListLiveData().getValue() != null) {
-                ProductBean productBean = mPresenter.getProductBeanListLiveData().getValue().get(0);
-                for (CapitalBean capitalBean : capitalBeans) {
-                    if (capitalBean.getPid() == productBean.getProductid()) {
-                        capitalBean.setName(productBean.getCurrency());
-                        setBalanceText(capitalBean);
-                        break;
-                    }
-                }
-            }
+            setBalanceText(capitalBeans.get(0));
         });
     }
 
@@ -158,10 +151,11 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
         alertDialog.show();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void setBalanceText(CapitalBean capitalBean) {
         tvCurrency.setText("余额(" + capitalBean.getName() + ")");
-        tvBalance.setText(capitalBean.getBalance() + "");
+        tvBalance.setText(Formatter.numberFormat(capitalBean.getBalance()));
     }
 
     class CustomerSpinnerAdapter extends BaseAdapter {

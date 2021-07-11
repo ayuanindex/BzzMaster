@@ -41,8 +41,14 @@ public class ReceivePaymentPresenter extends BasePresenter<ReceivePaymentEvent> 
         mView.setQrCodeToView(qrCodeBitmap);
     }
 
+    /**
+     * 查询USDT的余额
+     * 服务器端接收到参数PID为0的时候会自动查询USDT的余额
+     */
     public void requestBalance() {
-        ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(CapitalService.class).requestBalance(new CapitalBean()), lifecycleProvider)
+        CapitalBean capitalBean = new CapitalBean();
+        capitalBean.setPid(0);
+        ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(CapitalService.class).requestBalance(capitalBean), lifecycleProvider)
                 .subscribe(new Consumer<ResultBean<List<CapitalBean>>>() {
                     @Override
                     public void accept(ResultBean<List<CapitalBean>> listResultBean) throws Exception {

@@ -57,14 +57,15 @@ public class ProductInfoActivity extends BaseMvpActivity<ProductInfoPresenter> i
     protected void initData() {
         data = (ProductPlanBean) SharedBean.getData(SharedBean.ProductPlanBean);
 
-        WebSettings webSettings = webViewProductInfo.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webViewProductInfo.setVisibility(View.INVISIBLE);
-        webViewProductInfo.loadUrl("file:///android_asset/web/productinfo.html");
-        uiHandler.postDelayed(() -> {
-            webViewProductInfo.loadUrl("javascript:setImgUrl('" + data.getPic() + "')");
-            webViewProductInfo.setVisibility(View.VISIBLE);
-        }, 1000);
+        if (data != null) {
+            WebSettings webSettings = webViewProductInfo.getSettings();
+            webSettings.setJavaScriptEnabled(true);
+            webViewProductInfo.loadUrl("file:///android_asset/web/productinfo.html");
+            uiHandler.postDelayed(() -> {
+                webViewProductInfo.loadUrl("javascript:setImgUrl('" + data.getPic() + "')");
+                webViewProductInfo.setVisibility(View.VISIBLE);
+            }, 1000);
+        }
     }
 
     @Override

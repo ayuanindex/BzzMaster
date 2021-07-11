@@ -19,6 +19,8 @@ import com.shenkong.bzzmaster.ui.activity.productinfo.ProductInfoActivity;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
 import com.shenkong.bzzmaster.ui.fragment.product.adapter.ProductAdapter;
 
+import java.util.HashMap;
+
 public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent> implements ProductEvent {
     public static ProductFragment productFragment;
     private TabLayout tabSwitchProduct;
@@ -95,6 +97,7 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         });
 
         productAdapter.setOnItemClickListener((view, productPlanBean, position) -> {
+            SharedBean.remove(SharedBean.ProductPlanBean);
             SharedBean.putData(SharedBean.ProductPlanBean, productPlanBean);
             Intent intent = new Intent(getContext(), ProductInfoActivity.class);
             startActivity(intent);

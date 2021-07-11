@@ -14,4 +14,8 @@ public class SharedBean {
     public static Object getData(String key) {
         return shareData.get(key);
     }
+
+    public static void remove(String key) {
+        shareData.remove(key);
+    }
 }

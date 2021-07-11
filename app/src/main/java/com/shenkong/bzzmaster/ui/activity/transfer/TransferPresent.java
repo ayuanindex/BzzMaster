@@ -19,6 +19,7 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
+import retrofit2.http.POST;
 
 public class TransferPresent extends BasePresenter<TransferEvent> {
     private LifecycleProvider<ActivityEvent> lifecycleProvider;
@@ -78,12 +79,25 @@ public class TransferPresent extends BasePresenter<TransferEvent> {
                 });
     }
 
-    public void requestAllBalance() {
-        ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(CapitalService.class).requestAllBalance(new CapitalBean()), lifecycleProvider)
+    /**
+     * 查询指定币种的余额
+     *
+     * @param position 选中的币种下标
+     */
+    public void requestBalance(int position) {
+        if (productBeanListLiveData.getValue() == null) {
+            return;
+        }
+
+        ProductBean productBean = productBeanListLiveData.getValue().get(position);
+        CapitalBean capitalBean = new CapitalBean();
+        capitalBean.setPid(productBean.getProductid());
+        ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(CapitalService.class).requestBalance(capitalBean), lifecycleProvider)
                 .subscribe(new Consumer<ResultBean<List<CapitalBean>>>() {
                     @Override
                     public void accept(ResultBean<List<CapitalBean>> listResultBean) throws Exception {
                         if (listResultBean.getCode() == 200) {
+                            listResultBean.getDate().get(0).setName(productBean.getCurrency());
                             capitalBeanListLiveData.postValue(listResultBean.getDate());
                         }
                         LoggerUtils.d(TAG, listResultBean.toString());
@@ -94,18 +108,5 @@ public class TransferPresent extends BasePresenter<TransferEvent> {
                         LoggerUtils.d(TAG, "请求出错", throwable.getMessage());
                     }
                 });
-    }
-
-    public void retrievalBalance(int position) {
-        if (productBeanListLiveData.getValue() != null && capitalBeanListLiveData.getValue() != null) {
-            ProductBean productBean = productBeanListLiveData.getValue().get(position);
-            for (CapitalBean capitalBean : capitalBeanListLiveData.getValue()) {
-                if (capitalBean.getPid() == productBean.getProductid()) {
-                    capitalBean.setName(productBean.getCurrency());
-                    mView.setBalanceText(capitalBean);
-                    break;
-                }
-            }
-        }
     }
 }
