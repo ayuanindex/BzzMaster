@@ -12,24 +12,24 @@ public class OrderBean {
     /**
      * 用户ID
      */
-    private Long uid;
+    private long uid;
 
     /**
      * 计划
      */
-    private Long pid;
+    private long pid;
 
     /**
      * 数量
      * default: 1
      */
-    private Long number;
+    private long number;
 
     /**
      * 状态
      * default: 0
      */
-    private Long staue;
+    private long staue;
 
     /**
      * 金额
@@ -49,12 +49,17 @@ public class OrderBean {
     /**
      * 审核管理员ID
      */
-    private Long aid;
+    private long aid;
 
     /**
      * 审核意见
      */
     private String message;
+
+    /**
+     * 购买计划的名字
+     */
+    private String pname;
 
     public String getOrderid() {
         return orderid;
@@ -64,35 +69,35 @@ public class OrderBean {
         this.orderid = orderid;
     }
 
-    public Long getUid() {
+    public long getUid() {
         return uid;
     }
 
-    public void setUid(Long uid) {
+    public void setUid(long uid) {
         this.uid = uid;
     }
 
-    public Long getPid() {
+    public long getPid() {
         return pid;
     }
 
-    public void setPid(Long pid) {
+    public void setPid(long pid) {
         this.pid = pid;
     }
 
-    public Long getNumber() {
+    public long getNumber() {
         return number;
     }
 
-    public void setNumber(Long number) {
+    public void setNumber(long number) {
         this.number = number;
     }
 
-    public Long getStaue() {
+    public long getStaue() {
         return staue;
     }
 
-    public void setStaue(Long staue) {
+    public void setStaue(long staue) {
         this.staue = staue;
     }
 
@@ -120,11 +125,11 @@ public class OrderBean {
         this.paytime = paytime;
     }
 
-    public Long getAid() {
+    public long getAid() {
         return aid;
     }
 
-    public void setAid(Long aid) {
+    public void setAid(long aid) {
         this.aid = aid;
     }
 
@@ -134,6 +139,14 @@ public class OrderBean {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getPname() {
+        return pname;
+    }
+
+    public void setPname(String pname) {
+        this.pname = pname;
     }
 
     @Override
@@ -149,6 +162,7 @@ public class OrderBean {
                 ", paytime=" + paytime +
                 ", aid=" + aid +
                 ", message='" + message + '\'' +
+                ", pname='" + pname + '\'' +
                 '}';
     }
 }

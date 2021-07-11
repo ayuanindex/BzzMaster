@@ -7,20 +7,25 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.savedstate.SavedStateRegistryOwner;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
+import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.model.bean.OrderBean;
 import com.shenkong.bzzmaster.model.bean.ProductBean;
+import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 import com.shenkong.bzzmaster.ui.activity.orders.adapter.OrderAdapter;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements OrderEvent {
     private RelativeLayout titleLayout;
@@ -34,6 +39,7 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
     private androidx.swiperefreshlayout.widget.SwipeRefreshLayout refreshLayout;
     private OrderAdapter orderAdapter;
     private int type;
+    private int productid = 0;
 
     @Override
     public int getLayoutId() {
@@ -69,7 +75,11 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (type == 0) {
-                    LoggerUtils.d(TAG, orderAdapter.getOrderBeanList().get(tab.getPosition()).toString());
+                    if (mPresenter.getProductList().getValue() != null) {
+                        showLoading();
+                        productid = mPresenter.getProductList().getValue().get(tab.getPosition()).getProductid();
+                        mPresenter.requestAllProductPlan(mPresenter.getProductList().getValue().get(tab.getPosition()));
+                    }
                 }
             }
 
@@ -98,14 +108,6 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
             orderAdapter = new OrderAdapter(this);
             rcOrders.setAdapter(orderAdapter);
 
-            ArrayList<OrderBean> orderBeans = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
-                OrderBean e = new OrderBean();
-                e.setCreatetime(new Date());
-                e.setMessage("测试订单" + i);
-                orderBeans.add(e);
-            }
-            orderAdapter.resetData(orderBeans);
             ivEmptyView.setVisibility(View.GONE);
         }
     }
@@ -113,8 +115,25 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
     private void initDataSubscribe() {
         mPresenter.setProductList(new MutableLiveData<>());
         mPresenter.getProductList().observe(this, productBeanList -> {
+            tabSwitchProduct.removeAllTabs();
             for (ProductBean productBean : productBeanList) {
                 tabSwitchProduct.addTab(tabSwitchProduct.newTab().setText(productBean.getName()));
+            }
+        });
+
+        mPresenter.setProductPlanBeanListLiveData(new MutableLiveData<>());
+        mPresenter.getProductPlanBeanListLiveData().observe(this, new Observer<List<ProductPlanBean>>() {
+            @Override
+            public void onChanged(List<ProductPlanBean> productPlanBeans) {
+                mPresenter.requestOrders(productPlanBeans, productid);
+            }
+        });
+
+        mPresenter.setOrderBeanListLiveData(new MutableLiveData<>());
+        mPresenter.getOrderBeanListLiveData().observe(this, new Observer<List<OrderBean>>() {
+            @Override
+            public void onChanged(List<OrderBean> orderBeans) {
+                orderAdapter.resetData(orderBeans);
             }
         });
     }
@@ -126,16 +145,18 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
 
     @Override
     public void showLoading() {
-
+        progressLoadingData.setVisibility(View.VISIBLE);
+        progressLoadingData.show();
     }
 
     @Override
     public void hideLoading() {
-
+        progressLoadingData.setVisibility(View.GONE);
+        progressLoadingData.hide();
     }
 
     @Override
     public void showToastMsg(String msg, int type) {
-
+        ToastUtil.showToast(this, msg);
     }
 }

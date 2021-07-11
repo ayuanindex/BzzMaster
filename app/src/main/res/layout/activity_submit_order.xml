@@ -33,6 +33,17 @@
             android:textColor="@color/green_primary" />
     </RelativeLayout>
 
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progress"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleLayout" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvProductName"
         android:layout_width="wrap_content"

@@ -36,4 +36,9 @@ public class ModelPath {
     public static final String App = "app";
 
     public static final String Capital = "capital";
+
+    /**
+     * 订单接口
+     */
+    public static final String Order = "order";
 }

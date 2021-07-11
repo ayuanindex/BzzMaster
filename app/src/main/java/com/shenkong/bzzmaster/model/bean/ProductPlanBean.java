@@ -274,4 +274,30 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
     public int getLayoutType() {
         return Types.PRODUCT_LAYOUT;
     }
+
+    @Override
+    public String toString() {
+        return "ProductPlanBean{" +
+                "planid=" + planid +
+                ", productid=" + productid +
+                ", name='" + name + '\'' +
+                ", introduce='" + introduce + '\'' +
+                ", pic='" + pic + '\'' +
+                ", price=" + price +
+                ", currency='" + currency + '\'' +
+                ", staues=" + staues +
+                ", createtime=" + createtime +
+                ", starttime=" + starttime +
+                ", endtime=" + endtime +
+                ", aid=" + aid +
+                ", tag='" + tag + '\'' +
+                ", mincompany=" + mincompany +
+                ", runtime=" + runtime +
+                ", packtime=" + packtime +
+                ", note='" + note + '\'' +
+                ", detailslink='" + detailslink + '\'' +
+                ", servicecharge=" + servicecharge +
+                ", updatetime=" + updatetime +
+                '}';
+    }
 }
