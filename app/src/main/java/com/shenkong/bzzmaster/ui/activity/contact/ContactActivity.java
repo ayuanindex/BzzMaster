@@ -1,9 +1,17 @@
 package com.shenkong.bzzmaster.ui.activity.contact;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+
 import com.shenkong.bzzmaster.R;
+import com.shenkong.bzzmaster.model.bean.ChatBean;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactActivity extends BaseMvpActivity<ContactPresenter> implements ContactEvent {
     private android.widget.RelativeLayout titleLayout;
@@ -39,7 +47,22 @@ public class ContactActivity extends BaseMvpActivity<ContactPresenter> implement
 
     @Override
     protected void initData() {
+        initDataSubscribe();
 
+        mPresenter.setLifecycleProvider(this);
+
+        mPresenter.requestChat();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void initDataSubscribe() {
+        MutableLiveData<List<ChatBean>> chatBeanListLiveData = new MutableLiveData<>();
+        mPresenter.setChatBeanListLiveData(chatBeanListLiveData);
+        mPresenter.getChatBeanListLiveData().observe(this, chatBeans -> {
+            ChatBean chatBean = chatBeans.get(0);
+            tvContactTip.setText(chatBean.getTitle());
+            tvPhone.setText("联系电话:" + chatBean.getQrcode());
+        });
     }
 
     @Override

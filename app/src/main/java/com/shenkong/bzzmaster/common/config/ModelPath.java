@@ -41,4 +41,9 @@ public class ModelPath {
      * 订单接口
      */
     public static final String Order = "order";
+
+    /**
+     * 联系
+     */
+    public static final String Chat = "chat";
 }

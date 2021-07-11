@@ -13,7 +13,7 @@
             android:id="@+id/materialTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:text="提交验证码，完成转账"
             android:textColor="@color/green_primary_dark"
             android:textSize="14sp"
@@ -87,10 +87,10 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCancel"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="6dp"
             android:layout_weight="1"
@@ -106,12 +106,12 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSubmitImmediately"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="6dp"
             android:layout_weight="1"
             android:insetTop="5dp"

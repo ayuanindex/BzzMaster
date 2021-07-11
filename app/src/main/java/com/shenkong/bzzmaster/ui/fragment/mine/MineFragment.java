@@ -77,7 +77,6 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
         tvUSDTAvailable = inflate.findViewById(R.id.tvUSDTAvailable);
         tvXCHAvailable = inflate.findViewById(R.id.tvXCHAvailable);
         materialCardView = inflate.findViewById(R.id.materialCardView);
-        materialCardView2 = inflate.findViewById(R.id.materialCardView2);
     }
 
     @Override

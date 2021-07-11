@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 
 import com.blankj.utilcode.util.Utils;
+import com.google.android.material.button.MaterialButton;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.SpUtil;
 import com.shenkong.bzzmaster.ui.activity.login.LoginActivity;
@@ -14,6 +15,7 @@ public class SettingsActivity extends BaseMvpActivity<SettingsPresenter> impleme
     private androidx.appcompat.widget.AppCompatImageView ivArrowBack;
     private com.google.android.material.textview.MaterialTextView tvTitle;
     private com.google.android.material.button.MaterialButton btnLogOut;
+    private com.google.android.material.button.MaterialButton btnRealNameAuthentication;
 
     @Override
     public int getLayoutId() {
@@ -26,12 +28,19 @@ public class SettingsActivity extends BaseMvpActivity<SettingsPresenter> impleme
         ivArrowBack = findViewById(R.id.ivArrowBack);
         tvTitle = findViewById(R.id.tvTitle);
         btnLogOut = findViewById(R.id.btnLogOut);
+        btnRealNameAuthentication = findViewById(R.id.btnRealNameAuthentication);
     }
 
     @Override
     protected void initEvent() {
         ivArrowBack.setOnClickListener(v -> finish());
 
+        // 实名认证
+        btnRealNameAuthentication.setOnClickListener(v -> {
+            // TODO: 2021/7/11 实名认证功能 待实现
+        });
+
+        // 退出登录
         btnLogOut.setOnClickListener(v -> {
             SpUtil.removeTag(Utils.getApp(), SpUtil.loginStatus);
             SpUtil.removeTag(Utils.getApp(), SpUtil.token);

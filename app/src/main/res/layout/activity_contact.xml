@@ -60,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="联系方式"
+        android:text="深空洪源技术团队"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/tvTip"
         app:layout_constraintTop_toBottomOf="@+id/tvTip" />
