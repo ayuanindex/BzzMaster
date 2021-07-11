@@ -16,6 +16,7 @@ import com.shenkong.bzzmaster.net.api.ProductService;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.annotations.NonNull;
@@ -122,7 +123,6 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
      * @param productid
      */
     public void requestOrders(List<ProductPlanBean> productPlanBeans, int productid) {
-        LoggerUtils.d(TAG, "当前查询的产品ID" + productid);
         FrontPage frontPage = new FrontPage();
         frontPage.setRows(20);
         frontPage.setPage(page);
@@ -134,10 +134,12 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
                 .map(new Function<ResultBean<FrontPage<List<OrderBean>>>, ResultBean<FrontPage<List<OrderBean>>>>() {
                     @Override
                     public ResultBean<FrontPage<List<OrderBean>>> apply(@NonNull ResultBean<FrontPage<List<OrderBean>>> frontPageResultBean) throws Exception {
-                        for (OrderBean orderBean : frontPageResultBean.getDate().getT()) {
-                            for (ProductPlanBean productPlanBean : productPlanBeans) {
-                                if (orderBean.getPid() == productPlanBean.getProductid()) {
-                                    orderBean.setPname(productPlanBean.getName());
+                        if (frontPageResultBean.getCode() == 200) {
+                            for (OrderBean orderBean : frontPageResultBean.getDate().getT()) {
+                                for (ProductPlanBean productPlanBean : productPlanBeans) {
+                                    if (orderBean.getPid() == productPlanBean.getProductid()) {
+                                        orderBean.setPname(productPlanBean.getName());
+                                    }
                                 }
                             }
                         }
@@ -149,6 +151,8 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
                     public void accept(ResultBean<FrontPage<List<OrderBean>>> frontPageResultBean) throws Exception {
                         if (frontPageResultBean.getCode() == 200) {
                             orderBeanListLiveData.postValue(frontPageResultBean.getDate().getT());
+                        } else {
+                            orderBeanListLiveData.postValue(new ArrayList<>());
                         }
                         LoggerUtils.d(TAG, frontPageResultBean.toString());
                     }
@@ -156,6 +160,7 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         LoggerUtils.d(TAG, "请求出错", throwable.getMessage());
+                        orderBeanListLiveData.postValue(new ArrayList<>());
                     }
                 });
     }

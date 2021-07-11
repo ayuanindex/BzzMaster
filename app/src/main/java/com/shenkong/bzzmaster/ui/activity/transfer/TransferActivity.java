@@ -47,6 +47,8 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
     private LinearLayoutCompat tvTipLayout;
     private MaterialTextView tvWaringTip;
     private MaterialButton btnConfirmTransfer;
+    private int productId;
+    private int currentPosition;
 
     @Override
     public int getLayoutId() {
@@ -84,6 +86,10 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
         spCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (mPresenter.getProductBeanListLiveData().getValue() != null) {
+                    productId = mPresenter.getProductBeanListLiveData().getValue().get(position).getProductid();
+                }
+                currentPosition = position;
                 mPresenter.requestBalance(position);
             }
 
@@ -148,6 +154,10 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
         confirmBinding.tvAddress.setText("目标收款地址:" + address);
         confirmBinding.tvBalance.setText("转账金额:" + doubleAmountOfMoney);
         confirmBinding.btnCancel.setOnClickListener(v -> alertDialog.dismiss());
+        confirmBinding.btnSubmitImmediately.setOnClickListener(v -> {
+            mPresenter.requestTransferOut(address, doubleAmountOfMoney, productId);
+            alertDialog.dismiss();
+        });
         alertDialog.show();
     }
 
@@ -156,6 +166,12 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
     public void setBalanceText(CapitalBean capitalBean) {
         tvCurrency.setText("余额(" + capitalBean.getName() + ")");
         tvBalance.setText(Formatter.numberFormat(capitalBean.getBalance()));
+    }
+
+    @Override
+    public void transferOutSuccess() {
+        // 查询当前选择币种的余额
+        mPresenter.requestBalance(currentPosition);
     }
 
     class CustomerSpinnerAdapter extends BaseAdapter {

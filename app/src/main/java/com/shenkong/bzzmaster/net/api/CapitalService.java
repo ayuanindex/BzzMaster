@@ -19,4 +19,7 @@ public interface CapitalService {
 
     @POST(value = ModelPath.Capital + "/balance/selectall")
     Observable<ResultBean<List<CapitalBean>>> requestAllBalance(@Body CapitalBean capitalBean);
+
+    @POST(value = ModelPath.Capital  + "/balance/transferOut")
+    Observable<ResultBean<Boolean>> requestTransferOut(@Body CapitalBean capitalBean);
 }

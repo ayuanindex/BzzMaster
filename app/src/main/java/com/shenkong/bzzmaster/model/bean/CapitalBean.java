@@ -36,8 +36,12 @@ public class CapitalBean {
     /**
      * 地址
      */
-    // " adress is not null "
     private String adress;
+
+    /**
+     * 订单号 防重复提交
+     */
+    private String applyid;
 
     public long getCapitalid() {
         return capitalid;
@@ -95,6 +99,14 @@ public class CapitalBean {
         this.name = name;
     }
 
+    public String getApplyid() {
+        return applyid;
+    }
+
+    public void setApplyid(String applyid) {
+        this.applyid = applyid;
+    }
+
     @Override
     public String toString() {
         return "CapitalBean{" +
@@ -105,6 +117,7 @@ public class CapitalBean {
                 ", staue=" + staue +
                 ", balance=" + balance +
                 ", adress='" + adress + '\'' +
+                ", applyid='" + applyid + '\'' +
                 '}';
     }
 }

@@ -7,4 +7,6 @@ public interface TransferEvent extends BaseEven {
     void showConfirmDialog(String address, double doubleAmountOfMoney);
 
     void setBalanceText(CapitalBean capitalBean);
+
+    void transferOutSuccess();
 }

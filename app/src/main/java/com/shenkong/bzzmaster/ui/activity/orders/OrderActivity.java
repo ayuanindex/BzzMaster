@@ -66,9 +66,10 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
         ivArrowBack.setOnClickListener(v -> finish());
 
         refreshLayout.setOnRefreshListener(() -> {
-            uiHandler.postDelayed(() -> {
-                refreshLayout.setRefreshing(false);
-            }, 1000);
+            int selectedTabPosition = tabSwitchProduct.getSelectedTabPosition();
+            if (mPresenter.getProductList().getValue() != null) {
+                mPresenter.requestAllProductPlan(mPresenter.getProductList().getValue().get(selectedTabPosition));
+            }
         });
 
         tabSwitchProduct.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -153,6 +154,7 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
     public void hideLoading() {
         progressLoadingData.setVisibility(View.GONE);
         progressLoadingData.hide();
+        refreshLayout.setRefreshing(false);
     }
 
     @Override

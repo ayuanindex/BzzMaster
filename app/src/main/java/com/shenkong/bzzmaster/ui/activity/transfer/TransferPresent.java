@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import androidx.lifecycle.MutableLiveData;
 
 import com.shenkong.bzzmaster.common.base.ResultBean;
+import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.CapitalBean;
 import com.shenkong.bzzmaster.model.bean.ProductBean;
@@ -16,7 +17,10 @@ import com.shenkong.bzzmaster.net.api.ProductService;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
+import java.util.Date;
 import java.util.List;
+
+import javax.crypto.interfaces.PBEKey;
 
 import io.reactivex.functions.Consumer;
 import retrofit2.http.POST;
@@ -70,6 +74,36 @@ public class TransferPresent extends BasePresenter<TransferEvent> {
                             productBeanListLiveData.postValue(listResultBean.getDate());
                         }
                         LoggerUtils.d(TAG, listResultBean.toString());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        LoggerUtils.d(TAG, "请求出错", throwable.getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 转出
+     *
+     * @param address             目标地址
+     * @param doubleAmountOfMoney 转出金额
+     */
+    public void requestTransferOut(String address, double doubleAmountOfMoney, long productId) {
+        CapitalBean capitalBean = new CapitalBean();
+        capitalBean.setApplyid(Formatter.generateNumberString(new Date()).substring(4));
+        capitalBean.setPid(productId);
+        capitalBean.setAdress(address);
+        capitalBean.setBalance(doubleAmountOfMoney);
+        ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(CapitalService.class).requestTransferOut(capitalBean), lifecycleProvider)
+                .subscribe(new Consumer<ResultBean<Boolean>>() {
+                    @Override
+                    public void accept(ResultBean<Boolean> booleanResultBean) throws Exception {
+                        if (booleanResultBean.getCode() == 200) {
+                            mView.transferOutSuccess();
+                        }
+                        mView.showToastMsg(booleanResultBean.getMsg(), 0);
+                        LoggerUtils.d(TAG, booleanResultBean.toString());
                     }
                 }, new Consumer<Throwable>() {
                     @Override
