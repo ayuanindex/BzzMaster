@@ -3,6 +3,7 @@ package com.shenkong.bzzmaster.ui.activity.orders;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
@@ -14,6 +15,11 @@ import androidx.savedstate.SavedStateRegistryOwner;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
+import com.scwang.smart.refresh.footer.BallPulseFooter;
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
@@ -38,8 +44,10 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
     private AppCompatImageView ivEmptyView;
     private androidx.swiperefreshlayout.widget.SwipeRefreshLayout refreshLayout;
     private OrderAdapter orderAdapter;
+    private SmartRefreshLayout smartRefreshLayout;
     private int type;
     private int productid = 0;
+    private boolean isLoadMore = false;
 
     @Override
     public int getLayoutId() {
@@ -57,8 +65,12 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
         progressLoadingData = findViewById(R.id.progressLoadingData);
         ivEmptyView = findViewById(R.id.ivEmptyView);
         refreshLayout = findViewById(R.id.refreshLayout);
+        smartRefreshLayout = findViewById(R.id.smartRefreshLayout);
 
         rcOrders.setLayoutManager(new LinearLayoutManager(this));
+        smartRefreshLayout.setRefreshFooter(new BallPulseFooter(this));
+        smartRefreshLayout.autoLoadMore();
+        smartRefreshLayout.setEnableRefresh(false);
     }
 
     @Override
@@ -66,10 +78,9 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
         ivArrowBack.setOnClickListener(v -> finish());
 
         refreshLayout.setOnRefreshListener(() -> {
-            int selectedTabPosition = tabSwitchProduct.getSelectedTabPosition();
-            if (mPresenter.getProductList().getValue() != null) {
-                mPresenter.requestAllProductPlan(mPresenter.getProductList().getValue().get(selectedTabPosition));
-            }
+            isLoadMore = false;
+            mPresenter.setPage(1);
+            mPresenter.requestAllProductPlan(productid);
         });
 
         tabSwitchProduct.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -78,8 +89,10 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
                 if (type == 0) {
                     if (mPresenter.getProductList().getValue() != null) {
                         showLoading();
+                        mPresenter.setPage(1);
+                        isLoadMore = false;
                         productid = mPresenter.getProductList().getValue().get(tab.getPosition()).getProductid();
-                        mPresenter.requestAllProductPlan(mPresenter.getProductList().getValue().get(tab.getPosition()));
+                        mPresenter.requestAllProductPlan(productid);
                     }
                 }
             }
@@ -91,6 +104,21 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                isLoadMore = true;
+                int page = mPresenter.getPage();
+                mPresenter.setPage(++page);
+                mPresenter.requestAllProductPlan(productid);
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
 
             }
         });
@@ -114,6 +142,7 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
     }
 
     private void initDataSubscribe() {
+        // 所有产品
         mPresenter.setProductList(new MutableLiveData<>());
         mPresenter.getProductList().observe(this, productBeanList -> {
             tabSwitchProduct.removeAllTabs();
@@ -122,6 +151,7 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
             }
         });
 
+        // 产品计划
         mPresenter.setProductPlanBeanListLiveData(new MutableLiveData<>());
         mPresenter.getProductPlanBeanListLiveData().observe(this, new Observer<List<ProductPlanBean>>() {
             @Override
@@ -130,11 +160,27 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
             }
         });
 
+        // 订单
         mPresenter.setOrderBeanListLiveData(new MutableLiveData<>());
         mPresenter.getOrderBeanListLiveData().observe(this, new Observer<List<OrderBean>>() {
             @Override
             public void onChanged(List<OrderBean> orderBeans) {
-                orderAdapter.resetData(orderBeans);
+                if (isLoadMore) {
+                    // 加载更多是切换到了下一页没有数据是，将页数返回到上一页
+                    if (orderBeans.size() < 1) {
+                        int page = mPresenter.getPage();
+                        mPresenter.setPage(--page);
+                    }
+                    orderAdapter.addData(orderBeans);
+                } else {
+                    if (orderBeans.size() == 0) {
+                        ivEmptyView.setVisibility(View.VISIBLE);
+                    } else {
+                        ivEmptyView.setVisibility(View.GONE);
+                    }
+                    orderAdapter.resetData(orderBeans);
+                }
+                smartRefreshLayout.finishLoadMore();
             }
         });
     }

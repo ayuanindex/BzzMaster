@@ -62,6 +62,14 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
         this.orderBeanListLiveData = orderBeanListLiveData;
     }
 
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
     public void initProductCategory() {
         ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(ProductService.class).requestAllProduct(), lifecycleProvider)
                 .retry(3)
@@ -84,9 +92,9 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
     /**
      * 获取当前产品下的所有计划
      *
-     * @param productBean 需要查询的产品
+     * @param productId 需要查询的产品
      */
-    public void requestAllProductPlan(ProductBean productBean) {
+    public void requestAllProductPlan(int productId) {
         if (orderSubscribe != null && !orderSubscribe.isDisposed()) {
             orderSubscribe.dispose();
             orderSubscribe = null;
@@ -97,6 +105,8 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
             productPlanSubscribe = null;
         }
 
+        ProductBean productBean = new ProductBean();
+        productBean.setProductid(productId);
         productPlanSubscribe = ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(ProductService.class).requestProductPlan(productBean), lifecycleProvider)
                 .subscribe(new Consumer<ResultBean<List<ProductPlanBean>>>() {
                     @Override

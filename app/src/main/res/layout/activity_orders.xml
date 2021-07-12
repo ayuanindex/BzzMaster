@@ -72,31 +72,44 @@
                     app:tabMode="auto"
                     app:tabRippleColor="#00000000">
 
-                     <!--<com.google.android.material.tabs.TabItem
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:text="XCH"
-                         android:visibility="gone" />
+                    <!--<com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="XCH"
+                        android:visibility="gone" />
 
-                     <com.google.android.material.tabs.TabItem
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:text="BZZ"
-                         android:visibility="gone" />-->
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BZZ"
+                        android:visibility="gone" />-->
                 </com.google.android.material.tabs.TabLayout>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcOrders"
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:id="@+id/smartRefreshLayout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/llTop"
-                app:layout_constraintVertical_bias="0.0"
-                tools:listitem="@layout/item_order" />
+                app:layout_constraintTop_toBottomOf="@id/llTop">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcOrders"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/llTop"
+                    tools:listitem="@layout/item_order" />
+
+                <com.scwang.smart.refresh.footer.BallPulseFooter
+                    android:layout_width="match_parent"
+                    android:foregroundTint="@color/green_primary_dark"
+                    android:layout_height="wrap_content" />
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
             <androidx.core.widget.ContentLoadingProgressBar
                 android:id="@+id/progressLoadingData"

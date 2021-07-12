@@ -42,6 +42,11 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01'
     implementation 'com.king.zxing:zxing-lite:1.1.7-androidx'
+
+    // SmartRefreshLayout
+    implementation  'com.scwang.smart:refresh-layout-kernel:2.0.3'
+    implementation  'com.scwang.smart:refresh-footer-ball:2.0.3'
+    implementation  'com.scwang.smart:refresh-footer-classics:2.0.3'
     //View injection
     implementation deps.butterknife.runtime
     annotationProcessor deps.butterknife.compiler
