@@ -10,6 +10,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -36,6 +38,9 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     private BottomNavigationView bottomNavigationView;
     private ViewPager2 viewPager2Replace;
     private long mExitTime;
+    private AppCompatImageView ivNoticeIcon;
+    private MaterialTextView tvNoticeCount;
+    private LinearLayoutCompat llNoticeLayout;
 
     @Override
     public int getLayoutId() {
@@ -47,6 +52,9 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         tvTitle = findViewById(R.id.tvTitle);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         viewPager2Replace = findViewById(R.id.viewPager2Replace);
+        tvNoticeCount = findViewById(R.id.tvNoticeCount);
+        ivNoticeIcon = findViewById(R.id.ivNoticeIcon);
+        llNoticeLayout = findViewById(R.id.llNoticeLayout);
 
         // 设置ViewPager2预加载和禁止滑动
         viewPager2Replace.setUserInputEnabled(false);
@@ -59,9 +67,11 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         bottomNavigationView.setOnNavigationItemSelectedListener((MenuItem item) -> {
             tvTitle.setText(item.getTitle());
             if (viewPager2Replace.getAdapter() != null) {
+                llNoticeLayout.setVisibility(View.GONE);
                 int currentItemPosition = 0;
                 switch (item.getItemId()) {
                     case R.id.home:
+                        llNoticeLayout.setVisibility(View.VISIBLE);
                         currentItemPosition = 0;
                         break;
                     case R.id.product:
@@ -77,6 +87,10 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
                 viewPager2Replace.setCurrentItem(currentItemPosition, false);
             }
             return true;
+        });
+
+        llNoticeLayout.setOnClickListener(v -> {
+            // TODO: 2021/7/12 公告界面
         });
     }
 
@@ -155,6 +169,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     public void showUpdateDialog(AppUpdateBean appUpdateBean) {
         DialogUpdateAppBinding updateAppBinding = DialogUpdateAppBinding.inflate(getLayoutInflater());
         AlertDialog alertDialog = AlertDialogUtil.getAlertDialog(this, updateAppBinding.getRoot());
+        alertDialog.setCancelable(false);
 
         updateAppBinding.tvUpdateTip.setText(appUpdateBean.getMessage());
         updateAppBinding.btnNextTime.setOnClickListener(v -> alertDialog.dismiss());

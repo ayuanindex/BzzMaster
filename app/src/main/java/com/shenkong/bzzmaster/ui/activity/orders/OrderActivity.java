@@ -135,8 +135,6 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
         if (type == 0) {
             orderAdapter = new OrderAdapter(this);
             rcOrders.setAdapter(orderAdapter);
-
-            ivEmptyView.setVisibility(View.GONE);
         }
     }
 
