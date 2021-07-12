@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.model.bean.BannerBean;
+import com.shenkong.bzzmaster.model.bean.ProductBean;
 import com.shenkong.bzzmaster.model.bean.ProfitBean;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
@@ -58,6 +59,8 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
         customerViewModel.setUiRefreshCallBack(this);
         customerViewModel.setLifecycleProvider(this);
 
+        initDataSubscribe();
+
         multipleAdapter = new MultipleAdapter(requireActivity()) {
             @NonNull
             @Override
@@ -79,30 +82,34 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
         };
         recyclerView.setAdapter(multipleAdapter);
 
-        initDataSubscribe();
+        customerViewModel.getBannerBeanDataLiveData().setValue(new BannerBean(R.drawable.img_banner_1, null));
+        customerViewModel.getProfitBeanDataLiveData().setValue(new ProfitBean());
 
-        customerViewModel.getBannerBeanData().setValue(new BannerBean(R.drawable.img_banner_1, null));
-        customerViewModel.getProfitBeanData().setValue(new ProfitBean());
-
-        multipleAdapter.addData(customerViewModel.getBannerBeanData().getValue(), 0);
-        multipleAdapter.addData(customerViewModel.getProfitBeanData().getValue(), 1);
+        multipleAdapter.addData(customerViewModel.getBannerBeanDataLiveData().getValue(), 0);
+        multipleAdapter.addData(customerViewModel.getProfitBeanDataLiveData().getValue(), 1);
 
         customerViewModel.initHomeProfitData();
     }
 
     private void initDataSubscribe() {
-        customerViewModel.setBannerBeanData(new MutableLiveData<>());
-        customerViewModel.getBannerBeanData().observe(this, bannerBean -> {
+        // 产品
+        customerViewModel.setProductBeanListLiveData(new MutableLiveData<>());
+
+        // 广告
+        customerViewModel.setBannerBeanDataLiveData(new MutableLiveData<>());
+        customerViewModel.getBannerBeanDataLiveData().observe(this, bannerBean -> {
             multipleAdapter.notifyDataSetChanged();
         });
 
-        customerViewModel.setProfitBeanData(new MutableLiveData<>());
-        customerViewModel.getProfitBeanData().observe(this, profitBean -> {
+        // 收益
+        customerViewModel.setProfitBeanDataLiveData(new MutableLiveData<>());
+        customerViewModel.getProfitBeanDataLiveData().observe(this, profitBean -> {
             multipleAdapter.notifyDataSetChanged();
         });
 
-        customerViewModel.setProductPlanList(new MutableLiveData<>());
-        customerViewModel.getProductPlanList().observe(this, (List<MultipleAdapter.LayoutType> productPlanBeanList) -> {
+        // 产品计划
+        customerViewModel.setProductPlanListLiveData(new MutableLiveData<>());
+        customerViewModel.getProductPlanListLiveData().observe(this, (List<MultipleAdapter.LayoutType> productPlanBeanList) -> {
             multipleAdapter.resetDataList(productPlanBeanList);
         });
     }

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
     <com.google.android.material.textview.MaterialTextView
@@ -15,13 +16,47 @@
         android:text="我的挖矿收益"
         android:textColor="@color/black" />
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabSwitchProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/xml_bg_gray_radius"
+        android:visibility="visible"
+        app:tabIndicator="@drawable/xml_bg_white_radius"
+        app:tabIndicatorColor="#FFFFFF"
+        app:tabIndicatorGravity="center"
+        app:tabIndicatorHeight="28dp"
+        app:tabMode="auto"
+        app:tabRippleColor="#00000000">
+
+        <!--<com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="XCH"
+            android:visibility="gone" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BZZ"
+            android:visibility="gone" />-->
+    </com.google.android.material.tabs.TabLayout>
+
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardSwarm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="40dp"
-        app:cardElevation="10dp">
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="5dp"
+        android:visibility="visible"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -30,7 +65,9 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvProductName"
                 android:layout_width="0dp"
+                android:textAllCaps="true"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
@@ -40,6 +77,7 @@
                 android:typeface="serif" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvProductNodeCount"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -53,8 +91,10 @@
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chartLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvProfitName"
@@ -65,61 +105,67 @@
             android:textColor="@color/green_primary_dark"
             android:textSize="14sp"
             android:typeface="serif"
-            app:layout_constraintBottom_toBottomOf="@id/tabSwitchDisplay"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tabSwitchDisplay" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="算力总计"
+            android:text="收益总计"
             android:textSize="12sp"
             app:layout_constraintBaseline_toBaselineOf="@id/tvProfitName"
             app:layout_constraintBottom_toBottomOf="@id/tvProfitName"
             app:layout_constraintStart_toEndOf="@id/tvProfitName"
             app:layout_constraintTop_toTopOf="@id/tvProfitName" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabSwitchDisplay"
-            style="@style/tabLayoutStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/xml_bg_gray_radius"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tabIndicator="@drawable/xml_bg_white_radius"
-            app:tabIndicatorColor="#FFFFFF"
-            app:tabIndicatorHeight="25dp"
-            app:tabMinWidth="65dp"
-            app:tabRippleColor="#00000000"
-            app:tabSelectedTextColor="@color/green_primary_dark">
+        <!--
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabSwitchDisplay"
+                    style="@style/tabLayoutStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/xml_bg_gray_radius"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tabIndicator="@drawable/xml_bg_white_radius"
+                    app:tabIndicatorColor="#FFFFFF"
+                    app:tabIndicatorHeight="25dp"
+                    app:tabMinWidth="65dp"
+                    app:tabRippleColor="#00000000"
+                    app:tabSelectedTextColor="@color/green_primary_dark">
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="近7天"
-                android:visibility="gone" />
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="近7天"
+                        android:visibility="gone" />
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="30天"
-                android:visibility="gone" />
-        </com.google.android.material.tabs.TabLayout>
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="30天"
+                        android:visibility="gone" />
+                </com.google.android.material.tabs.TabLayout>
+        -->
 
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/webViewParent"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="14dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="15dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp"
-            app:layout_constraintEnd_toEndOf="@id/tabSwitchDisplay"
-            app:layout_constraintStart_toStartOf="@id/tvProfitName"
-            app:layout_constraintTop_toBottomOf="@id/tabSwitchDisplay">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvProfitName">
 
             <WebView
                 android:id="@+id/webViewChart"
@@ -128,7 +174,7 @@
                 android:minHeight="100dp" />
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.textview.MaterialTextView
+        <!--<com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -139,6 +185,16 @@
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/webViewParent"
-            app:layout_constraintTop_toBottomOf="@id/webViewParent" />
+            app:layout_constraintTop_toBottomOf="@id/webViewParent" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:drawableStart="@drawable/xml_text_drawable_start"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:text="热门产品"
+        android:textColor="@color/black" />
 </androidx.appcompat.widget.LinearLayoutCompat>

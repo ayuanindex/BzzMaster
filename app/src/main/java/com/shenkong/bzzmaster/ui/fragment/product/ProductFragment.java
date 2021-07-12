@@ -29,6 +29,7 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
     private ContentLoadingProgressBar progressLoadingData;
     private AppCompatImageView viewById;
     private AppCompatImageView ivEmptyView;
+    private int position;
 
     public static ProductFragment getInstance() {
         if (productFragment == null) {
@@ -78,10 +79,8 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
             public void onTabSelected(TabLayout.Tab tab) {
                 if (customerViewModel != null) {
                     showLoading();
-                    if (customerViewModel.getProductList().getValue() != null) {
-                        ProductBean productBean = customerViewModel.getProductList().getValue().get(tab.getPosition());
-                        customerViewModel.initProductPlanData(productBean, ProductFragment.this);
-                    }
+                    position = tab.getPosition();
+                    customerViewModel.initProductPlanData(position);
                 }
             }
 
@@ -109,6 +108,7 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         // 设置ViewModel和接口
         initViewModel(ProductViewModel.class);
         customerViewModel.setUiRefreshCallBack(this);
+        customerViewModel.setLifecycleProvider(this);
 
         // 数据订阅
         initDataSubscribe();

@@ -51,15 +51,15 @@ public class HomeBannerViewHolder extends MultipleAdapter.MultipleBaseViewHolder
         BannerPagerAdapter bannerPagerAdapter = new BannerPagerAdapter(fragmentActivity, fragments);
         bannerPager.setAdapter(bannerPagerAdapter);
 
-        if (bannerBean.getCarouselBeanList() != null) {
-            for (CarouselBean carouselBean : bannerBean.getCarouselBeanList()) {
-                fragments.add(new HomeBannerFragment(carouselBean, bannerBean.getDefaultImgRes()));
-            }
-        } else {
-            fragments.add(new HomeBannerFragment(bannerBean.getDefaultImgRes()));
-            fragments.add(new HomeBannerFragment(bannerBean.getDefaultImgRes()));
-        }
+        fragments.add(new HomeBannerFragment(bannerBean.getDefaultImgRes()));
 
+        if (bannerBean.getCarouselBeanList() != null) {
+            fragments.clear();
+
+            for (int i = 0; i < bannerBean.getCarouselBeanList().size(); i++) {
+                fragments.add(new HomeBannerFragment(bannerBean.getCarouselBeanList().get(i), bannerBean.getDefaultImgRes()));
+            }
+        }
         bannerPagerAdapter.notifyDataSetChanged();
         new TabLayoutMediator(tabLayout, bannerPager, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
@@ -72,7 +72,9 @@ public class HomeBannerViewHolder extends MultipleAdapter.MultipleBaseViewHolder
             bannerPager.setCurrentItem(item);
         });
 
-        startBannerLooper(bannerPagerAdapter.getItemCount());
+        if (bannerPagerAdapter.getItemCount() > 1) {
+            startBannerLooper(bannerPagerAdapter.getItemCount());
+        }
     }
 
 

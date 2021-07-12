@@ -12,8 +12,8 @@ public class ModelPath {
 
     /**
      * 线上
+    public static final String baseUrl = "http://59.110.13.163/";
      */
-    // public static final String baseUrl = "http://59.110.13.163/";
 
     /**
      * 用户

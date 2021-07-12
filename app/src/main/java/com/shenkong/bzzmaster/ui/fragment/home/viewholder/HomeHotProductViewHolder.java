@@ -14,6 +14,7 @@ import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.base.SharedBean;
 import com.shenkong.bzzmaster.common.utils.Formatter;
+import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 import com.shenkong.bzzmaster.ui.activity.productinfo.ProductInfoActivity;
@@ -24,6 +25,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
+    private static final String TAG = "HomeHotProductViewHolde";
     private final FragmentActivity fragmentActivity;
     public View rootView;
     public MaterialTextView tvProductTitle;

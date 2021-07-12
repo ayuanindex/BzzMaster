@@ -10,14 +10,11 @@ import android.view.ViewGroup;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.databinding.FragmentHomebannerBinding;
 import com.shenkong.bzzmaster.model.bean.CarouselBean;
+import com.squareup.picasso.Picasso;
 
 public class HomeBannerFragment extends Fragment {
 
@@ -53,11 +50,9 @@ public class HomeBannerFragment extends Fragment {
 
     protected void initData() {
         if (carouselBean != null) {
-            Glide.with(requireContext())
-                    .load(carouselBean.getSkiplink())
+            Picasso.get().load(carouselBean.getSkiplink())
                     .placeholder(defaultDrawableResId)
                     .error(defaultDrawableResId)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(binding.imgBanner);
 
             binding.imgBanner.setOnClickListener(v -> {

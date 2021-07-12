@@ -115,7 +115,7 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
                             productPlanBeanListLiveData.postValue(listResultBean.getDate());
                         }
                         LoggerUtils.d(TAG, listResultBean.toString());
-                        mView.hideLoading();
+                        //mView.hideLoading();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -165,6 +165,7 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
                         } else {
                             orderBeanListLiveData.postValue(new ArrayList<>());
                         }
+                        mView.hideLoading();
                         LoggerUtils.d(TAG, frontPageResultBean.toString());
                     }
                 }, new Consumer<Throwable>() {
@@ -172,6 +173,7 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
                     public void accept(Throwable throwable) throws Exception {
                         LoggerUtils.d(TAG, "请求出错", throwable.getMessage());
                         orderBeanListLiveData.postValue(new ArrayList<>());
+                        mView.hideLoading();
                     }
                 });
     }

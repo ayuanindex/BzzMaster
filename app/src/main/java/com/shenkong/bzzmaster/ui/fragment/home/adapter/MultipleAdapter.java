@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class MultipleAdapter extends RecyclerView.Adapter<MultipleAdapter.MultipleBaseViewHolder> {
+    private static final String TAG = "MultipleAdapter";
     private FragmentActivity fragmentActivity;
     private List<LayoutType> dataList = new ArrayList<>();
     private List<LayoutType> productPlanBeanList;

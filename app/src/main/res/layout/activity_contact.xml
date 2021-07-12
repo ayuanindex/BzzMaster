@@ -84,6 +84,9 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvPhone"
             android:layout_width="wrap_content"
+            android:linksClickable="true"
+            android:inputType="phone"
+            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:autoLink="phone"
             android:text="联系电话:17682109472" />
