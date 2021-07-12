@@ -69,7 +69,6 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
 
         rcOrders.setLayoutManager(new LinearLayoutManager(this));
         smartRefreshLayout.setRefreshFooter(new BallPulseFooter(this));
-        smartRefreshLayout.autoLoadMore();
         smartRefreshLayout.setEnableRefresh(false);
     }
 

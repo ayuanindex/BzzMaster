@@ -133,6 +133,7 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
      * @param productid
      */
     public void requestOrders(List<ProductPlanBean> productPlanBeans, int productid) {
+        LoggerUtils.d(TAG, "page" + page);
         FrontPage frontPage = new FrontPage();
         frontPage.setRows(20);
         frontPage.setPage(page);

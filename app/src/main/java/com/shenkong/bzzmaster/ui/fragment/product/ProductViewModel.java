@@ -13,6 +13,7 @@ import com.shenkong.bzzmaster.ui.base.BaseViewMode;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -91,6 +92,7 @@ public class ProductViewModel extends BaseViewMode<ProductEvent> {
                         if (listResultBean.getCode() == 200) {
                             productPlan.postValue(listResultBean.getDate());
                         } else {
+                            productPlan.postValue(new ArrayList<>());
                             uiRefreshCallBack.hideLoading();
                         }
                         LoggerUtils.d(TAG, listResultBean.toString());
@@ -99,6 +101,7 @@ public class ProductViewModel extends BaseViewMode<ProductEvent> {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         LoggerUtils.d(TAG, "网络出现问题" + throwable.getMessage());
+                        productPlan.postValue(new ArrayList<>());
                         uiRefreshCallBack.hideLoading();
                     }
                 });
