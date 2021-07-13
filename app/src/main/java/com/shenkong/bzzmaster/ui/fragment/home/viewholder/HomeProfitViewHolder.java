@@ -6,7 +6,6 @@ import android.webkit.WebView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.card.MaterialCardView;
@@ -52,6 +51,32 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
         this.webViewChart = rootView.findViewById(R.id.webViewChart);
     }
 
+    private void initEvent() {
+        tabSwitchProduct.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                position = tab.getPosition();
+                if (productBeanList != null) {
+                    ProductBean productBean = productBeanList.get(position);
+                    productId = productBean.getProductid();
+                    tvProductName.setText(productBean.getName());
+                    // 开启查询收益的定时器
+                    startTimer();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void load(MultipleAdapter multipleAdapter, int position) {
@@ -70,56 +95,37 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
         initEvent();
 
         homeViewModel = new ViewModelProvider(fragmentActivity).get(HomeViewModel.class);
+        initDataSubscribe();
 
         // 请求产品列表
         homeViewModel.initProduct();
-        homeViewModel.getProductBeanListLiveData().observe(fragmentActivity, new Observer<List<ProductBean>>() {
-            @Override
-            public void onChanged(List<ProductBean> productBeanList) {
-                tabSwitchProduct.removeAllTabs();
-                for (ProductBean productBean : productBeanList) {
-                    tabSwitchProduct.addTab(tabSwitchProduct.newTab().setText(productBean.getName()));
-                }
-                HomeProfitViewHolder.this.productBeanList = productBeanList;
-                tabSwitchProduct.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 数据订阅
+     */
+    private void initDataSubscribe() {
+        homeViewModel.getProductBeanListLiveData().observe(fragmentActivity, productBeanList -> {
+            HomeProfitViewHolder.this.productBeanList = productBeanList;
+
+            tabSwitchProduct.removeAllTabs();
+            for (ProductBean productBean : productBeanList) {
+                tabSwitchProduct.addTab(tabSwitchProduct.newTab().setText(productBean.getName()));
             }
+            tabSwitchProduct.setVisibility(View.VISIBLE);
+            cardSwarm.setVisibility(View.VISIBLE);
         });
 
         homeViewModel.getWebDataLiveData().observe(fragmentActivity, s -> {
             webViewChart.loadUrl("javascript:refreshData(" + s + ")");
         });
-    }
 
-    private void initEvent() {
-        tabSwitchProduct.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                position = tab.getPosition();
-                if (productBeanList != null) {
-                    cardSwarm.setVisibility(View.GONE);
-                    chartLayout.setVisibility(View.GONE);
+        homeViewModel.getWebProfitDaysLiveData().observe(fragmentActivity, s -> {
+            webViewChart.loadUrl("javascript:setProfitDay(" + s + ")");
+        });
 
-                    ProductBean productBean = productBeanList.get(position);
-                    productId = productBean.getProductid();
-                    tvProductName.setText(productBean.getName());
-
-                    cardSwarm.setVisibility(View.VISIBLE);
-                    chartLayout.setVisibility(View.VISIBLE);
-
-                    // 开启查询收益的定时器
-                    startTimer();
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+        homeViewModel.getWebProfitMoneyLiveData().observe(fragmentActivity, s -> {
+            webViewChart.loadUrl("javascript:setProfitCount(" + s + ")");
         });
     }
 

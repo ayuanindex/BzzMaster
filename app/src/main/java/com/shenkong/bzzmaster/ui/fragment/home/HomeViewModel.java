@@ -12,6 +12,7 @@ import com.shenkong.bzzmaster.model.bean.BannerBean;
 import com.shenkong.bzzmaster.model.bean.CarouselBean;
 import com.shenkong.bzzmaster.model.bean.FrontPage;
 import com.shenkong.bzzmaster.model.bean.ProductBean;
+import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 import com.shenkong.bzzmaster.model.bean.ProfitBean;
 import com.shenkong.bzzmaster.model.bean.RevenueBean;
 import com.shenkong.bzzmaster.model.bean.RevenueListBean;
@@ -28,8 +29,6 @@ import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
@@ -47,7 +46,10 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
     private MutableLiveData<List<ProductBean>> productBeanListLiveData;
     private MutableLiveData<ProfitBean> profitBeanDataLiveData;
     private MutableLiveData<String> webDataLiveData;
+    private MutableLiveData<String> webProfitDaysLiveData;
+    private MutableLiveData<String> webProfitMoneyLiveData;
     private MutableLiveData<List<MultipleAdapter.LayoutType>> productPlanListLiveData;
+    private Disposable profitSubscribe;
 
     public void setLifecycleProvider(LifecycleProvider<FragmentEvent> lifecycleProvider) {
         this.lifecycleProvider = lifecycleProvider;
@@ -91,6 +93,22 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
 
     public void setProductPlanListLiveData(MutableLiveData<List<MultipleAdapter.LayoutType>> productPlanListLiveData) {
         this.productPlanListLiveData = productPlanListLiveData;
+    }
+
+    public MutableLiveData<String> getWebProfitDaysLiveData() {
+        return webProfitDaysLiveData;
+    }
+
+    public void setWebProfitDaysLiveData(MutableLiveData<String> webProfitDaysLiveData) {
+        this.webProfitDaysLiveData = webProfitDaysLiveData;
+    }
+
+    public MutableLiveData<String> getWebProfitMoneyLiveData() {
+        return webProfitMoneyLiveData;
+    }
+
+    public void setWebProfitMoneyLiveData(MutableLiveData<String> webProfitMoneyLiveData) {
+        this.webProfitMoneyLiveData = webProfitMoneyLiveData;
     }
 
     public void initProduct() {
@@ -167,7 +185,13 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
     /**
      * 收益请求
      */
-    public void initHomeProfitData(long productId) {
+    public synchronized void initHomeProfitData(long productId) {
+        // 如果上一个请求没有完成，那就不然新的请求发生
+        if (profitSubscribe != null && !profitSubscribe.isDisposed()) {
+            LoggerUtils.d(TAG, "上一个请求未完成，拒绝其他请求");
+            return;
+        }
+
         // 用户收益记录
         FrontPage frontPage = new FrontPage();
         frontPage.setKeyvalue(productId);
@@ -176,63 +200,17 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
         frontPage.setSidx("createtime");
         //排序方式 asc升序  desc降序
         frontPage.setSord("desc");
-        ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(RevenueService.class).requestRevenueRecord(frontPage), lifecycleProvider)
-                .map(new Function<ResultBean<RevenueListBean>, ArrayList<List>>() {
+        profitSubscribe = ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(RevenueService.class).requestRevenueRecord(frontPage), lifecycleProvider)
+                .subscribe(new Consumer<ResultBean<RevenueListBean>>() {
                     @Override
-                    public ArrayList<List> apply(@NonNull ResultBean<RevenueListBean> revenueListBeanResultBean) throws Exception {
-                        if (revenueListBeanResultBean.getCode() != 200) {
-                            return null;
+                    public void accept(ResultBean<RevenueListBean> revenueListBeanResultBean) throws Exception {
+                        if (revenueListBeanResultBean.getCode() == 200) {
+                            ArrayList<List<Object>> jsonLists = getJsonLists(revenueListBeanResultBean);
+                            webDataLiveData.postValue(new Gson().toJson(jsonLists));
+                            RevenueBean revenueBean = revenueListBeanResultBean.getDate().getAllGains().get(0);
+                            webProfitDaysLiveData.postValue("0");
+                            webProfitMoneyLiveData.postValue(Formatter.numberFormat(revenueBean.getMoney()));
                         }
-
-                        // 2021-6-15
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        ArrayList<RevenueBean> revenueDayLists = revenueListBeanResultBean.getDate().getRevenueDayLists();
-
-                        // 如果没有收益记录，则添加一行空数据，方便生成
-                        if (revenueDayLists.size() == 0) {
-                            RevenueBean e = new RevenueBean();
-                            e.setCreatedate(new Date());
-                            e.setMoney(0);
-                            revenueDayLists.add(e);
-                        }
-
-                        // 给数据按照date排序，从小到大
-                        Collections.sort(revenueDayLists, new Comparator<RevenueBean>() {
-                            @Override
-                            public int compare(RevenueBean o1, RevenueBean o2) {
-                                return o1.getCreatedate().compareTo(o2.getCreatedate());
-                            }
-                        });
-
-                        // 根据缺少的天数，不全7天的数据
-                        if (revenueDayLists.size() < 7) {
-                            RevenueBean revenueBean = revenueDayLists.get(0);
-                            Date createdate = revenueBean.getCreatedate();
-                            int theDayBefore = 7 - revenueDayLists.size();
-                            // 填充前N天的数据
-                            for (int i = 1; i <= theDayBefore; i++) {
-                                RevenueBean e = new RevenueBean();
-                                e.setCreatedate(Formatter.getTheDayBeforeDate(createdate, i));
-                                e.setMoney(0.00);
-                                revenueDayLists.add(0, e);
-                            }
-                        }
-
-                        ArrayList<List> lists = new ArrayList<>();
-                        for (RevenueBean revenueDayList : revenueDayLists) {
-                            ArrayList<Object> key = new ArrayList<>();
-                            key.add(simpleDateFormat.format(revenueDayList.getCreatedate()));
-                            key.add(revenueDayList.getMoney());
-                            lists.add(key);
-                        }
-                        return lists;
-                    }
-                })
-                .subscribe(new Consumer<ArrayList<List>>() {
-                    @Override
-                    public void accept(ArrayList<List> lists) throws Exception {
-                        webDataLiveData.postValue(new Gson().toJson(lists));
-                        LoggerUtils.d(TAG, "收益" + new Gson().toJson(lists));
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -242,39 +220,80 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
                 });
     }
 
+    /**
+     * 针对收益图表进行的数据转换
+     */
+    @NonNull
+    private ArrayList<List<Object>> getJsonLists(@NonNull ResultBean<RevenueListBean> revenueListBeanResultBean) {
+        // 床架当前日期
+        Date currentDate = new Date();
+
+        // 2021-6-15
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        ArrayList<RevenueBean> revenueDayLists = revenueListBeanResultBean.getDate().getRevenueDayLists();
+
+        ArrayList<RevenueBean> revenueListModel = new ArrayList<>();
+        RevenueBean bean = new RevenueBean();
+        bean.setCreatedate(currentDate);
+        bean.setMoney(0);
+        revenueListModel.add(bean);
+        // 填充6天前的模版数据
+        for (int i = 1; i < 7; i++) {
+            RevenueBean e = new RevenueBean();
+            e.setCreatedate(Formatter.getTheDayBeforeDate(currentDate, i));
+            e.setMoney(0);
+            revenueListModel.add(0, e);
+        }
+
+        // 从拿到的数据匹配模版数据
+        for (RevenueBean revenueDayList : revenueDayLists) {
+            for (RevenueBean revenueBean : revenueListModel) {
+                if (simpleDateFormat.format(revenueDayList.getCreatedate()).equals(simpleDateFormat.format(revenueBean.getCreatedate()))) {
+                    revenueBean.setMoney(revenueDayList.getMoney());
+                }
+            }
+        }
+
+        // 包装成eCharts能够使用的数据
+        ArrayList<List<Object>> lists = new ArrayList<>();
+        for (RevenueBean revenueDayList : revenueListModel) {
+            ArrayList<Object> key = new ArrayList<>();
+            key.add(simpleDateFormat.format(revenueDayList.getCreatedate()));
+            key.add(revenueDayList.getMoney());
+            lists.add(key);
+        }
+        return lists;
+    }
+
     public void initHomeHotProductData() {
         ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(PlanService.class).requestHotProductPlan(), lifecycleProvider)
-                .map(listResultBean -> {
-                    ResultBean<List<MultipleAdapter.LayoutType>> resultBean = new ResultBean<>();
-                    resultBean.setCode(listResultBean.getCode());
-                    resultBean.setMsg(listResultBean.getMsg());
-                    resultBean.setDate(new ArrayList<>(listResultBean.getDate()));
-                    return resultBean;
-                })
-                .subscribe(new Observer<ResultBean<List<MultipleAdapter.LayoutType>>>() {
+                .map(new Function<ResultBean<List<ProductPlanBean>>, ResultBean<List<MultipleAdapter.LayoutType>>>() {
                     @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-
+                    public ResultBean<List<MultipleAdapter.LayoutType>> apply(@NonNull ResultBean<List<ProductPlanBean>> listResultBean) throws Exception {
+                        ResultBean<List<MultipleAdapter.LayoutType>> resultBean = new ResultBean<>();
+                        if (listResultBean.getDate() != null) {
+                            resultBean.setCode(listResultBean.getCode());
+                            resultBean.setMsg(listResultBean.getMsg());
+                            resultBean.setDate(new ArrayList<>(listResultBean.getDate()));
+                        }
+                        return resultBean;
                     }
-
+                })
+                .subscribe(new Consumer<ResultBean<List<MultipleAdapter.LayoutType>>>() {
                     @Override
-                    public void onNext(@NonNull ResultBean<List<MultipleAdapter.LayoutType>> listResultBean) {
+                    public void accept(ResultBean<List<MultipleAdapter.LayoutType>> listResultBean) throws Exception {
                         if (listResultBean.getCode() == 200) {
                             productPlanListLiveData.postValue(listResultBean.getDate());
                         } else {
                             LoggerUtils.d(TAG, "出现错误");
+                            productPlanListLiveData.postValue(new ArrayList<>());
                         }
                         LoggerUtils.d(TAG, listResultBean.toString());
                     }
-
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onError(@NonNull Throwable e) {
-                        LoggerUtils.d(TAG, "网络请求出现未知错误" + e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
+                    public void accept(Throwable throwable) throws Exception {
+                        LoggerUtils.d(TAG, "请求出错", throwable.getMessage());
                     }
                 });
     }

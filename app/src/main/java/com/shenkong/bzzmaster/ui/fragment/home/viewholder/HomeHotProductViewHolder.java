@@ -13,6 +13,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.base.SharedBean;
+import com.shenkong.bzzmaster.common.config.ConstantPool;
 import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
@@ -29,6 +30,7 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
     private final FragmentActivity fragmentActivity;
     public View rootView;
     public MaterialTextView tvProductTitle;
+    public MaterialTextView tvProductPlanStatus;
     public LinearLayoutCompat llTags;
     public MaterialTextView tvPrice;
     public MaterialTextView tvPriceUnit;
@@ -44,15 +46,16 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
         super(rootView);
         this.rootView = rootView;
         this.fragmentActivity = fragmentActivity;
-        this.tvProductTitle = (MaterialTextView) rootView.findViewById(R.id.tvProductTitle);
-        this.llTags = (LinearLayoutCompat) rootView.findViewById(R.id.llTags);
-        this.tvPrice = (MaterialTextView) rootView.findViewById(R.id.tvPrice);
-        this.tvPriceUnit = (MaterialTextView) rootView.findViewById(R.id.tvPriceUnit);
-        this.tvMinimumSale = (MaterialTextView) rootView.findViewById(R.id.tvMinimumSale);
-        this.tvRevenueDate = (MaterialTextView) rootView.findViewById(R.id.tvRevenueDate);
-        this.tvDay = (MaterialTextView) rootView.findViewById(R.id.tvDay);
-        this.tvTip = (MaterialTextView) rootView.findViewById(R.id.tvTip);
-        this.btnPurchase = (MaterialButton) rootView.findViewById(R.id.btnPurchase);
+        this.tvProductTitle = rootView.findViewById(R.id.tvProductTitle);
+        this.tvProductPlanStatus = rootView.findViewById(R.id.tvProductPlanStatus);
+        this.llTags = rootView.findViewById(R.id.llTags);
+        this.tvPrice = rootView.findViewById(R.id.tvPrice);
+        this.tvPriceUnit = rootView.findViewById(R.id.tvPriceUnit);
+        this.tvMinimumSale = rootView.findViewById(R.id.tvMinimumSale);
+        this.tvRevenueDate = rootView.findViewById(R.id.tvRevenueDate);
+        this.tvDay = rootView.findViewById(R.id.tvDay);
+        this.tvTip = rootView.findViewById(R.id.tvTip);
+        this.btnPurchase = rootView.findViewById(R.id.btnPurchase);
     }
 
     @SuppressLint("SetTextI18n")
@@ -60,6 +63,47 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
     public void load(MultipleAdapter multipleAdapter, int position) {
         this.multipleAdapter = multipleAdapter;
         productPlanBean = (ProductPlanBean) multipleAdapter.getBean(position);
+
+        // 判断计划状态
+        String status = "";
+        if (productPlanBean.getStaues() == ConstantPool.Plan_PreSale) {
+            // 预售
+            status = "预售";
+            btnPurchase.setText("预售");
+        } else if (productPlanBean.getStaues() == ConstantPool.Pro_Sell) {
+            // 销售
+            status = "销售";
+            btnPurchase.setText("立即购买");
+        } else if (productPlanBean.getStaues() == ConstantPool.Pro_SuspensionOfSale) {
+            // 暂停申购
+            status = "暂停申购";
+            btnPurchase.setEnabled(false);
+            btnPurchase.setText("暂停申购");
+        } else if (productPlanBean.getStaues() == ConstantPool.Pro_Finish) {
+            // 完结
+            status = "完结";
+            btnPurchase.setEnabled(false);
+            btnPurchase.setText("完结");
+        } else if (productPlanBean.getStaues() == ConstantPool.Pro_OffShelf) {
+            // 下架
+            status = "下架";
+            btnPurchase.setEnabled(false);
+            btnPurchase.setText("该商品已下架");
+        }
+        tvProductPlanStatus.setVisibility(View.VISIBLE);
+        tvProductPlanStatus.setText(status);
+
+        // 根据币种判断控件是否需要隐藏
+        if (productPlanBean.getCurrency() != null) {
+            switch (productPlanBean.getCurrency()) {
+                case "bzz":
+                    /*Swarm币种*/
+                    break;
+                case "xch":
+                    /*Chia币种*/
+                    break;
+            }
+        }
 
         tvProductTitle.setText(productPlanBean.getName());
 

@@ -10,11 +10,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:text="Chia早期矿工满存挖矿计划"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvProductPlanStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/xml_tag_background"
+        android:text="状态"
+        android:textColor="@color/red_primary_dark"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvProductTitle"
+        app:layout_constraintStart_toEndOf="@+id/tvProductTitle"
+        app:layout_constraintTop_toTopOf="@+id/tvProductTitle" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/llTags"
@@ -72,6 +85,7 @@
         app:layout_constraintTop_toTopOf="@id/tvDay" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/materialTextView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
@@ -101,13 +115,13 @@
         android:text="封装周期"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDay" />
+        app:layout_constraintTop_toBottomOf="@id/tvDay"
+        app:layout_goneMarginBottom="10dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPurchase"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="10dp"
@@ -115,9 +129,9 @@
         android:insetBottom="0dp"
         android:text="立即购买"
         android:textSize="12sp"
-        app:backgroundTint="@color/green_primary_dark"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTip" />
+        app:layout_constraintTop_toBottomOf="@+id/tvMinimumSale"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

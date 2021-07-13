@@ -61,10 +61,12 @@ public class ProductInfoActivity extends BaseMvpActivity<ProductInfoPresenter> i
             WebSettings webSettings = webViewProductInfo.getSettings();
             webSettings.setJavaScriptEnabled(true);
             webViewProductInfo.loadUrl("file:///android_asset/web/productinfo.html");
-            uiHandler.postDelayed(() -> {
-                webViewProductInfo.loadUrl("javascript:setImgUrl('" + data.getPic() + "')");
-                webViewProductInfo.setVisibility(View.VISIBLE);
-            }, 1000);
+            if (data.getDetailslink() != null) {
+                uiHandler.postDelayed(() -> {
+                    webViewProductInfo.loadUrl("javascript:setImgUrl('" + data.getPic() + "')");
+                    webViewProductInfo.setVisibility(View.VISIBLE);
+                }, 1000);
+            }
         }
     }
 

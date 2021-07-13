@@ -6,6 +6,11 @@ import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 import java.util.Date;
 
 public class ProductPlanBean implements MultipleAdapter.LayoutType {
+    @Override
+    public int getLayoutType() {
+        return Types.PRODUCT_LAYOUT;
+    }
+
     /**
      * 计划ID
      */
@@ -49,18 +54,18 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
     /**
      * 创建时间
      */
-    private Date createtime;
+    private String createtime;
 
     /**
      * 开始时间
      */
-    private Date starttime;
+    private String starttime;
 
 
     /**
      * 结束时间
      */
-    private Date endtime;
+    private String endtime;
 
     /**
      * 管理员ID
@@ -114,10 +119,23 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
     /**
      * 更新时间
      */
-    // " updatetime is not null "
-    private Date updatetime;
+    private String updatetime;
 
     private long updateaid;
+
+    /**
+     * 管理员名字
+     */
+    private String aname;
+    /**
+     * 管理员名字
+     */
+    private String updatename;
+
+    /**
+     * 已购买数量
+     */
+    private int total;
 
     public long getPlanid() {
         return planid;
@@ -183,27 +201,27 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
         this.staues = staues;
     }
 
-    public Date getCreatetime() {
+    public String getCreatetime() {
         return createtime;
     }
 
-    public void setCreatetime(Date createtime) {
+    public void setCreatetime(String createtime) {
         this.createtime = createtime;
     }
 
-    public Date getStarttime() {
+    public String getStarttime() {
         return starttime;
     }
 
-    public void setStarttime(Date starttime) {
+    public void setStarttime(String starttime) {
         this.starttime = starttime;
     }
 
-    public Date getEndtime() {
+    public String getEndtime() {
         return endtime;
     }
 
-    public void setEndtime(Date endtime) {
+    public void setEndtime(String endtime) {
         this.endtime = endtime;
     }
 
@@ -287,11 +305,11 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
         this.servicecharge = servicecharge;
     }
 
-    public Date getUpdatetime() {
+    public String getUpdatetime() {
         return updatetime;
     }
 
-    public void setUpdatetime(Date updatetime) {
+    public void setUpdatetime(String updatetime) {
         this.updatetime = updatetime;
     }
 
@@ -303,9 +321,28 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
         this.updateaid = updateaid;
     }
 
-    @Override
-    public int getLayoutType() {
-        return Types.PRODUCT_LAYOUT;
+    public String getAname() {
+        return aname;
+    }
+
+    public void setAname(String aname) {
+        this.aname = aname;
+    }
+
+    public String getUpdatename() {
+        return updatename;
+    }
+
+    public void setUpdatename(String updatename) {
+        this.updatename = updatename;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     @Override
@@ -319,18 +356,24 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
                 ", price=" + price +
                 ", currency='" + currency + '\'' +
                 ", staues=" + staues +
-                ", createtime=" + createtime +
-                ", starttime=" + starttime +
-                ", endtime=" + endtime +
+                ", createtime='" + createtime + '\'' +
+                ", starttime='" + starttime + '\'' +
+                ", endtime='" + endtime + '\'' +
                 ", aid=" + aid +
                 ", tag='" + tag + '\'' +
                 ", mincompany=" + mincompany +
-                ", runtime=" + runtime +
                 ", packtime=" + packtime +
+                ", runtime=" + runtime +
+                ", locktime=" + locktime +
+                ", lockmoney=" + lockmoney +
                 ", note='" + note + '\'' +
                 ", detailslink='" + detailslink + '\'' +
                 ", servicecharge=" + servicecharge +
-                ", updatetime=" + updatetime +
+                ", updatetime='" + updatetime + '\'' +
+                ", updateaid=" + updateaid +
+                ", aname='" + aname + '\'' +
+                ", updatename='" + updatename + '\'' +
+                ", total=" + total +
                 '}';
     }
 }

@@ -16,7 +16,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.base.SharedBean;
-import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 import com.shenkong.bzzmaster.ui.activity.submit.SubmitOrderActivity;
@@ -70,6 +69,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.btnPurchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedBean.remove(SharedBean.ProductPlanBean);
                 SharedBean.putData(SharedBean.ProductPlanBean, productPlanBean);
                 Intent intent = new Intent(fragmentActivity, SubmitOrderActivity.class);
                 fragmentActivity.startActivity(intent);

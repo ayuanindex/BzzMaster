@@ -14,7 +14,6 @@
 
     var option;
 
-
     option = {
         backgroundColor: '#fff',
         title: {
@@ -152,6 +151,14 @@
     function refreshData(json) {
         option.series[0].data = json;
         myChart.setOption(option);
+    }
+
+    function setProfitDay(day) {
+        option.title.subtext = "已挖" + profit + "天";
+    }
+
+    function setProfitCount(money) {
+        option.title.text = money;
     }
 </script>
 </body>

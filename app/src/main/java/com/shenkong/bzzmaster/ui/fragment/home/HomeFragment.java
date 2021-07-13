@@ -1,5 +1,6 @@
 package com.shenkong.bzzmaster.ui.fragment.home;
 
+import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shenkong.bzzmaster.R;
+import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.BannerBean;
-import com.shenkong.bzzmaster.model.bean.ProductBean;
 import com.shenkong.bzzmaster.model.bean.ProfitBean;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
@@ -47,6 +48,27 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
     protected void initView(View inflate) {
         recyclerView = inflate.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        setRcProductStyle();
+    }
+
+    private void setRcProductStyle() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                if (parent.getChildAdapterPosition(view) > 1) {
+                    outRect.bottom = 35;
+                }
+
+                /*outRect.top = 0;
+                outRect.bottom = 45;
+
+                if (parent.getChildAdapterPosition(view) == 0) {
+                    outRect.top = 45;
+                }*/
+            }
+        });
     }
 
     @Override
@@ -78,7 +100,7 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
                         break;
                     case Types.PRODUCT_LAYOUT:
                     default:
-                        inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_hot_product, parent, false);
+                        inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_product, parent, false);
                         multipleBaseViewHolder = new HomeHotProductViewHolder(inflate, requireActivity());
                         break;
                 }
@@ -101,6 +123,8 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
 
         // 给网页端的收益数据
         customerViewModel.setWebDataLiveData(new MutableLiveData<>());
+        customerViewModel.setWebProfitDaysLiveData(new MutableLiveData<>());
+        customerViewModel.setWebProfitMoneyLiveData(new MutableLiveData<>());
 
         // 广告
         customerViewModel.setBannerBeanDataLiveData(new MutableLiveData<>());

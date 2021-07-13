@@ -39,12 +39,12 @@ public class OrderBean {
     /**
      * 创建时间
      */
-    private Date createtime;
+    private String createtime;
 
     /**
      * 支付时间
      */
-    private Date paytime;
+    private String paytime;
 
     /**
      * 审核管理员ID
@@ -109,19 +109,19 @@ public class OrderBean {
         this.amount = amount;
     }
 
-    public Date getCreatetime() {
+    public String getCreatetime() {
         return createtime;
     }
 
-    public void setCreatetime(Date createtime) {
+    public void setCreatetime(String createtime) {
         this.createtime = createtime;
     }
 
-    public Date getPaytime() {
+    public String getPaytime() {
         return paytime;
     }
 
-    public void setPaytime(Date paytime) {
+    public void setPaytime(String paytime) {
         this.paytime = paytime;
     }
 

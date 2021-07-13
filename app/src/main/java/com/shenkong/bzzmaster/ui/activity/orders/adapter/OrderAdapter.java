@@ -34,7 +34,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull OrderAdapter.ViewHolder holder, int position) {
         OrderBean orderBean = orderBeanList.get(position);
         holder.itemOrderBinding.tvProductName.setText(orderBean.getPname());
-        holder.itemOrderBinding.tvOrderDate.setText(Formatter.formatData(orderBean.getCreatetime()));
+        holder.itemOrderBinding.tvOrderDate.setText(orderBean.getCreatetime());
         holder.itemOrderBinding.tvOrderStatus.setText("已支付");// TODO: 2021/7/11 这里根据status字段判断订单状态
         holder.itemOrderBinding.tvOrderMoney.setText(Formatter.numberFormat(orderBean.getAmount()));
         holder.itemOrderBinding.tvProductCount.setText(String.valueOf(orderBean.getNumber()));

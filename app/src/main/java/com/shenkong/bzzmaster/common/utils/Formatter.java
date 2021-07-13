@@ -1,6 +1,7 @@
 package com.shenkong.bzzmaster.common.utils;
 
 import java.text.DecimalFormat;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -8,7 +9,7 @@ import java.util.Random;
 public class Formatter {
     private static DecimalFormat decimalFormat = new DecimalFormat("#00.0000");
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static final int oneDayTime = 86400000;
 
     public static String numberFormat(double value) {
@@ -17,6 +18,10 @@ public class Formatter {
 
     public static String dateToDayFormat(Date date) {
         return String.valueOf(date.getTime() / (1000 * 24 * 60 * 60));
+    }
+
+    public static Date parseDate(String dateString) {
+        return simpleDateFormat.parse(dateString, new ParsePosition(0));
     }
 
     public static Date getTheDayBeforeDate(Date date, int days) {
