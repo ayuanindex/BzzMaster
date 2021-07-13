@@ -71,7 +71,7 @@ public class SubmitOrderPresenter extends BasePresenter<SubmitOrderEvent> {
         LoggerUtils.d(TAG, "用户ID" + uid);
         orderBean.setOrderid(Formatter.generateNumberString(new Date()));
         orderBean.setUid(uid);
-        orderBean.setPid(productPlanBean.getProductid());
+        orderBean.setPid(productPlanBean.getPlanid());
         orderBean.setNumber(count);
         orderBean.setAmount(needPrice);
         orderBean.setPname(productPlanBean.getName());
