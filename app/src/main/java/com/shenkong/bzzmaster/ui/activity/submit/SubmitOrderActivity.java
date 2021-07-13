@@ -20,6 +20,7 @@ import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.base.SharedBean;
 import com.shenkong.bzzmaster.common.utils.AlertDialogUtil;
+import com.shenkong.bzzmaster.common.utils.CurrencyUtil;
 import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
@@ -131,6 +132,7 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
         });
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
         mPresenter.setLifecycleProvider(this);
@@ -140,7 +142,7 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
         count = minCount = productPlanBean.getMincompany();
 
         tvProductName.setText(productPlanBean.getName());
-        tvProductPrice.setText(Formatter.numberFormat(productPlanBean.getPrice()));
+        tvProductPrice.setText("1份=" + minCount + CurrencyUtil.getUnit(productPlanBean.getCurrency()) + "=" + Formatter.numberFormat(productPlanBean.getPrice() * minCount) + "USDT");
         tvOrderAmount.setText(Formatter.numberFormat(count * productPlanBean.getPrice()));
 
         etNeedCount.setText(String.valueOf(count));

@@ -62,6 +62,7 @@ public abstract class MultipleAdapter extends RecyclerView.Adapter<MultipleAdapt
     }
 
     public void addAllData(List<LayoutType> layoutTypeList) {
+        dataList.clear();
         dataList.addAll(layoutTypeList);
         notifyDataSetChanged();
     }

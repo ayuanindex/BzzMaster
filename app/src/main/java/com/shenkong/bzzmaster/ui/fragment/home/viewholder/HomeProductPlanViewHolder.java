@@ -20,7 +20,7 @@ import com.shenkong.bzzmaster.ui.activity.productinfo.ProductInfoActivity;
 import com.shenkong.bzzmaster.ui.activity.submit.SubmitOrderActivity;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
-public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
+public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
     private static final String TAG = "HomeHotProductViewHolde";
     private final FragmentActivity fragmentActivity;
     public View rootView;
@@ -40,7 +40,7 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
     private MultipleAdapter multipleAdapter;
     private ProductPlanBean productPlanBean;
 
-    public HomeHotProductViewHolder(View rootView, FragmentActivity fragmentActivity) {
+    public HomeProductPlanViewHolder(View rootView, FragmentActivity fragmentActivity) {
         super(rootView);
         this.rootView = rootView;
         this.fragmentActivity = fragmentActivity;

@@ -1,8 +1,9 @@
 package com.shenkong.bzzmaster.ui.fragment.product;
 
-import android.content.Intent;
 import android.graphics.Rect;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -13,23 +14,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.shenkong.bzzmaster.R;
-import com.shenkong.bzzmaster.common.base.SharedBean;
 import com.shenkong.bzzmaster.model.bean.ProductBean;
-import com.shenkong.bzzmaster.ui.activity.productinfo.ProductInfoActivity;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
-import com.shenkong.bzzmaster.ui.fragment.product.adapter.ProductAdapter;
+import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
+import com.shenkong.bzzmaster.ui.fragment.home.viewholder.HomeProductPlanViewHolder;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent> implements ProductEvent {
     public static ProductFragment productFragment;
     private TabLayout tabSwitchProduct;
     private RecyclerView rcProduct;
-    private ProductAdapter productAdapter;
+    // private ProductAdapter productAdapter;
     private ContentLoadingProgressBar progressLoadingData;
     private AppCompatImageView viewById;
     private AppCompatImageView ivEmptyView;
     private int position;
+    private MultipleAdapter multipleAdapter;
 
     public static ProductFragment getInstance() {
         if (productFragment == null) {
@@ -95,12 +96,12 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
             }
         });
 
-        productAdapter.setOnItemClickListener((view, productPlanBean, position) -> {
+        /*productAdapter.setOnItemClickListener((view, productPlanBean, position) -> {
             SharedBean.remove(SharedBean.ProductPlanBean);
             SharedBean.putData(SharedBean.ProductPlanBean, productPlanBean);
             Intent intent = new Intent(getContext(), ProductInfoActivity.class);
             startActivity(intent);
-        });
+        });*/
     }
 
     @Override
@@ -114,8 +115,16 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         initDataSubscribe();
 
 
-        productAdapter = new ProductAdapter(requireActivity());
-        rcProduct.setAdapter(productAdapter);
+        // productAdapter = new ProductAdapter(requireActivity());
+        multipleAdapter = new MultipleAdapter(requireActivity()) {
+            @NonNull
+            @Override
+            public MultipleBaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View inflate = LayoutInflater.from(requireContext()).inflate(R.layout.item_product, parent, false);
+                return new HomeProductPlanViewHolder(inflate, requireActivity());
+            }
+        };
+        rcProduct.setAdapter(multipleAdapter);
     }
 
     /**
@@ -133,7 +142,8 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         customerViewModel.setProductPlan(new MutableLiveData<>());
         customerViewModel.getProductPlan().observe(this, productPlanBeans -> {
             isShowEmptyView(productPlanBeans.isEmpty());
-            productAdapter.updateDataList(productPlanBeans);
+            // productAdapter.updateDataList(productPlanBeans);
+            multipleAdapter.addAllData(new ArrayList<>(productPlanBeans));
             hideLoading();
         });
     }

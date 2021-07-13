@@ -11,13 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shenkong.bzzmaster.R;
-import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.BannerBean;
 import com.shenkong.bzzmaster.model.bean.ProfitBean;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 import com.shenkong.bzzmaster.ui.fragment.home.viewholder.HomeBannerViewHolder;
-import com.shenkong.bzzmaster.ui.fragment.home.viewholder.HomeHotProductViewHolder;
+import com.shenkong.bzzmaster.ui.fragment.home.viewholder.HomeProductPlanViewHolder;
 import com.shenkong.bzzmaster.ui.fragment.home.viewholder.HomeProfitViewHolder;
 
 import java.util.ArrayList;
@@ -101,7 +100,7 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
                     case Types.PRODUCT_LAYOUT:
                     default:
                         inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_product, parent, false);
-                        multipleBaseViewHolder = new HomeHotProductViewHolder(inflate, requireActivity());
+                        multipleBaseViewHolder = new HomeProductPlanViewHolder(inflate, requireActivity());
                         break;
                 }
 
