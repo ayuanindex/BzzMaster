@@ -50,8 +50,8 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
     private MaterialButton btnRechargeImmediately;
     private MaterialButton btnSubmitOrder;
 
-    private int count = 1;
-    private int minCount = 0;
+    private long count = 1;
+    private long minCount = 0;
     private ProductPlanBean productPlanBean;
     private androidx.core.widget.ContentLoadingProgressBar progress;
 

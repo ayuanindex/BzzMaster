@@ -1,5 +1,8 @@
 package com.shenkong.bzzmaster.model.bean;
 
+import android.annotation.SuppressLint;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RevenueBean {

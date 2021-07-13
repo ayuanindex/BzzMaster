@@ -77,18 +77,17 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvEmail"
             android:layout_width="wrap_content"
+            android:textIsSelectable="true"
             android:layout_height="wrap_content"
-            android:autoLink="email"
             android:text="邮箱:lzy2118053626@hotmail.com" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvPhone"
+            android:textIsSelectable="true"
             android:layout_width="wrap_content"
             android:linksClickable="true"
-            android:inputType="phone"
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
-            android:autoLink="phone"
             android:text="联系电话:17682109472" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>

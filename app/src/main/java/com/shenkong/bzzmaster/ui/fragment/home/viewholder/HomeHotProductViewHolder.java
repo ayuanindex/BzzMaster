@@ -73,8 +73,8 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
         tvPrice.setText(String.valueOf(productPlanBean.getPrice()));
         tvPriceUnit.setText(productPlanBean.getCurrency());
         tvMinimumSale.setText(productPlanBean.getMincompany() + "TiB起售");
-        tvRevenueDate.setText(Formatter.dateToDayFormat(productPlanBean.getRuntime()) + "天");
-        tvDay.setText(Formatter.dateToDayFormat(productPlanBean.getPacktime()) + "天");
+        tvRevenueDate.setText(productPlanBean.getRuntime() + "天");
+        tvDay.setText(productPlanBean.getPacktime() + "天");
 
         rootView.setOnClickListener(null);
         rootView.setOnClickListener(v -> {

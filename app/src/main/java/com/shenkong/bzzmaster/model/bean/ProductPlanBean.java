@@ -6,19 +6,18 @@ import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 import java.util.Date;
 
 public class ProductPlanBean implements MultipleAdapter.LayoutType {
-
     /**
      * 计划ID
      */
-    private int planid;
+    private long planid;
 
     /**
      * 产品ID
      */
-    private int productid;
+    private long productid;
 
     /**
-     * 计划名称
+     * 计划名字
      */
     private String name;
 
@@ -45,7 +44,7 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
     /**
      * 状态
      */
-    private int staues;
+    private long staues;
 
     /**
      * 创建时间
@@ -57,6 +56,7 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
      */
     private Date starttime;
 
+
     /**
      * 结束时间
      */
@@ -65,7 +65,7 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
     /**
      * 管理员ID
      */
-    private int aid;
+    private long aid;
 
     /**
      * 标签
@@ -75,17 +75,26 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
     /**
      * 最小出售
      */
-    private int mincompany;
-
-    /**
-     * 挖矿周期
-     */
-    private Date runtime;
+    private long mincompany;
 
     /**
      * 封装周期
      */
-    private Date packtime;
+    private long packtime;
+
+    /**
+     * 挖矿周期
+     */
+    private long runtime;
+
+    /**
+     * 锁仓周期
+     */
+    private long locktime;
+    /**
+     * 锁仓金额
+     */
+    private double lockmoney;
 
     /**
      * 信息
@@ -105,24 +114,24 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
     /**
      * 更新时间
      */
+    // " updatetime is not null "
     private Date updatetime;
 
-    public ProductPlanBean() {
-    }
+    private long updateaid;
 
-    public int getPlanid() {
+    public long getPlanid() {
         return planid;
     }
 
-    public void setPlanid(int planid) {
+    public void setPlanid(long planid) {
         this.planid = planid;
     }
 
-    public int getProductid() {
+    public long getProductid() {
         return productid;
     }
 
-    public void setProductid(int productid) {
+    public void setProductid(long productid) {
         this.productid = productid;
     }
 
@@ -166,11 +175,11 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
         this.currency = currency;
     }
 
-    public int getStaues() {
+    public long getStaues() {
         return staues;
     }
 
-    public void setStaues(int staues) {
+    public void setStaues(long staues) {
         this.staues = staues;
     }
 
@@ -198,11 +207,11 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
         this.endtime = endtime;
     }
 
-    public int getAid() {
+    public long getAid() {
         return aid;
     }
 
-    public void setAid(int aid) {
+    public void setAid(long aid) {
         this.aid = aid;
     }
 
@@ -214,28 +223,44 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
         this.tag = tag;
     }
 
-    public int getMincompany() {
+    public long getMincompany() {
         return mincompany;
     }
 
-    public void setMincompany(int mincompany) {
+    public void setMincompany(long mincompany) {
         this.mincompany = mincompany;
     }
 
-    public Date getRuntime() {
-        return runtime;
-    }
-
-    public void setRuntime(Date runtime) {
-        this.runtime = runtime;
-    }
-
-    public Date getPacktime() {
+    public long getPacktime() {
         return packtime;
     }
 
-    public void setPacktime(Date packtime) {
+    public void setPacktime(long packtime) {
         this.packtime = packtime;
+    }
+
+    public long getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(long runtime) {
+        this.runtime = runtime;
+    }
+
+    public long getLocktime() {
+        return locktime;
+    }
+
+    public void setLocktime(long locktime) {
+        this.locktime = locktime;
+    }
+
+    public double getLockmoney() {
+        return lockmoney;
+    }
+
+    public void setLockmoney(double lockmoney) {
+        this.lockmoney = lockmoney;
     }
 
     public String getNote() {
@@ -268,6 +293,14 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
 
     public void setUpdatetime(Date updatetime) {
         this.updatetime = updatetime;
+    }
+
+    public long getUpdateaid() {
+        return updateaid;
+    }
+
+    public void setUpdateaid(long updateaid) {
+        this.updateaid = updateaid;
     }
 
     @Override

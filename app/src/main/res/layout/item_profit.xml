@@ -24,7 +24,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/xml_bg_gray_radius"
-        android:visibility="visible"
+        android:visibility="gone"
         app:tabIndicator="@drawable/xml_bg_white_radius"
         app:tabIndicatorColor="#FFFFFF"
         app:tabIndicatorGravity="center"
@@ -54,7 +54,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="5dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp">
 
@@ -67,11 +67,11 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvProductName"
                 android:layout_width="0dp"
-                android:textAllCaps="true"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:text="Swarm"
+                android:textAllCaps="true"
                 android:textColor="@color/amber_primary_dark"
                 android:textSize="14sp"
                 android:typeface="serif" />
@@ -94,7 +94,7 @@
         android:id="@+id/chartLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvProfitName"

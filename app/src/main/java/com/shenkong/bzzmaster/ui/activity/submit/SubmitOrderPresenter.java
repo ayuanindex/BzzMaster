@@ -65,7 +65,7 @@ public class SubmitOrderPresenter extends BasePresenter<SubmitOrderEvent> {
                 });
     }
 
-    public void requestAddOrder(ProductPlanBean productPlanBean, double needPrice, int count) {
+    public void requestAddOrder(ProductPlanBean productPlanBean, double needPrice, long count) {
         OrderBean orderBean = new OrderBean();
         long uid = Long.parseLong(SpUtil.getString(Utils.getApp(), SpUtil.userId, "0"));
         LoggerUtils.d(TAG, "用户ID" + uid);

@@ -18,6 +18,8 @@ import com.shenkong.bzzmaster.ui.fragment.home.HomeViewModel;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
     private static final String TAG = "HomeProfitViewHolder";
@@ -33,7 +35,9 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
     private HomeViewModel homeViewModel;
     private List<ProductBean> productBeanList;
     private int position;
-    private int productid;
+    private int productId;
+    private Timer timer;
+    private TimerTask task;
 
     public HomeProfitViewHolder(View rootView, FragmentActivity fragmentActivity) {
         super(rootView);
@@ -63,7 +67,6 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
 */
         webViewChart.getSettings().setJavaScriptEnabled(true);
         webViewChart.loadUrl("file:///android_asset/web/line-simple.html");
-
         initEvent();
 
         homeViewModel = new ViewModelProvider(fragmentActivity).get(HomeViewModel.class);
@@ -81,6 +84,10 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
                 tabSwitchProduct.setVisibility(View.VISIBLE);
             }
         });
+
+        homeViewModel.getWebDataLiveData().observe(fragmentActivity, s -> {
+            webViewChart.loadUrl("javascript:refreshData(" + s + ")");
+        });
     }
 
     private void initEvent() {
@@ -91,11 +98,16 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
                 if (productBeanList != null) {
                     cardSwarm.setVisibility(View.GONE);
                     chartLayout.setVisibility(View.GONE);
+
                     ProductBean productBean = productBeanList.get(position);
-                    productid = productBean.getProductid();
+                    productId = productBean.getProductid();
                     tvProductName.setText(productBean.getName());
+
                     cardSwarm.setVisibility(View.VISIBLE);
                     chartLayout.setVisibility(View.VISIBLE);
+
+                    // 开启查询收益的定时器
+                    startTimer();
                 }
             }
 
@@ -109,5 +121,26 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
 
             }
         });
+    }
+
+    private void startTimer() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+
+        if (task != null) {
+            task.cancel();
+            task = null;
+        }
+
+        timer = new Timer();
+        task = new TimerTask() {
+            @Override
+            public void run() {
+                homeViewModel.initHomeProfitData(productId);
+            }
+        };
+        timer.schedule(task, 0, 5000);
     }
 }

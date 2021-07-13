@@ -149,6 +149,10 @@
         myChart.setOption(option);
     }
 
+    function refreshData(json) {
+        option.series[0].data = json;
+        myChart.setOption(option);
+    }
 </script>
 </body>
 </html>

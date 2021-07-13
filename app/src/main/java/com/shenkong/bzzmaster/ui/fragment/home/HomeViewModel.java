@@ -4,23 +4,33 @@ import android.os.Build;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.gson.Gson;
 import com.shenkong.bzzmaster.common.base.ResultBean;
+import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.BannerBean;
 import com.shenkong.bzzmaster.model.bean.CarouselBean;
+import com.shenkong.bzzmaster.model.bean.FrontPage;
 import com.shenkong.bzzmaster.model.bean.ProductBean;
 import com.shenkong.bzzmaster.model.bean.ProfitBean;
+import com.shenkong.bzzmaster.model.bean.RevenueBean;
+import com.shenkong.bzzmaster.model.bean.RevenueListBean;
 import com.shenkong.bzzmaster.net.NetManager;
 import com.shenkong.bzzmaster.net.ObjectLoader;
 import com.shenkong.bzzmaster.net.api.CarouselService;
 import com.shenkong.bzzmaster.net.api.PlanService;
 import com.shenkong.bzzmaster.net.api.ProductService;
+import com.shenkong.bzzmaster.net.api.RevenueService;
 import com.shenkong.bzzmaster.ui.base.BaseViewMode;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -36,26 +46,11 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
     private MutableLiveData<BannerBean> bannerBeanDataLiveData;
     private MutableLiveData<List<ProductBean>> productBeanListLiveData;
     private MutableLiveData<ProfitBean> profitBeanDataLiveData;
+    private MutableLiveData<String> webDataLiveData;
     private MutableLiveData<List<MultipleAdapter.LayoutType>> productPlanListLiveData;
 
     public void setLifecycleProvider(LifecycleProvider<FragmentEvent> lifecycleProvider) {
         this.lifecycleProvider = lifecycleProvider;
-    }
-
-    public MutableLiveData<List<ProductBean>> getProductBeanListLiveData() {
-        return productBeanListLiveData;
-    }
-
-    public void setProductBeanListLiveData(MutableLiveData<List<ProductBean>> productBeanListLiveData) {
-        this.productBeanListLiveData = productBeanListLiveData;
-    }
-
-    public void setProductPlanListLiveData(MutableLiveData<List<MultipleAdapter.LayoutType>> productPlanListLiveData) {
-        this.productPlanListLiveData = productPlanListLiveData;
-    }
-
-    public MutableLiveData<List<MultipleAdapter.LayoutType>> getProductPlanListLiveData() {
-        return productPlanListLiveData;
     }
 
     public MutableLiveData<BannerBean> getBannerBeanDataLiveData() {
@@ -66,12 +61,36 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
         this.bannerBeanDataLiveData = bannerBeanDataLiveData;
     }
 
+    public MutableLiveData<List<ProductBean>> getProductBeanListLiveData() {
+        return productBeanListLiveData;
+    }
+
+    public void setProductBeanListLiveData(MutableLiveData<List<ProductBean>> productBeanListLiveData) {
+        this.productBeanListLiveData = productBeanListLiveData;
+    }
+
     public MutableLiveData<ProfitBean> getProfitBeanDataLiveData() {
         return profitBeanDataLiveData;
     }
 
     public void setProfitBeanDataLiveData(MutableLiveData<ProfitBean> profitBeanDataLiveData) {
         this.profitBeanDataLiveData = profitBeanDataLiveData;
+    }
+
+    public MutableLiveData<String> getWebDataLiveData() {
+        return webDataLiveData;
+    }
+
+    public void setWebDataLiveData(MutableLiveData<String> webDataLiveData) {
+        this.webDataLiveData = webDataLiveData;
+    }
+
+    public MutableLiveData<List<MultipleAdapter.LayoutType>> getProductPlanListLiveData() {
+        return productPlanListLiveData;
+    }
+
+    public void setProductPlanListLiveData(MutableLiveData<List<MultipleAdapter.LayoutType>> productPlanListLiveData) {
+        this.productPlanListLiveData = productPlanListLiveData;
     }
 
     public void initProduct() {
@@ -145,9 +164,82 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
                 });
     }
 
-    public void initHomeProfitData() {
-        /*ProfitBean profitBean = new ProfitBean();
-        uiRefreshCallBack.initProfitData(profitBean);*/
+    /**
+     * 收益请求
+     */
+    public void initHomeProfitData(long productId) {
+        // 用户收益记录
+        FrontPage frontPage = new FrontPage();
+        frontPage.setKeyvalue(productId);
+        frontPage.setRows(7);
+        frontPage.setPage(1);
+        frontPage.setSidx("createtime");
+        //排序方式 asc升序  desc降序
+        frontPage.setSord("desc");
+        ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(RevenueService.class).requestRevenueRecord(frontPage), lifecycleProvider)
+                .map(new Function<ResultBean<RevenueListBean>, ArrayList<List>>() {
+                    @Override
+                    public ArrayList<List> apply(@NonNull ResultBean<RevenueListBean> revenueListBeanResultBean) throws Exception {
+                        if (revenueListBeanResultBean.getCode() != 200) {
+                            return null;
+                        }
+
+                        // 2021-6-15
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        ArrayList<RevenueBean> revenueDayLists = revenueListBeanResultBean.getDate().getRevenueDayLists();
+
+                        // 如果没有收益记录，则添加一行空数据，方便生成
+                        if (revenueDayLists.size() == 0) {
+                            RevenueBean e = new RevenueBean();
+                            e.setCreatedate(new Date());
+                            e.setMoney(0);
+                            revenueDayLists.add(e);
+                        }
+
+                        // 给数据按照date排序，从小到大
+                        Collections.sort(revenueDayLists, new Comparator<RevenueBean>() {
+                            @Override
+                            public int compare(RevenueBean o1, RevenueBean o2) {
+                                return o1.getCreatedate().compareTo(o2.getCreatedate());
+                            }
+                        });
+
+                        // 根据缺少的天数，不全7天的数据
+                        if (revenueDayLists.size() < 7) {
+                            RevenueBean revenueBean = revenueDayLists.get(0);
+                            Date createdate = revenueBean.getCreatedate();
+                            int theDayBefore = 7 - revenueDayLists.size();
+                            // 填充前N天的数据
+                            for (int i = 1; i <= theDayBefore; i++) {
+                                RevenueBean e = new RevenueBean();
+                                e.setCreatedate(Formatter.getTheDayBeforeDate(createdate, i));
+                                e.setMoney(0.00);
+                                revenueDayLists.add(0, e);
+                            }
+                        }
+
+                        ArrayList<List> lists = new ArrayList<>();
+                        for (RevenueBean revenueDayList : revenueDayLists) {
+                            ArrayList<Object> key = new ArrayList<>();
+                            key.add(simpleDateFormat.format(revenueDayList.getCreatedate()));
+                            key.add(revenueDayList.getMoney());
+                            lists.add(key);
+                        }
+                        return lists;
+                    }
+                })
+                .subscribe(new Consumer<ArrayList<List>>() {
+                    @Override
+                    public void accept(ArrayList<List> lists) throws Exception {
+                        webDataLiveData.postValue(new Gson().toJson(lists));
+                        LoggerUtils.d(TAG, "收益" + new Gson().toJson(lists));
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        LoggerUtils.d(TAG, "请求出错", throwable.getMessage());
+                    }
+                });
     }
 
     public void initHomeHotProductData() {

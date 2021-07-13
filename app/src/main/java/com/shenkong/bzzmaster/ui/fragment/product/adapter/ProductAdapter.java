@@ -58,8 +58,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.tvPrice.setText(String.valueOf(productPlanBean.getPrice()));
         holder.tvPriceUnit.setText(productPlanBean.getCurrency());
         holder.tvMinimumSale.setText(productPlanBean.getMincompany() + "TiB起售");
-        holder.tvRevenueDate.setText(Formatter.dateToDayFormat(productPlanBean.getRuntime()) + "天");
-        holder.tvDay.setText(Formatter.dateToDayFormat(productPlanBean.getPacktime()) + "天");
+        holder.tvRevenueDate.setText(productPlanBean.getRuntime() + "天");
+        holder.tvDay.setText(productPlanBean.getPacktime() + "天");
 
         holder.rootView.setOnClickListener((View v) -> {
             if (onItemClickListener != null) {

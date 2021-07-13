@@ -66,18 +66,24 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
             @Override
             public MultipleBaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View inflate;
+                MultipleBaseViewHolder multipleBaseViewHolder;
                 switch (viewType) {
                     case Types.BANNER_LAYOUT:
                         inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_banner, parent, false);
-                        return new HomeBannerViewHolder(inflate, requireActivity());
+                        multipleBaseViewHolder = new HomeBannerViewHolder(inflate, requireActivity());
+                        break;
                     case Types.PROFIT_LAYOUT:
                         inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_profit, parent, false);
-                        return new HomeProfitViewHolder(inflate, requireActivity());
+                        multipleBaseViewHolder = new HomeProfitViewHolder(inflate, requireActivity());
+                        break;
                     case Types.PRODUCT_LAYOUT:
                     default:
                         inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_hot_product, parent, false);
-                        return new HomeHotProductViewHolder(inflate, requireActivity());
+                        multipleBaseViewHolder = new HomeHotProductViewHolder(inflate, requireActivity());
+                        break;
                 }
+
+                return multipleBaseViewHolder;
             }
         };
         recyclerView.setAdapter(multipleAdapter);
@@ -87,13 +93,14 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
 
         multipleAdapter.addData(customerViewModel.getBannerBeanDataLiveData().getValue(), 0);
         multipleAdapter.addData(customerViewModel.getProfitBeanDataLiveData().getValue(), 1);
-
-        customerViewModel.initHomeProfitData();
     }
 
     private void initDataSubscribe() {
         // 产品
         customerViewModel.setProductBeanListLiveData(new MutableLiveData<>());
+
+        // 给网页端的收益数据
+        customerViewModel.setWebDataLiveData(new MutableLiveData<>());
 
         // 广告
         customerViewModel.setBannerBeanDataLiveData(new MutableLiveData<>());

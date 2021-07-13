@@ -9,6 +9,7 @@ public class Formatter {
     private static DecimalFormat decimalFormat = new DecimalFormat("#00.0000");
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private static final int oneDayTime = 86400000;
 
     public static String numberFormat(double value) {
         return decimalFormat.format(value);
@@ -16,6 +17,12 @@ public class Formatter {
 
     public static String dateToDayFormat(Date date) {
         return String.valueOf(date.getTime() / (1000 * 24 * 60 * 60));
+    }
+
+    public static Date getTheDayBeforeDate(Date date, int days) {
+        long time = date.getTime();
+        long l = time - (oneDayTime * days);
+        return new Date(l);
     }
 
     public static String formatData(Date date) {
