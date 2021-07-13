@@ -20,13 +20,13 @@
         android:id="@+id/tvProductPlanStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/xml_tag_background"
         android:text="状态"
         android:textColor="@color/red_primary_dark"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvProductTitle"
-        app:layout_constraintStart_toEndOf="@+id/tvProductTitle"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvProductTitle" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -71,6 +71,12 @@
         app:layout_constraintStart_toStartOf="@id/tvPrice"
         app:layout_constraintTop_toBottomOf="@id/tvPrice" />
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/miningGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:constraint_referenced_ids="tvRevenueDate, tvMiningCycleTip" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvRevenueDate"
         android:layout_width="wrap_content"
@@ -85,7 +91,7 @@
         app:layout_constraintTop_toTopOf="@id/tvDay" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/materialTextView3"
+        android:id="@+id/tvMiningCycleTip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
@@ -94,21 +100,27 @@
         app:layout_constraintStart_toStartOf="@id/tvRevenueDate"
         app:layout_constraintTop_toBottomOf="@id/tvRevenueDate" />
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/packingGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:constraint_referenced_ids="tvDay, tvPackagingCycleTip" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_marginEnd="16dp"
         android:minWidth="30dp"
         android:text="1天"
         android:textColor="@color/black"
         app:layout_constraintBaseline_toBaselineOf="@id/tvPrice"
-        app:layout_constraintStart_toStartOf="@id/tvTip"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/llTags" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvTip"
-        android:layout_width="0dp"
+        android:id="@+id/tvPackagingCycleTip"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="16dp"

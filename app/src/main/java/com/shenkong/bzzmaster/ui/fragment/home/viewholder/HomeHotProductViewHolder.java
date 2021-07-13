@@ -6,8 +6,8 @@ import android.graphics.Color;
 import android.view.View;
 
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
@@ -15,15 +15,10 @@ import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.base.SharedBean;
 import com.shenkong.bzzmaster.common.config.ConstantPool;
 import com.shenkong.bzzmaster.common.utils.Formatter;
-import com.shenkong.bzzmaster.common.utils.LoggerUtils;
-import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 import com.shenkong.bzzmaster.ui.activity.productinfo.ProductInfoActivity;
 import com.shenkong.bzzmaster.ui.activity.submit.SubmitOrderActivity;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
     private static final String TAG = "HomeHotProductViewHolde";
@@ -35,9 +30,12 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
     public MaterialTextView tvPrice;
     public MaterialTextView tvPriceUnit;
     public MaterialTextView tvMinimumSale;
+    public Group miningGroup;
     public MaterialTextView tvRevenueDate;
+    public MaterialTextView tvMiningCycleTip;
+    public Group packingGroup;
     public MaterialTextView tvDay;
-    public MaterialTextView tvTip;
+    public MaterialTextView tvPackagingCycleTip;
     public MaterialButton btnPurchase;
     private MultipleAdapter multipleAdapter;
     private ProductPlanBean productPlanBean;
@@ -52,9 +50,12 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
         this.tvPrice = rootView.findViewById(R.id.tvPrice);
         this.tvPriceUnit = rootView.findViewById(R.id.tvPriceUnit);
         this.tvMinimumSale = rootView.findViewById(R.id.tvMinimumSale);
+        this.miningGroup = rootView.findViewById(R.id.miningGroup);
         this.tvRevenueDate = rootView.findViewById(R.id.tvRevenueDate);
+        this.tvMiningCycleTip = rootView.findViewById(R.id.tvMiningCycleTip);
+        this.packingGroup = rootView.findViewById(R.id.packingGroup);
         this.tvDay = rootView.findViewById(R.id.tvDay);
-        this.tvTip = rootView.findViewById(R.id.tvTip);
+        this.tvPackagingCycleTip = rootView.findViewById(R.id.tvPackagingCycleTip);
         this.btnPurchase = rootView.findViewById(R.id.btnPurchase);
     }
 
@@ -64,12 +65,23 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
         this.multipleAdapter = multipleAdapter;
         productPlanBean = (ProductPlanBean) multipleAdapter.getBean(position);
 
+        // 设置计划名称
+        tvProductTitle.setText(productPlanBean.getName());
+
+        // 设置计划标签
+        llTags.removeAllViews();
+        if (productPlanBean.getTag() != null && !productPlanBean.getTag().isEmpty()) {
+            for (String s : productPlanBean.getTag().split(",")) {
+                llTags.addView(createTag(s));
+            }
+        }
+
         // 判断计划状态
         String status = "";
         if (productPlanBean.getStaues() == ConstantPool.Plan_PreSale) {
             // 预售
             status = "预售";
-            btnPurchase.setText("预售");
+            btnPurchase.setText("立即购买");
         } else if (productPlanBean.getStaues() == ConstantPool.Pro_Sell) {
             // 销售
             status = "销售";
@@ -93,32 +105,73 @@ public class HomeHotProductViewHolder extends MultipleAdapter.MultipleBaseViewHo
         tvProductPlanStatus.setVisibility(View.VISIBLE);
         tvProductPlanStatus.setText(status);
 
+        // 价格单位
+        String priceUnit = "USDT";
+        // 最低起售说明文字
+        String minimumSale = productPlanBean.getMincompany() + "个";
+        // 周期或锁仓提示文字
+        String miningTip = "挖矿周期";
+        String packingTip = "封装周期";
+        // 周期或锁仓数据
+        String miningUnit = "天";
+        String packingUnit = "天";
+
         // 根据币种判断控件是否需要隐藏
         if (productPlanBean.getCurrency() != null) {
-            switch (productPlanBean.getCurrency()) {
+            switch (productPlanBean.getCurrency().toLowerCase()) {
                 case "bzz":
-                    /*Swarm币种*/
+                    /*Swarm币种, 显示节点*/
+                    priceUnit = "USDT/1TiB";
+                    minimumSale = productPlanBean.getMincompany() + "TiB起售";
+                    miningTip = "挖矿周期";
+                    packingTip = "封装周期";
+                    miningUnit = productPlanBean.getRuntime() + "天";
+                    packingUnit = productPlanBean.getPacktime() + "天";
+                    miningGroup.setVisibility(View.VISIBLE);
+                    packingGroup.setVisibility(View.VISIBLE);
                     break;
                 case "xch":
                     /*Chia币种*/
+                    priceUnit = "USDT";
+                    minimumSale = "节点数量" + productPlanBean.getMincompany();
+                    miningTip = "挖矿周期";
+                    packingTip = "";
+                    miningUnit = productPlanBean.getRuntime() + "天";
+                    packingUnit = "";
+                    miningGroup.setVisibility(View.VISIBLE);
+                    packingGroup.setVisibility(View.GONE);
                     break;
-            }
-        }
-
-        tvProductTitle.setText(productPlanBean.getName());
-
-        llTags.removeAllViews();
-        if (productPlanBean.getTag() != null && !productPlanBean.getTag().isEmpty()) {
-            for (String s : productPlanBean.getTag().split(",")) {
-                llTags.addView(createTag(s));
+                case "fil":
+                    /*FIL币种*/
+                    priceUnit = "USDT/TiB";
+                    minimumSale = "" + productPlanBean.getMincompany() + "TiB起售";
+                    miningTip = "锁仓时间";
+                    packingTip = "锁仓金额";
+                    miningUnit = productPlanBean.getLocktime() + "天";
+                    packingUnit = Formatter.numberFormat(productPlanBean.getLockmoney()) + "USDT";
+                    miningGroup.setVisibility(View.VISIBLE);
+                    packingGroup.setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    priceUnit = "USDT";
+                    minimumSale = "数量";
+                    miningTip = "挖矿周期";
+                    packingTip = "封装周期";
+                    miningUnit = productPlanBean.getRuntime() + "天";
+                    packingUnit = productPlanBean.getPacktime() + "天";
+                    miningGroup.setVisibility(View.VISIBLE);
+                    packingGroup.setVisibility(View.VISIBLE);
+                    break;
             }
         }
 
         tvPrice.setText(String.valueOf(productPlanBean.getPrice()));
-        tvPriceUnit.setText(productPlanBean.getCurrency());
-        tvMinimumSale.setText(productPlanBean.getMincompany() + "TiB起售");
-        tvRevenueDate.setText(productPlanBean.getRuntime() + "天");
-        tvDay.setText(productPlanBean.getPacktime() + "天");
+        tvPriceUnit.setText(priceUnit);
+        tvMinimumSale.setText(minimumSale);
+        tvMiningCycleTip.setText(miningTip);
+        tvPackagingCycleTip.setText(packingTip);
+        tvRevenueDate.setText(miningUnit);
+        tvDay.setText(packingUnit);
 
         rootView.setOnClickListener(null);
         rootView.setOnClickListener(v -> {
