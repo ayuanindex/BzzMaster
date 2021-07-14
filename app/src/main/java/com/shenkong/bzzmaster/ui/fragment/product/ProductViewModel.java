@@ -69,7 +69,7 @@ public class ProductViewModel extends BaseViewMode<ProductEvent> {
         this.productPlan = productPlan;
     }
 
-    public void initProduct(LifecycleProvider<FragmentEvent> lifecycleProvider) {
+    public void initProduct() {
         ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(ProductService.class).requestAllProduct(), lifecycleProvider)
                 .map(new Function<ResultBean<List<ProductBean>>, ResultBean<List<ProductBean>>>() {
                     @Override

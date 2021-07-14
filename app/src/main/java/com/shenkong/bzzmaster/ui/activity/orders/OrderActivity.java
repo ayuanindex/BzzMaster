@@ -85,6 +85,10 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
         tabSwitchProduct.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                load(tab);
+            }
+
+            private void load(TabLayout.Tab tab) {
                 if (type == 0) {
                     if (mPresenter.getProductList().getValue() != null) {
                         showLoading();
@@ -103,7 +107,7 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                load(tab);
             }
         });
 

@@ -80,6 +80,10 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         tabSwitchProduct.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                load(tab);
+            }
+
+            private void load(TabLayout.Tab tab) {
                 if (customerViewModel != null) {
                     showLoading();
                     position = tab.getPosition();
@@ -94,12 +98,12 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                load(tab);
             }
         });
 
         refreshLayout.setOnRefreshListener(() -> {
-            customerViewModel.initProduct(this);
+            customerViewModel.initProductPlanData(position);
         });
 
         /*productAdapter.setOnItemClickListener((view, productPlanBean, position) -> {
@@ -132,7 +136,7 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         };
         rcProduct.setAdapter(multipleAdapter);
 
-        customerViewModel.initProduct(this);
+        customerViewModel.initProduct();
     }
 
     /**

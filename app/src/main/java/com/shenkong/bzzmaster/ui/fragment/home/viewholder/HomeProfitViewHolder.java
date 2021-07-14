@@ -56,6 +56,10 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 position = tab.getPosition();
+                loadProduct();
+            }
+
+            private void loadProduct() {
                 if (productBeanList != null) {
                     ProductBean productBean = productBeanList.get(position);
                     productId = productBean.getProductid();
@@ -74,7 +78,8 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                position = tab.getPosition();
+                loadProduct();
             }
         });
     }

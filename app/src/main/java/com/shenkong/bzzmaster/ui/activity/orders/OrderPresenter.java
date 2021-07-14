@@ -1,5 +1,7 @@
 package com.shenkong.bzzmaster.ui.activity.orders;
 
+import android.os.Build;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.shenkong.bzzmaster.common.base.ResultBean;
@@ -18,6 +20,7 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -72,7 +75,28 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
 
     public void initProductCategory() {
         ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(ProductService.class).requestAllProduct(), lifecycleProvider)
-                .retry(3)
+                .map(new Function<ResultBean<List<ProductBean>>, ResultBean<List<ProductBean>>>() {
+                    @Override
+                    public ResultBean<List<ProductBean>> apply(@NonNull ResultBean<List<ProductBean>> listResultBean) throws Exception {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            listResultBean.getDate().removeIf(new Predicate<ProductBean>() {
+                                @Override
+                                public boolean test(ProductBean productBean) {
+                                    return productBean.getStaues() == 1;
+                                }
+                            });
+                        } else {
+                            List<ProductBean> date = listResultBean.getDate();
+                            for (int i = 0; i < date.size(); i++) {
+                                if (date.get(i).getStaues() == 1) {
+                                    date.remove(date.get(i));
+                                    i--;
+                                }
+                            }
+                        }
+                        return listResultBean;
+                    }
+                })
                 .subscribe(new Consumer<ResultBean<List<ProductBean>>>() {
                     @Override
                     public void accept(ResultBean<List<ProductBean>> listResultBean) throws Exception {

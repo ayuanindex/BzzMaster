@@ -1,6 +1,7 @@
 package com.shenkong.bzzmaster.ui.fragment.home;
 
 import android.os.Build;
+import android.view.LayoutInflater;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -196,10 +197,10 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
     public synchronized void initHomeProfitData(long productId) {
         // 如果上一个请求没有完成，那就不让新的请求发生
         if (profitSubscribe != null && !profitSubscribe.isDisposed()) {
-            LoggerUtils.d(TAG, "上一个请求未完成，拒绝其他请求");
             return;
         }
 
+        //LoggerUtils.d(TAG, "收益选择的产品为" + productId);
         // 用户收益记录
         FrontPage frontPage = new FrontPage();
         frontPage.setKeyvalue(productId);
@@ -213,11 +214,20 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
                     @Override
                     public void accept(ResultBean<RevenueListBean> revenueListBeanResultBean) throws Exception {
                         if (revenueListBeanResultBean.getCode() == 200) {
+                            // 处理好的图表数据
                             ArrayList<List<Object>> jsonLists = getJsonLists(revenueListBeanResultBean);
+
+                            // 计算总收益
+                            double money = 0;
+                            ArrayList<RevenueBean> allGains = revenueListBeanResultBean.getDate().getAllGains();
+                            for (RevenueBean allGain : allGains) {
+                                money += allGain.getMoney();
+                            }
+
+                            webProfitDaysLiveData.postValue("");
+                            webProfitMoneyLiveData.postValue(Formatter.numberFormat(money));
                             webDataLiveData.postValue(new Gson().toJson(jsonLists));
-                            RevenueBean revenueBean = revenueListBeanResultBean.getDate().getAllGains().get(0);
-                            webProfitDaysLiveData.postValue("0");
-                            webProfitMoneyLiveData.postValue(Formatter.numberFormat(revenueBean.getMoney()));
+                            //LoggerUtils.d(TAG, money + "-------收益----" + revenueListBeanResultBean.toString());
                         }
                     }
                 }, new Consumer<Throwable>() {

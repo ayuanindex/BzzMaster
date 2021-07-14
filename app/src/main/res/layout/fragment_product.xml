@@ -1,87 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/llTop"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabSwitchProduct"
-            android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/xml_bg_gray_radius"
-            app:tabIndicator="@drawable/xml_bg_white_radius"
-            app:tabIndicatorColor="#FFFFFF"
-            app:tabIndicatorGravity="center"
-            app:tabIndicatorHeight="28dp"
-            app:tabMode="auto"
-            app:tabRippleColor="#00000000">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <!-- <com.google.android.material.tabs.TabItem
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="XCH"
-                 android:visibility="gone" />
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabSwitchProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/xml_bg_gray_radius"
+                app:tabIndicator="@drawable/xml_bg_white_radius"
+                app:tabIndicatorColor="#FFFFFF"
+                app:tabIndicatorGravity="center"
+                app:tabIndicatorHeight="28dp"
+                app:tabMode="auto"
+                app:tabRippleColor="#00000000">
 
-             <com.google.android.material.tabs.TabItem
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="BZZ"
-                 android:visibility="gone" />-->
-        </com.google.android.material.tabs.TabLayout>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+                <!-- <com.google.android.material.tabs.TabItem
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="XCH"
+                     android:visibility="gone" />
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/progressLoadingData"
-        style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivEmptyView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/img_empty"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llTop" />
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llTop">
+                 <com.google.android.material.tabs.TabItem
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="BZZ"
+                     android:visibility="gone" />-->
+            </com.google.android.material.tabs.TabLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcProduct"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llTop"
             tools:listitem="@layout/item_product" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progressLoadingData"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivEmptyView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/img_empty"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llTop" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

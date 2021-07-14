@@ -24,7 +24,7 @@
             subtext: '已挖0天',
             textStyle: {
                 color: 'rgba(32, 133, 79, 1)',
-                fontSize: 15
+                fontSize: 12
             },
             subtextStyle: {fontSize: 10}
         },
@@ -154,11 +154,11 @@
     }
 
     function setProfitDay(day) {
-        option.title.subtext = "已挖" + profit + "天";
+        option.title.subtext = day;
     }
 
     function setProfitCount(money) {
-        option.title.text = money;
+        option.title.text = "最近近7天的收益为" + money;
     }
 </script>
 </body>
