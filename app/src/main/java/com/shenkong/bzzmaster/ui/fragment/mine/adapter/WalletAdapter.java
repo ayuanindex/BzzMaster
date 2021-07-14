@@ -26,7 +26,6 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder
     @NonNull
     @Override
     public WalletAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LogUtils.d("test", "创建");
         return new ViewHolder(ItemCurrencyBalanceBinding.inflate(LayoutInflater.from(context), parent, false));
     }
 

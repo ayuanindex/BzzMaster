@@ -1,16 +1,15 @@
 package com.shenkong.bzzmaster.ui.activity.web;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.widget.ContentLoadingProgressBar;
-import androidx.exifinterface.media.ExifInterface;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.textview.MaterialTextView;
@@ -51,11 +50,12 @@ public class WebViewActivity extends BaseMvpActivity<WebViewPresenter> {
             @Override
             public void onRefresh() {
                 progressLoading.show();
-                webView.loadUrl(url);
+                webView.reload();
             }
         });
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void initData() {
         url = getIntent().getStringExtra(URL);
@@ -69,6 +69,7 @@ public class WebViewActivity extends BaseMvpActivity<WebViewPresenter> {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setLoadsImagesAutomatically(true);
         webSettings.setDefaultTextEncodingName("utf-8");
+        webSettings.setDomStorageEnabled(true);
 
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -84,9 +85,19 @@ public class WebViewActivity extends BaseMvpActivity<WebViewPresenter> {
                     uiHandler.postDelayed(() -> progressLoading.hide(), 200);
                 }
             }
-
-
         });
+
+        /*webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                LogUtils.d(request.isForMainFrame(), "path:" + request.getUrl().toString());
+                if (!request.isForMainFrame()) {
+                    super.shouldOverrideUrlLoading(view, request);
+                }
+                view.loadUrl(request.getUrl().toString());
+                return true;
+            }
+        });*/
 
         webView.loadUrl(url);
     }
@@ -109,5 +120,14 @@ public class WebViewActivity extends BaseMvpActivity<WebViewPresenter> {
     @Override
     public void showToastMsg(String msg, int type) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!webView.canGoBack()) {
+            super.onBackPressed();
+        } else {
+            webView.goBack();
+        }
     }
 }
