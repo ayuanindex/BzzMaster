@@ -3,6 +3,7 @@ package com.shenkong.bzzmaster.ui.activity.main;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.tv.TvView;
 import android.net.Uri;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -22,12 +24,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.broadcast.LogOutBroadCast;
-import com.shenkong.bzzmaster.common.base.ResultBean;
 import com.shenkong.bzzmaster.common.utils.AlertDialogUtil;
 import com.shenkong.bzzmaster.common.utils.ApkVersionInfoUtil;
 import com.shenkong.bzzmaster.databinding.DialogUpdateAppBinding;
 import com.shenkong.bzzmaster.model.bean.AppUpdateBean;
-import com.shenkong.bzzmaster.ui.activity.login.LoginActivity;
+import com.shenkong.bzzmaster.ui.activity.notice.NoticeActivity;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
 
 import java.util.ArrayList;
@@ -72,6 +73,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
                 switch (item.getItemId()) {
                     case R.id.home:
                         llNoticeLayout.setVisibility(View.VISIBLE);
+                        mPresenter.requestNotice();
                         currentItemPosition = 0;
                         break;
                     case R.id.product:
@@ -91,13 +93,19 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
         llNoticeLayout.setOnClickListener(v -> {
             // TODO: 2021/7/12 公告界面
+            jumpActivity(NoticeActivity.class);
         });
     }
 
     @Override
     protected void initData() {
         mPresenter.setLifecycleProvider(this);
+        initDataSubscribe();
 
+        // 请求公告信息
+        mPresenter.requestNotice();
+
+        // 检查app更新
         mPresenter.checkAppWhetherUpdate(ApkVersionInfoUtil.getVersionCode(this));
 
         mPresenter.initViewPager();
@@ -105,6 +113,14 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         LogOutBroadCast receiver = new LogOutBroadCast();
         receiver.setCallBack(this::finish);
         registerReceiver(receiver, new IntentFilter("logOut"));
+    }
+
+    private void initDataSubscribe() {
+        mPresenter.setNoticeListLiveData(new MutableLiveData<>());
+        mPresenter.getNoticeListLiveData().observe(this, noticeBeans -> {
+            tvNoticeCount.setVisibility(View.VISIBLE);
+            tvNoticeCount.setText(String.valueOf(noticeBeans.size()));
+        });
     }
 
     @Override

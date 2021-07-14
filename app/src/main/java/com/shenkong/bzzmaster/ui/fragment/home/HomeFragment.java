@@ -179,6 +179,7 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
     @Override
     public void onResume() {
         super.onResume();
+        customerViewModel.initProduct();
         customerViewModel.initHomeBannerData();
         customerViewModel.initHomeHotProductData();
     }

@@ -122,7 +122,6 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
         btnSubmitOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2021/7/9 进行余额和最小购买数量判断 并决定是否需要弹出
                 if (count >= minCount) {
                     showSubmitDialog();
                 } else {

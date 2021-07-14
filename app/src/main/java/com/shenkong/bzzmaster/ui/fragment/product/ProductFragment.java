@@ -11,6 +11,7 @@ import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.tabs.TabLayout;
 import com.shenkong.bzzmaster.R;
@@ -27,7 +28,7 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
     private RecyclerView rcProduct;
     // private ProductAdapter productAdapter;
     private ContentLoadingProgressBar progressLoadingData;
-    private AppCompatImageView viewById;
+    private SwipeRefreshLayout refreshLayout;
     private AppCompatImageView ivEmptyView;
     private int position;
     private MultipleAdapter multipleAdapter;
@@ -54,6 +55,7 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         rcProduct = inflate.findViewById(R.id.rcProduct);
         progressLoadingData = inflate.findViewById(R.id.progressLoadingData);
         ivEmptyView = inflate.findViewById(R.id.ivEmptyView);
+        refreshLayout = inflate.findViewById(R.id.refreshLayout);
 
         setRcProductStyle();
     }
@@ -96,6 +98,10 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
             }
         });
 
+        refreshLayout.setOnRefreshListener(() -> {
+            customerViewModel.initProduct(this);
+        });
+
         /*productAdapter.setOnItemClickListener((view, productPlanBean, position) -> {
             SharedBean.remove(SharedBean.ProductPlanBean);
             SharedBean.putData(SharedBean.ProductPlanBean, productPlanBean);
@@ -125,6 +131,8 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
             }
         };
         rcProduct.setAdapter(multipleAdapter);
+
+        customerViewModel.initProduct(this);
     }
 
     /**
@@ -156,6 +164,7 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
 
     @Override
     public void hideLoading() {
+        refreshLayout.setRefreshing(false);
         progressLoadingData.setVisibility(View.GONE);
         progressLoadingData.hide();
     }
@@ -172,6 +181,5 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
     @Override
     public void onResume() {
         super.onResume();
-        customerViewModel.initProduct(this);
     }
 }

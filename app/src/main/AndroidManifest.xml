@@ -32,48 +32,69 @@
             </intent-filter>
         </receiver>
 
+        <!--登录界面-->
         <activity
             android:name=".ui.activity.login.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!--主界面-->
         <activity
             android:name=".ui.activity.main.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!--产品计划详情-->
         <activity
             android:name=".ui.activity.productinfo.ProductInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!--USDT充值-->
         <activity
             android:name=".ui.activity.receive.ReceivePaymentActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!--转账-->
         <activity
             android:name=".ui.activity.transfer.TransferActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!--订单列表-->
         <activity
             android:name=".ui.activity.orders.OrderActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!--联系我们-->
         <activity
             android:name=".ui.activity.contact.ContactActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!--设置-->
         <activity
             android:name=".ui.activity.settings.SettingsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!--订单提交-->
         <activity
             android:name=".ui.activity.submit.SubmitOrderActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <!--公告-->
+        <activity
+            android:name=".ui.activity.notice.NoticeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <!--显示网页的界面-->
+        <activity
+            android:name=".ui.activity.web.WebViewActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
     </application>

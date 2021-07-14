@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:text="提交验证码，完成转账"
+            android:text="转账信息确认"
             android:textColor="@color/green_primary_dark"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +25,7 @@
             android:id="@+id/tvAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="转账地址:"
             app:layout_constraintEnd_toEndOf="@+id/materialTextView"
             app:layout_constraintStart_toStartOf="@+id/materialTextView"
@@ -41,13 +41,36 @@
             app:layout_constraintStart_toStartOf="@+id/materialTextView"
             app:layout_constraintTop_toBottomOf="@+id/tvAddress" />
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTipsOnTransferRisk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="16dp"
+            android:drawableTop="@drawable/xml_waring"
+            android:text="@string/SubmitTransferAccountsTip"
+            android:textColor="#FF5A00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvBalance" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/cbInformationConfirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="已确认信息无误"
+            android:textColor="@color/green_primary_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTipsOnTransferRisk" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilVerificationCode"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
             android:minHeight="40dp"
             android:orientation="horizontal"
@@ -58,7 +81,7 @@
             app:boxCornerRadiusTopStart="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvBalance">
+            app:layout_constraintTop_toBottomOf="@+id/cbInformationConfirmation">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tieVerificationCode"
@@ -91,7 +114,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="6dp"
             android:layout_weight="1"
             android:insetTop="5dp"
@@ -110,10 +132,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="6dp"
             android:layout_weight="1"
+            android:enabled="false"
             android:insetTop="5dp"
             android:insetBottom="5dp"
             android:text="立即提交"

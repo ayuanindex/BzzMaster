@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.shenkong.bzzmaster.common.base.ResultBean;
+import com.shenkong.bzzmaster.common.base.SharedBean;
 import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.BannerBean;
@@ -50,6 +51,7 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
     private MutableLiveData<String> webProfitMoneyLiveData;
     private MutableLiveData<List<MultipleAdapter.LayoutType>> productPlanListLiveData;
     private Disposable profitSubscribe;
+    private Disposable productSubscribe;
 
     public void setLifecycleProvider(LifecycleProvider<FragmentEvent> lifecycleProvider) {
         this.lifecycleProvider = lifecycleProvider;
@@ -112,10 +114,15 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
     }
 
     public void initProduct() {
-        ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(ProductService.class).requestAllProduct(), lifecycleProvider)
+        if (productSubscribe != null && !productSubscribe.isDisposed()) {
+            return;
+        }
+
+        productSubscribe = ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(ProductService.class).requestAllProduct(), lifecycleProvider)
                 .map(new Function<ResultBean<List<ProductBean>>, ResultBean<List<ProductBean>>>() {
                     @Override
                     public ResultBean<List<ProductBean>> apply(@NonNull ResultBean<List<ProductBean>> listResultBean) throws Exception {
+                        // 只需拿着可以购买计划的产品
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             listResultBean.getDate().removeIf(new Predicate<ProductBean>() {
                                 @Override
@@ -140,6 +147,7 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
                     public void accept(ResultBean<List<ProductBean>> listResultBean) throws Exception {
                         if (listResultBean.getCode() == 200) {
                             productBeanListLiveData.postValue(listResultBean.getDate());
+                            SharedBean.putData(SharedBean.Product, listResultBean.getDate());
                         }
                         LoggerUtils.d(TAG, listResultBean.toString());
                     }
@@ -186,7 +194,7 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
      * 收益请求
      */
     public synchronized void initHomeProfitData(long productId) {
-        // 如果上一个请求没有完成，那就不然新的请求发生
+        // 如果上一个请求没有完成，那就不让新的请求发生
         if (profitSubscribe != null && !profitSubscribe.isDisposed()) {
             LoggerUtils.d(TAG, "上一个请求未完成，拒绝其他请求");
             return;

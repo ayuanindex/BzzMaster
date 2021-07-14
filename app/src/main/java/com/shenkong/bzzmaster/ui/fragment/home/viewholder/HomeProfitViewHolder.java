@@ -60,8 +60,10 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
                     ProductBean productBean = productBeanList.get(position);
                     productId = productBean.getProductid();
                     tvProductName.setText(productBean.getName());
+                    // 获取收益数据
+                    homeViewModel.initHomeProfitData(productId);
                     // 开启查询收益的定时器
-                    startTimer();
+                    //startTimer();
                 }
             }
 
@@ -92,10 +94,11 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
 */
         webViewChart.getSettings().setJavaScriptEnabled(true);
         webViewChart.loadUrl("file:///android_asset/web/line-simple.html");
-        initEvent();
 
         homeViewModel = new ViewModelProvider(fragmentActivity).get(HomeViewModel.class);
         initDataSubscribe();
+
+        initEvent();
 
         // 请求产品列表
         homeViewModel.initProduct();

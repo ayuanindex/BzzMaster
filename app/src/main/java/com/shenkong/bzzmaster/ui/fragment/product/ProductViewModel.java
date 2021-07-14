@@ -98,6 +98,8 @@ public class ProductViewModel extends BaseViewMode<ProductEvent> {
                     public void accept(ResultBean<List<ProductBean>> listResultBean) throws Exception {
                         if (listResultBean.getCode() == 200) {
                             productList.postValue(listResultBean.getDate());
+                        } else {
+                            uiRefreshCallBack.hideLoading();
                         }
                         LoggerUtils.d(TAG, listResultBean.toString());
                     }
@@ -105,6 +107,7 @@ public class ProductViewModel extends BaseViewMode<ProductEvent> {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         LoggerUtils.d(TAG, "网络请求发生错误，请检查网络链接是否正常", throwable.getMessage());
+                        uiRefreshCallBack.hideLoading();
                     }
                 });
     }

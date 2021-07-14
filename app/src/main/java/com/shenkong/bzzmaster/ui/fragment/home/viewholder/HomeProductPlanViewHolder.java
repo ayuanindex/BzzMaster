@@ -121,8 +121,8 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
             switch (productPlanBean.getCurrency().toLowerCase()) {
                 case "bzz":
                     /*Swarm币种, 显示节点*/
-                    priceUnit = "USDT/1TiB";
-                    minimumSale = productPlanBean.getMincompany() + "TiB起售";
+                    priceUnit = "USDT";
+                    minimumSale = "节点数量" + productPlanBean.getMincompany() + "";
                     miningTip = "挖矿周期";
                     packingTip = "封装周期";
                     miningUnit = productPlanBean.getRuntime() + "天";
@@ -132,8 +132,8 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
                     break;
                 case "xch":
                     /*Chia币种*/
-                    priceUnit = "USDT";
-                    minimumSale = "节点数量" + productPlanBean.getMincompany();
+                    priceUnit = "USDT/TiB";
+                    minimumSale = "" + productPlanBean.getMincompany() + "TiB起售";
                     miningTip = "挖矿周期";
                     packingTip = "";
                     miningUnit = productPlanBean.getRuntime() + "天";

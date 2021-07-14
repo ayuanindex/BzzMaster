@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AlertDialog;
@@ -153,6 +154,9 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
         alertDialog.setCancelable(false);
         confirmBinding.tvAddress.setText("目标收款地址:" + address);
         confirmBinding.tvBalance.setText("转账金额:" + doubleAmountOfMoney);
+        confirmBinding.cbInformationConfirmation.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            confirmBinding.btnSubmitImmediately.setEnabled(isChecked);
+        });
         confirmBinding.btnCancel.setOnClickListener(v -> alertDialog.dismiss());
         confirmBinding.btnSubmitImmediately.setOnClickListener(v -> {
             mPresenter.requestTransferOut(address, doubleAmountOfMoney, productId);

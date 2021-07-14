@@ -8,7 +8,7 @@ public class ModelPath {
     /**
      * 本地
      */
-    public static final String baseUrl = "http://192.168.1.104:8085/";
+    public static final String baseUrl = "http://192.168.1.105:8085/";
 
     /**
      * 线上
@@ -60,4 +60,9 @@ public class ModelPath {
      * 收益
      */
     public static final String Revenue = "revenue";
+
+    /**
+     * 公告
+     */
+    public static final String Notice = "notice";
 }
