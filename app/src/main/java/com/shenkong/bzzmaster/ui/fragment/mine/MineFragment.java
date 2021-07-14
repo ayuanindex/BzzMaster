@@ -6,26 +6,29 @@ import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
-import com.shenkong.bzzmaster.common.base.SharedBean;
 import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.SpUtil;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
-import com.shenkong.bzzmaster.model.bean.ProductBean;
+import com.shenkong.bzzmaster.databinding.DialogBottomWalletBinding;
+import com.shenkong.bzzmaster.model.bean.CapitalBean;
 import com.shenkong.bzzmaster.ui.activity.contact.ContactActivity;
 import com.shenkong.bzzmaster.ui.activity.orders.OrderActivity;
 import com.shenkong.bzzmaster.ui.activity.receive.ReceivePaymentActivity;
 import com.shenkong.bzzmaster.ui.activity.settings.SettingsActivity;
 import com.shenkong.bzzmaster.ui.activity.transfer.TransferActivity;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
+import com.shenkong.bzzmaster.ui.fragment.mine.adapter.WalletAdapter;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class MineFragment extends BaseFragment<MineViewModel, MineEvent> implements MineEvent {
     public static MineFragment mineFragment;
@@ -44,6 +47,7 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
     private MaterialTextView tvXCHAvailable;
     private MaterialCardView materialCardView;
     private MaterialCardView materialCardView2;
+    private WalletAdapter walletAdapter;
 
     public static MineFragment getInstance() {
         if (mineFragment == null) {
@@ -90,6 +94,26 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
         // 转账
         btnTransferAccounts.setOnClickListener(v -> startActivity(new Intent(getContext(), TransferActivity.class)));
 
+        clWalletCard.setOnClickListener(v -> {
+            if (customerViewModel.getCapitalBeanListLiveData().getValue() != null && customerViewModel.getCapitalBeanListLiveData().getValue().size() > 0) {
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext(), R.style.bottomSheetDialog);
+                DialogBottomWalletBinding walletBinding = DialogBottomWalletBinding.inflate(getLayoutInflater());
+                bottomSheetDialog.setContentView(walletBinding.getRoot());
+
+                View parent = (View) walletBinding.getRoot().getParent();
+                BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(parent);
+                walletBinding.getRoot().measure(0, 0);
+                behavior.setPeekHeight(walletBinding.getRoot().getMeasuredHeight());
+                behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+                walletBinding.recyclerWallet.setLayoutManager(new LinearLayoutManager(getContext()));
+                walletAdapter = new WalletAdapter(getContext());
+                walletBinding.recyclerWallet.setAdapter(walletAdapter);
+                walletAdapter.resetData(customerViewModel.getCapitalBeanListLiveData().getValue());
+                bottomSheetDialog.show();
+            }
+        });
+
         // 我的订单
         tvMyOrder.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), OrderActivity.class);
@@ -135,11 +159,15 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
 
         customerViewModel.setCapitalBeanListLiveData(new MutableLiveData<>());
         customerViewModel.getCapitalBeanListLiveData().observe(this, capitalBeans -> {
-            tvUSDTAvailable.setText(capitalBeans.get(1).getName() + "可用余额");
+            tvUSDTAvailable.setText(capitalBeans.get(1).getCurrency() + "可用余额");
             tvUSDTBalance.setText(Formatter.numberFormat(capitalBeans.get(1).getBalance()) + "");
 
-            tvXCHAvailable.setText(capitalBeans.get(0).getName() + "可用余额");
+            tvXCHAvailable.setText(capitalBeans.get(0).getCurrency() + "可用余额");
             tvXCHBalance.setText(Formatter.numberFormat(capitalBeans.get(0).getBalance()) + "");
+
+            if (walletAdapter != null) {
+                walletAdapter.resetData(capitalBeans);
+            }
         });
     }
 

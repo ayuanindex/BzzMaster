@@ -55,4 +55,13 @@
         <item name="android:windowEnterAnimation">@anim/xml_in</item>
         <item name="android:windowExitAnimation">@anim/xml_out</item>
     </style>
+
+    <style name="bottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="bottomSheetStyle">@style/bottomSheetStyleWrapper</item>
+    </style>
+
+    <style name="bottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 </resources>

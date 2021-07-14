@@ -12,6 +12,11 @@ public class CapitalBean {
     private String name;
 
     /**
+     * 币种
+     */
+    private String currency;
+
+    /**
      * 产品ID
      */
     private long pid;
@@ -107,11 +112,20 @@ public class CapitalBean {
         this.applyid = applyid;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
     @Override
     public String toString() {
         return "CapitalBean{" +
                 "capitalid=" + capitalid +
                 ", name='" + name + '\'' +
+                ", currency='" + currency + '\'' +
                 ", pid=" + pid +
                 ", uid=" + uid +
                 ", staue=" + staue +

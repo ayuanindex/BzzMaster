@@ -14,6 +14,7 @@ import com.shenkong.bzzmaster.ui.base.BaseViewMode;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.annotations.NonNull;
@@ -68,7 +69,8 @@ public class MineViewModel extends BaseViewMode<MineEvent> {
                             for (CapitalBean capitalBean : listResultBean.getDate()) {
                                 for (ProductBean productBean : productBeanList) {
                                     if (productBean.getProductid() == capitalBean.getPid()) {
-                                        capitalBean.setName(productBean.getCurrency());
+                                        capitalBean.setName(productBean.getName());
+                                        capitalBean.setCurrency(productBean.getCurrency());
                                     }
                                 }
                             }
@@ -81,6 +83,8 @@ public class MineViewModel extends BaseViewMode<MineEvent> {
                     public void accept(ResultBean<List<CapitalBean>> listResultBean) throws Exception {
                         if (listResultBean.getCode() == 200) {
                             capitalBeanListLiveData.postValue(listResultBean.getDate());
+                        } else {
+                            capitalBeanListLiveData.postValue(new ArrayList<>());
                         }
                         LoggerUtils.d(TAG, listResultBean.toString());
                     }
