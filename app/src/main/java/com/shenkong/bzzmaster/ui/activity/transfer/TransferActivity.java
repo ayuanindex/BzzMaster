@@ -149,11 +149,15 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
     @SuppressLint("SetTextI18n")
     @Override
     public void showConfirmDialog(String address, double doubleAmountOfMoney) {
+        if (doubleAmountOfMoney > 1000000) {
+            showToastMsg("转账金额不能大于1000000", 0);
+            return;
+        }
         DialogConfirmBinding confirmBinding = DialogConfirmBinding.inflate(getLayoutInflater());
         AlertDialog alertDialog = AlertDialogUtil.getAlertDialog(this, confirmBinding.getRoot());
         alertDialog.setCancelable(false);
-        confirmBinding.tvAddress.setText("目标收款地址:" + address);
-        confirmBinding.tvBalance.setText("转账金额:" + doubleAmountOfMoney);
+        confirmBinding.tvAddress.setText("↓目标收款地址↓\n" + address);
+        confirmBinding.tvBalance.setText("↓转账金额↓\n" + Formatter.numberFormat(doubleAmountOfMoney));
         confirmBinding.cbInformationConfirmation.setOnCheckedChangeListener((buttonView, isChecked) -> {
             confirmBinding.btnSubmitImmediately.setEnabled(isChecked);
         });
