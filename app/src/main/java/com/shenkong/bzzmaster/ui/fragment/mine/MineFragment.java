@@ -159,15 +159,11 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
 
         customerViewModel.setCapitalBeanListLiveData(new MutableLiveData<>());
         customerViewModel.getCapitalBeanListLiveData().observe(this, capitalBeans -> {
-            tvUSDTAvailable.setText(capitalBeans.get(1).getCurrency() + "可用余额");
-            tvUSDTBalance.setText(Formatter.numberFormat(capitalBeans.get(1).getBalance()) + "");
-
             tvXCHAvailable.setText(capitalBeans.get(0).getCurrency() + "可用余额");
             tvXCHBalance.setText(Formatter.numberFormat(capitalBeans.get(0).getBalance()) + "");
 
-            if (walletAdapter != null) {
-                walletAdapter.resetData(capitalBeans);
-            }
+            tvUSDTAvailable.setText(capitalBeans.get(1).getCurrency() + "可用余额");
+            tvUSDTBalance.setText(Formatter.numberFormat(capitalBeans.get(1).getBalance()) + "");
         });
     }
 

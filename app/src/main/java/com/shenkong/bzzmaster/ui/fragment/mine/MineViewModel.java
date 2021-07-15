@@ -83,9 +83,9 @@ public class MineViewModel extends BaseViewMode<MineEvent> {
                     public void accept(ResultBean<List<CapitalBean>> listResultBean) throws Exception {
                         if (listResultBean.getCode() == 200) {
                             capitalBeanListLiveData.postValue(listResultBean.getDate());
-                        } else {
+                        }/* else {
                             capitalBeanListLiveData.postValue(new ArrayList<>());
-                        }
+                        }*/
                         LoggerUtils.d(TAG, listResultBean.toString());
                     }
                 }, throwable -> LoggerUtils.d(TAG, "网络请求出现错误", throwable.getMessage()));
