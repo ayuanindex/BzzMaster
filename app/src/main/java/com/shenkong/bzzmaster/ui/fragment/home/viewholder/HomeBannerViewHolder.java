@@ -10,9 +10,11 @@ import androidx.lifecycle.Observer;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.shenkong.bzzmaster.R;
+import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.BannerBean;
 import com.shenkong.bzzmaster.model.bean.CarouselBean;
 import com.shenkong.bzzmaster.ui.fragment.home.HomeBannerFragment;
@@ -60,7 +62,9 @@ public class HomeBannerViewHolder extends MultipleAdapter.MultipleBaseViewHolder
                 fragments.add(new HomeBannerFragment(bannerBean.getCarouselBeanList().get(i), bannerBean.getDefaultImgRes()));
             }
         }
+
         bannerPagerAdapter.notifyDataSetChanged();
+
         new TabLayoutMediator(tabLayout, bannerPager, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
@@ -75,6 +79,20 @@ public class HomeBannerViewHolder extends MultipleAdapter.MultipleBaseViewHolder
         if (bannerPagerAdapter.getItemCount() > 1) {
             startBannerLooper(bannerPagerAdapter.getItemCount());
         }
+
+        // 这车监听，在用户滑动时重新启用定时器
+        bannerPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if (itemPosition.getValue() != null) {
+                    if (position != itemPosition.getValue()) {
+                        itemPosition.setValue(position);
+                        startBannerLooper(bannerPagerAdapter.getItemCount());
+                    }
+                }
+            }
+        });
     }
 
 
