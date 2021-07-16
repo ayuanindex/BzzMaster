@@ -103,6 +103,9 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         });
 
         refreshLayout.setOnRefreshListener(() -> {
+            if (customerViewModel.getProductList().getValue() == null) {
+                customerViewModel.initProduct();
+            }
             customerViewModel.initProductPlanData(position);
         });
 

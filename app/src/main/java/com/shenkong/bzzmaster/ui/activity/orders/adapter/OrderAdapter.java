@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.shenkong.bzzmaster.common.config.StatusCodeMatching;
 import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.databinding.ItemOrderBinding;
 import com.shenkong.bzzmaster.model.bean.OrderBean;
@@ -35,7 +36,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         OrderBean orderBean = orderBeanList.get(position);
         holder.itemOrderBinding.tvProductName.setText(orderBean.getPname());
         holder.itemOrderBinding.tvOrderDate.setText(orderBean.getCreatetime());
-        holder.itemOrderBinding.tvOrderStatus.setText("已支付");// TODO: 2021/7/11 这里根据status字段判断订单状态
+        holder.itemOrderBinding.tvOrderStatus.setText(StatusCodeMatching.getOrderStatus(orderBean.getStaue()));
         holder.itemOrderBinding.tvOrderMoney.setText(Formatter.numberFormat(orderBean.getAmount()));
         holder.itemOrderBinding.tvProductCount.setText(String.valueOf(orderBean.getNumber()));
         holder.itemOrderBinding.tvProductSize.setText(orderBean.getNumber() + "个");
