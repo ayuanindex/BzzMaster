@@ -14,6 +14,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
+import com.shenkong.bzzmaster.common.config.ExternalLinks;
 import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.SpUtil;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
@@ -124,7 +125,7 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
         tvShareAndDownload.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, "https://www.baidu.com");
+            intent.putExtra(Intent.EXTRA_TEXT, ExternalLinks.APP_DOWNLOAD_LINK);
             startActivity(Intent.createChooser(intent, "下载链接"));
         });
     }

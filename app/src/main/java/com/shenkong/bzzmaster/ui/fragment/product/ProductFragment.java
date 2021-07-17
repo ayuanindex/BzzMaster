@@ -146,6 +146,7 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
      * 数据订阅
      */
     private void initDataSubscribe() {
+        // 产品数据
         customerViewModel.setProductList(new MutableLiveData<>());
         customerViewModel.getProductList().observe(this, productBeanList -> {
             tabSwitchProduct.removeAllTabs();
@@ -154,6 +155,7 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
             }
         });
 
+        // 产品计划数据订阅
         customerViewModel.setProductPlan(new MutableLiveData<>());
         customerViewModel.getProductPlan().observe(this, productPlanBeans -> {
             isShowEmptyView(productPlanBeans.isEmpty());
