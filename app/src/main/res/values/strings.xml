@@ -15,7 +15,11 @@
         • 100USDT起充，充值少于100USDT系统不会到账，请注意。
     </string>
     <string name="SubmitTransferAccountsTip">
-        请仔细核对当前的转账地址和转账金额,若地址和资金有误，转账发起后将无法找回。若已确认信息无误,请点击下方<font color="#4CAF50">已确认信息无误</font>按钮,再提交转账。
+        <p style=" text-align:center;">
+            ⚠免责声明⚠
+        </p>
+        请仔细核对当前的转账地址和转账金额, 若地址和资金有误, 转账发起后将无法找回。若已确认信息无误, 请点击下方<font color="#4CAF50">已确认信息无误</font>按钮,
+        再提交转申请交由后台审核。
     </string>
 
     <string-array name="Currency">

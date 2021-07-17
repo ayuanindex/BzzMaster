@@ -50,6 +50,8 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
     private MaterialButton btnConfirmTransfer;
     private int productId;
     private int currentPosition;
+    private final double maxAmountOfMoney = 1000000;
+    private final double minAmountOfMoney = 0.01;
 
     @Override
     public int getLayoutId() {
@@ -149,10 +151,16 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
     @SuppressLint("SetTextI18n")
     @Override
     public void showConfirmDialog(String address, double doubleAmountOfMoney) {
-        if (doubleAmountOfMoney > 1000000) {
+        if (doubleAmountOfMoney > maxAmountOfMoney) {
             showToastMsg("转账金额不能大于1000000", 0);
             return;
         }
+
+        if (doubleAmountOfMoney < minAmountOfMoney) {
+            showToastMsg("转账金额不能小于0.01", 0);
+            return;
+        }
+
         DialogConfirmBinding confirmBinding = DialogConfirmBinding.inflate(getLayoutInflater());
         AlertDialog alertDialog = AlertDialogUtil.getAlertDialog(this, confirmBinding.getRoot());
         alertDialog.setCancelable(false);

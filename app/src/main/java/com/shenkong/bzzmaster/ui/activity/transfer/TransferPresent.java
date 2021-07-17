@@ -55,18 +55,24 @@ public class TransferPresent extends BasePresenter<TransferEvent> {
     }
 
     public void confirmTransfer(String address, String amountOfMoney) {
-        if (TextUtils.isEmpty(address) || TextUtils.isEmpty(amountOfMoney)) {
-            mView.showToastMsg("请输入完整信息", 0);
-            return;
-        }
+        try {
+            if (TextUtils.isEmpty(address) || TextUtils.isEmpty(amountOfMoney)) {
+                mView.showToastMsg("请输入完整信息", 0);
+                return;
+            }
 
-        double doubleAmountOfMoney = Double.parseDouble(amountOfMoney);
-        if (doubleAmountOfMoney <= 0) {
-            mView.showToastMsg("转账金额必须大于0", 0);
-            return;
-        }
+            double doubleAmountOfMoney = Double.parseDouble(amountOfMoney);
+            if (doubleAmountOfMoney <= 0) {
+                mView.showToastMsg("转账金额必须大于0", 0);
+                return;
+            }
 
-        mView.showConfirmDialog(address, doubleAmountOfMoney);
+            mView.showConfirmDialog(address, doubleAmountOfMoney);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            mView.showToastMsg("转账金额输入有误", 0);
+            LoggerUtils.d(TAG, "转账金额输入有误");
+        }
     }
 
     public void requestAllProduct() {
