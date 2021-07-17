@@ -78,47 +78,63 @@
             android:id="@+id/tvUSDTAvailable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="USDT可用余额"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@id/tvUSDTBalance"
-            app:layout_constraintEnd_toStartOf="@id/tvXCHAvailable"
+            app:layout_constraintBottom_toTopOf="@+id/btnSeeMore"
+            app:layout_constraintEnd_toStartOf="@id/tvUSDTAvailableBalance"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:textAllCaps="true" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvUSDTBalance"
+            android:id="@+id/tvUSDTAvailableBalance"
             android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:text="0.0000"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tvUSDTAvailable"
-            app:layout_constraintTop_toBottomOf="@+id/tvUSDTAvailable" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvXCHAvailable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="XCH可用余额"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@id/tvXCHBalance"
+            app:layout_constraintBottom_toTopOf="@+id/btnSeeMore"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvUSDTAvailable"
             app:layout_constraintTop_toTopOf="parent"
             app:textAllCaps="true" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvXCHBalance"
+        <!--<com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvSeeMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="0.0000"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/xml_bg_gray_radius"
+            android:backgroundTint="@color/black"
+            android:drawableEnd="@drawable/xml_icon_arrow_down"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text="点我查看更多"
             android:textColor="@color/white"
+            android:visibility="invisible"
+            app:drawableTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tvXCHAvailable"
-            app:layout_constraintTop_toBottomOf="@+id/tvXCHAvailable" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />-->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSeeMore"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/xml_icon_arrow_down"
+            android:drawableTint="@color/white"
+            android:insetTop="10dp"
+            android:insetBottom="10dp"
+            android:text="点我查看更多"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:cornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:rippleColor="#59FFFFFF" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.card.MaterialCardView
@@ -156,19 +172,19 @@
                 android:id="@+id/tvRevenueAndExpenditure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:gravity="center_vertical"
                 android:minHeight="50dp"
                 android:paddingStart="20dp"
-                android:text="收支明细" />
+                android:text="收支明细"
+                android:visibility="gone" />
 
             <View
                 android:layout_width="wrap_content"
-                android:visibility="gone"
                 android:layout_height="1dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:background="#E1E1E1" />
+                android:background="#E1E1E1"
+                android:visibility="gone" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvContactUs"
@@ -178,6 +194,22 @@
                 android:minHeight="50dp"
                 android:paddingStart="20dp"
                 android:text="联系我们" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="#E1E1E1" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvShareAndDownload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="50dp"
+                android:paddingStart="20dp"
+                android:text="分享下载" />
 
             <View
                 android:layout_width="wrap_content"
