@@ -79,7 +79,7 @@ public class MainPresenter extends BasePresenter<MainEvent> {
         ArrayList<Fragment> fragments = new ArrayList<>(4);
         fragments.add(HomeFragment.getInstance());
         fragments.add(ProductFragment.getInstance());
-        fragments.add(InvitationFragment.getInstance());
+        // fragments.add(InvitationFragment.getInstance());
         fragments.add(MineFragment.getInstance());
 
         mView.updateViewPagerAdapter(fragments);

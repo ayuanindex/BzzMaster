@@ -79,11 +79,13 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
                     case R.id.product:
                         currentItemPosition = 1;
                         break;
+/*
                     case R.id.invitation:
                         currentItemPosition = 2;
                         break;
+*/
                     case R.id.mine:
-                        currentItemPosition = 3;
+                        currentItemPosition = 2;
                         break;
                 }
                 viewPager2Replace.setCurrentItem(currentItemPosition, false);
