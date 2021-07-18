@@ -70,6 +70,15 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
         rcOrders.setLayoutManager(new LinearLayoutManager(this));
         smartRefreshLayout.setRefreshFooter(new BallPulseFooter(this));
         smartRefreshLayout.setEnableRefresh(false);
+
+        refreshLayout.setColorSchemeResources(
+                R.color.blue_primary,
+                R.color.red_primary,
+                R.color.orange_primary,
+                R.color.blue_primary,
+                R.color.green_primary,
+                R.color.red_primary
+        );
     }
 
     @Override

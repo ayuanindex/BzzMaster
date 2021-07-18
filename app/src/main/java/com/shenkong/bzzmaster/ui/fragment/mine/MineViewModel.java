@@ -47,7 +47,7 @@ public class MineViewModel extends BaseViewMode<MineEvent> {
         this.productBeanListLiveData = productBeanListLiveData;
     }
 
-    public void requestAllProduct() {
+    public synchronized void requestAllProduct() {
         ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(ProductService.class).requestAllProduct(), lifecycleProvider)
                 .subscribe(new Consumer<ResultBean<List<ProductBean>>>() {
                     @Override
@@ -60,7 +60,7 @@ public class MineViewModel extends BaseViewMode<MineEvent> {
                 }, throwable -> LoggerUtils.d(TAG, "请求出现问题", throwable.getMessage()));
     }
 
-    public void requestAllBalance(List<ProductBean> productBeanList) {
+    public synchronized void requestAllBalance(List<ProductBean> productBeanList) {
         ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(CapitalService.class).requestAllBalance(new CapitalBean()), lifecycleProvider)
                 .map(new Function<ResultBean<List<CapitalBean>>, ResultBean<List<CapitalBean>>>() {
                     @Override

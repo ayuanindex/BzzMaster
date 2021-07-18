@@ -69,7 +69,7 @@ public class ProductViewModel extends BaseViewMode<ProductEvent> {
         this.productPlan = productPlan;
     }
 
-    public void initProduct() {
+    public synchronized void initProduct() {
         ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(ProductService.class).requestAllProduct(), lifecycleProvider)
                 .map(new Function<ResultBean<List<ProductBean>>, ResultBean<List<ProductBean>>>() {
                     @Override
@@ -112,7 +112,7 @@ public class ProductViewModel extends BaseViewMode<ProductEvent> {
                 });
     }
 
-    public void initProductPlanData(int position) {
+    public synchronized void initProductPlanData(int position) {
         if (productList.getValue() == null) {
             return;
         }

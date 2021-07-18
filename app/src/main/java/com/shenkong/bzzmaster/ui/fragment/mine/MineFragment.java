@@ -42,7 +42,7 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
     private MaterialTextView tvUSDTAvailable;
     private MaterialTextView tvUSDTAvailableBalance;
     private MaterialButton btnSeeMore;
-    private WalletAdapter walletAdapter;
+    private WalletAdapter walletAdapter = null;
     private MaterialTextView tvShareAndDownload;
 
     public static MineFragment getInstance() {
@@ -131,6 +131,7 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
     }
 
     private void showBalanceBottomSheetDialog() {
+        customerViewModel.requestAllProduct();
         if (customerViewModel.getCapitalBeanListLiveData().getValue() != null && customerViewModel.getCapitalBeanListLiveData().getValue().size() > 0) {
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext(), R.style.bottomSheetDialog);
             DialogBottomWalletBinding walletBinding = DialogBottomWalletBinding.inflate(getLayoutInflater());
@@ -177,6 +178,10 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
                     tvUSDTAvailableBalance.setText(Formatter.numberFormat(capitalBean.getBalance()));
                     break;
                 }
+            }
+
+            if (walletAdapter != null) {
+                walletAdapter.resetData(capitalBeans);
             }
         });
     }

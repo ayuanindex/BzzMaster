@@ -59,9 +59,11 @@ public class ContactActivity extends BaseMvpActivity<ContactPresenter> implement
         MutableLiveData<List<ChatBean>> chatBeanListLiveData = new MutableLiveData<>();
         mPresenter.setChatBeanListLiveData(chatBeanListLiveData);
         mPresenter.getChatBeanListLiveData().observe(this, chatBeans -> {
-            ChatBean chatBean = chatBeans.get(0);
-            tvContactTip.setText(chatBean.getTitle());
-            tvPhone.setText("联系电话:" + chatBean.getQrcode());
+            if (chatBeans.size() > 0) {
+                ChatBean chatBean = chatBeans.get(0);
+                tvContactTip.setText(chatBean.getTitle());
+                tvPhone.setText("联系电话:" + chatBean.getQrcode());
+            }
         });
     }
 

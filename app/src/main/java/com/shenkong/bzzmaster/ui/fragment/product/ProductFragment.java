@@ -30,7 +30,8 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
     private ContentLoadingProgressBar progressLoadingData;
     private SwipeRefreshLayout refreshLayout;
     private AppCompatImageView ivEmptyView;
-    private int position;
+    private int position = 0;
+    private boolean isReload = false;
     private MultipleAdapter multipleAdapter;
 
     public static ProductFragment getInstance() {
@@ -56,6 +57,15 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         progressLoadingData = inflate.findViewById(R.id.progressLoadingData);
         ivEmptyView = inflate.findViewById(R.id.ivEmptyView);
         refreshLayout = inflate.findViewById(R.id.refreshLayout);
+
+        refreshLayout.setColorSchemeResources(
+                R.color.blue_primary,
+                R.color.red_primary,
+                R.color.orange_primary,
+                R.color.blue_primary,
+                R.color.green_primary,
+                R.color.red_primary
+        );
 
         setRcProductStyle();
     }
@@ -85,9 +95,17 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
 
             private void load(TabLayout.Tab tab) {
                 if (customerViewModel != null) {
-                    showLoading();
-                    position = tab.getPosition();
-                    customerViewModel.initProductPlanData(position);
+                    if (isReload && position > 0 && position < tabSwitchProduct.getTabCount()) {
+                        isReload = false;
+                        TabLayout.Tab tabAt = tabSwitchProduct.getTabAt(position);
+                        tabSwitchProduct.selectTab(tabAt);
+                        showLoading();
+                        customerViewModel.initProductPlanData(position);
+                    } else {
+                        showLoading();
+                        position = tab.getPosition();
+                        customerViewModel.initProductPlanData(position);
+                    }
                 }
             }
 
@@ -103,9 +121,9 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         });
 
         refreshLayout.setOnRefreshListener(() -> {
-            if (customerViewModel.getProductList().getValue() == null) {
+            /*if (customerViewModel.getProductList().getValue() == null) {
                 customerViewModel.initProduct();
-            }
+            }*/
             customerViewModel.initProductPlanData(position);
         });
 
@@ -190,5 +208,8 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
     @Override
     public void onResume() {
         super.onResume();
+        isReload = true;
+        customerViewModel.initProduct();
+        customerViewModel.initProductPlanData(position);
     }
 }

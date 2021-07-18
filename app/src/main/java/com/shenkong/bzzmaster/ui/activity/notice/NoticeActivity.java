@@ -41,6 +41,15 @@ public class NoticeActivity extends BaseMvpActivity<NoticePresenter> implements 
         recyclerNotice = findViewById(R.id.recyclerNotice);
         refreshLayout = findViewById(R.id.refreshLayout);
 
+        refreshLayout.setColorSchemeResources(
+                R.color.blue_primary,
+                R.color.red_primary,
+                R.color.orange_primary,
+                R.color.blue_primary,
+                R.color.green_primary,
+                R.color.red_primary
+        );
+
         recyclerNotice.setLayoutManager(new LinearLayoutManager(this));
     }
 

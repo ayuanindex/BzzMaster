@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
-            android:text="0.0000"
+            android:text="00.0000"
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/btnSeeMore"
             app:layout_constraintEnd_toEndOf="parent"
