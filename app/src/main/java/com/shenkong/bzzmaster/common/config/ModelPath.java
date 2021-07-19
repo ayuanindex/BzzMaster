@@ -7,13 +7,13 @@ public class ModelPath {
 
     /**
      * 本地
-     */
     public static final String baseUrl = "http://192.168.1.103:8085/";
+     */
 
     /**
      * 线上
-    public static final String baseUrl = "http://112.91.251.88:8081/";
      */
+    public static final String baseUrl = "http://112.91.251.88:8081/";
 
     /**
      * 用户

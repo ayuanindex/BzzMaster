@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.widget.NestedScrollView;
@@ -64,13 +66,17 @@ public class ProductInfoActivity extends BaseMvpActivity<ProductInfoPresenter> i
             WebSettings webSettings = webViewProductInfo.getSettings();
             webSettings.setJavaScriptEnabled(true);
             webViewProductInfo.loadUrl("file:///android_asset/web/productinfo.html");
-            if (data.getDetailslink() != null) {
-                uiHandler.postDelayed(() -> {
-                    webViewProductInfo.loadUrl("javascript:setImgUrl('" + data.getPic() + "')");
-                    webViewProductInfo.setVisibility(View.VISIBLE);
-                    scrollContent.setVisibility(View.VISIBLE);
-                }, 1000);
-            }
+            webViewProductInfo.setWebViewClient(new WebViewClient() {
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    super.onPageFinished(view, url);
+                    if (data.getDetailslink() != null) {
+                        webViewProductInfo.loadUrl("javascript:setImgUrl('" + data.getPic() + "')");
+                        webViewProductInfo.setVisibility(View.VISIBLE);
+                        scrollContent.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
         }
     }
 
