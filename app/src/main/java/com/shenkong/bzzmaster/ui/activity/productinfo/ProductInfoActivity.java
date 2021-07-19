@@ -8,6 +8,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.widget.NestedScrollView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
@@ -24,6 +25,7 @@ public class ProductInfoActivity extends BaseMvpActivity<ProductInfoPresenter> i
     private android.webkit.WebView webViewProductInfo;
     private com.google.android.material.button.MaterialButton btnPurchase;
     private ProductPlanBean data;
+    private androidx.core.widget.NestedScrollView scrollContent;
 
     @Override
     public int getLayoutId() {
@@ -36,6 +38,7 @@ public class ProductInfoActivity extends BaseMvpActivity<ProductInfoPresenter> i
         tvTitle = (MaterialTextView) findViewById(R.id.tvTitle);
         webViewProductInfo = (WebView) findViewById(R.id.webViewProductInfo);
         btnPurchase = (MaterialButton) findViewById(R.id.btnPurchase);
+        scrollContent = (NestedScrollView) findViewById(R.id.scrollContent);
     }
 
     @Override
@@ -65,6 +68,7 @@ public class ProductInfoActivity extends BaseMvpActivity<ProductInfoPresenter> i
                 uiHandler.postDelayed(() -> {
                     webViewProductInfo.loadUrl("javascript:setImgUrl('" + data.getPic() + "')");
                     webViewProductInfo.setVisibility(View.VISIBLE);
+                    scrollContent.setVisibility(View.VISIBLE);
                 }, 1000);
             }
         }

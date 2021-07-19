@@ -24,10 +24,13 @@ public interface UserService {
     @POST(ModelPath.User+"/login/code")
     Observable<ResultBean<User>> LoginCode(@Body HashMap<String,String> user);
 
+    @POST(value = ModelPath.User + "/details")
+    Observable<ResultBean<User>> requestDetail();
+
     /**
      * 查询用户详情
      */
-    @POST(ModelPath.User+"/about")
+    @POST(ModelPath.User+"/details")
     Observable<ResultBean<User>> AboutMe(@HeaderMap Map<String, String> csrfToken);
 
 

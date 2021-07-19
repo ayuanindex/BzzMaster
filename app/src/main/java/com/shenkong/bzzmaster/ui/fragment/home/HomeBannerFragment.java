@@ -55,13 +55,14 @@ public class HomeBannerFragment extends Fragment {
                     .error(defaultDrawableResId)
                     .into(binding.imgBanner);
 
-            binding.imgBanner.setOnClickListener(v -> {
+            // 图片跳转
+           /* binding.imgBanner.setOnClickListener(v -> {
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
                 Uri content_url = Uri.parse(carouselBean.getSkiplink());
                 intent.setData(content_url);
                 startActivity(intent);
-            });
+            });*/
         } else {
             binding.imgBanner.setImageResource(defaultDrawableResId);
         }

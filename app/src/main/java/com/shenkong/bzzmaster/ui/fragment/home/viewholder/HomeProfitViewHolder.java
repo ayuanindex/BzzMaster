@@ -8,10 +8,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
+import com.shenkong.bzzmaster.common.utils.CurrencyUtil;
+import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.ProductBean;
 import com.shenkong.bzzmaster.ui.fragment.home.HomeViewModel;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
@@ -37,6 +40,7 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
     private int productId;
     private Timer timer;
     private TimerTask task;
+    private boolean isNew = true;
 
     public HomeProfitViewHolder(View rootView, FragmentActivity fragmentActivity) {
         super(rootView);
@@ -64,6 +68,9 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
                     ProductBean productBean = productBeanList.get(position);
                     productId = productBean.getProductid();
                     tvProductName.setText(productBean.getName());
+                    tvProductNodeCount.setText(CurrencyUtil.getProfitUnit(productBean.getCurrency()));
+                    // 获取用户算力数据
+                    homeViewModel.initCalculationPower();
                     // 获取收益数据
                     homeViewModel.initHomeProfitData(productId);
                     // 开启查询收益的定时器
@@ -97,22 +104,27 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
             }
         });
 */
-        webViewChart.getSettings().setJavaScriptEnabled(true);
-        webViewChart.loadUrl("file:///android_asset/web/line-simple.html");
+        if (isNew) {
+            isNew = false;
+            webViewChart.getSettings().setJavaScriptEnabled(true);
+            webViewChart.loadUrl("file:///android_asset/web/line-simple.html");
+            LoggerUtils.d(TAG, "正在加载网页");
 
-        homeViewModel = new ViewModelProvider(fragmentActivity).get(HomeViewModel.class);
-        initDataSubscribe();
+            homeViewModel = new ViewModelProvider(fragmentActivity).get(HomeViewModel.class);
+            initDataSubscribe();
 
-        initEvent();
+            initEvent();
 
-        // 请求产品列表
-        homeViewModel.initProduct();
+            // 请求产品列表
+            homeViewModel.initProduct();
+        }
     }
 
     /**
      * 数据订阅
      */
     private void initDataSubscribe() {
+        // 产品
         homeViewModel.getProductBeanListLiveData().observe(fragmentActivity, productBeanList -> {
             HomeProfitViewHolder.this.productBeanList = productBeanList;
 
@@ -124,14 +136,17 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
             cardSwarm.setVisibility(View.VISIBLE);
         });
 
+        // 图表数据
         homeViewModel.getWebDataLiveData().observe(fragmentActivity, s -> {
             webViewChart.loadUrl("javascript:refreshData(" + s + ")");
         });
 
+        // 天数
         homeViewModel.getWebProfitDaysLiveData().observe(fragmentActivity, s -> {
             webViewChart.loadUrl("javascript:setProfitDay(" + s + ")");
         });
 
+        // 收益总金额
         homeViewModel.getWebProfitMoneyLiveData().observe(fragmentActivity, s -> {
             webViewChart.loadUrl("javascript:setProfitCount(" + s + ")");
         });

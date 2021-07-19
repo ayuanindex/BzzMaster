@@ -161,7 +161,7 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
 
         // 从Sp中获取用户登录信息
         String phone = SpUtil.getString(getContext(), SpUtil.phone, "");
-        tvUserPhone.setText(phone.replace(phone.substring(3), "********"));
+        tvUserPhone.setText(phone.replace(phone.substring(3, 7), "****"));
     }
 
     @SuppressLint("SetTextI18n")

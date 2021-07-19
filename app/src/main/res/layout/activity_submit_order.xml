@@ -168,7 +168,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
         android:gravity="center"
-        android:text="0.0000USDT"
+        android:text="00.0000USDT"
         android:textColor="@color/green_primary_dark"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvWalletBalanceTip"

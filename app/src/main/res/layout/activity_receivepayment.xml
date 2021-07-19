@@ -45,6 +45,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleLayout" />
 
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progressLoading"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNameOfCurrency" />
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivQrCode"
         android:layout_width="200dp"
@@ -57,7 +68,8 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvNameOfCurrency" />
+        app:layout_constraintTop_toBottomOf="@+id/progressLoading"
+        app:layout_goneMarginTop="10dp" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvCollectionAddress"
@@ -81,9 +93,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="复制地址"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCollectionAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/tvCollectionAddress"
+        app:layout_goneMarginBottom="10dp" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvTransferTips"

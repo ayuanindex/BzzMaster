@@ -83,28 +83,32 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
         initDataSubscribe();
 
         multipleAdapter = new MultipleAdapter(requireActivity()) {
+
+            private HomeProfitViewHolder homeProfitViewHolder;
+            private HomeBannerViewHolder homeBannerViewHolder;
+
             @NonNull
             @Override
             public MultipleBaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View inflate;
-                MultipleBaseViewHolder multipleBaseViewHolder;
                 switch (viewType) {
                     case Types.BANNER_LAYOUT:
                         inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_banner, parent, false);
-                        multipleBaseViewHolder = new HomeBannerViewHolder(inflate, requireActivity());
-                        break;
+                        if (homeBannerViewHolder == null) {
+                            homeBannerViewHolder = new HomeBannerViewHolder(inflate, requireActivity());
+                        }
+                        return homeBannerViewHolder;
                     case Types.PROFIT_LAYOUT:
                         inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_profit, parent, false);
-                        multipleBaseViewHolder = new HomeProfitViewHolder(inflate, requireActivity());
-                        break;
+                        if (homeProfitViewHolder == null) {
+                            homeProfitViewHolder = new HomeProfitViewHolder(inflate, requireActivity());
+                        }
+                        return homeProfitViewHolder;
                     case Types.PRODUCT_LAYOUT:
                     default:
                         inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_product, parent, false);
-                        multipleBaseViewHolder = new HomeProductPlanViewHolder(inflate, requireActivity());
-                        break;
+                        return new HomeProductPlanViewHolder(inflate, requireActivity());
                 }
-
-                return multipleBaseViewHolder;
             }
         };
         recyclerView.setAdapter(multipleAdapter);

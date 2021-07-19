@@ -2,6 +2,7 @@ package com.shenkong.bzzmaster.common.utils;
 
 import com.shenkong.bzzmaster.model.bean.ProductBean;
 
+import java.nio.file.ClosedWatchServiceException;
 import java.util.List;
 
 public class CurrencyUtil {
@@ -15,6 +16,17 @@ public class CurrencyUtil {
                 return "TiB";
             default:
                 return "TiB";
+        }
+    }
+
+    public static String getProfitUnit(String currency) {
+        switch (currency.toLowerCase()) {
+            case "bzz":
+                return "节点";
+            case "xch":
+            case "fil":
+            default:
+                return "算力/T";
         }
     }
 

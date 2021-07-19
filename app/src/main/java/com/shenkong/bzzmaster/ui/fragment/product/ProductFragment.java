@@ -15,7 +15,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.tabs.TabLayout;
 import com.shenkong.bzzmaster.R;
-import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.ProductBean;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
@@ -32,6 +31,7 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
     private SwipeRefreshLayout refreshLayout;
     private AppCompatImageView ivEmptyView;
     private int position = 0;
+    private boolean noRefresh = true;
     private MultipleAdapter multipleAdapter;
 
     public static ProductFragment getInstance() {
@@ -90,7 +90,10 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
         tabSwitchProduct.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                load(tab);
+                if (noRefresh || position == 0) {
+                    load(tab);
+                }
+                noRefresh = true;
             }
 
             private void load(TabLayout.Tab tab) {
@@ -116,7 +119,9 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
             /*if (customerViewModel.getProductList().getValue() == null) {
                 customerViewModel.initProduct();
             }*/
-            customerViewModel.initProductPlanData(position);
+            noRefresh = false;
+            customerViewModel.initProduct();
+            // customerViewModel.initProductPlanData(position);
         });
 
         /*productAdapter.setOnItemClickListener((view, productPlanBean, position) -> {
@@ -148,6 +153,8 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
             }
         };
         rcProduct.setAdapter(multipleAdapter);
+
+        customerViewModel.initProduct();
     }
 
     /**
@@ -161,6 +168,14 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
             for (ProductBean productBean : productBeanList) {
                 tabSwitchProduct.addTab(tabSwitchProduct.newTab().setText(productBean.getName()));
             }
+
+
+            uiHandler.postDelayed(() -> {
+                if (position < productBeanList.size() && position > 0) {
+                    TabLayout.Tab tabAt = tabSwitchProduct.getTabAt(position);
+                    tabSwitchProduct.selectTab(tabAt);
+                }
+            }, 500);
         });
 
         // 产品计划数据订阅
@@ -198,6 +213,6 @@ public class ProductFragment extends BaseFragment<ProductViewModel, ProductEvent
     @Override
     public void onResume() {
         super.onResume();
-        customerViewModel.initProduct();
+        // customerViewModel.initProduct();
     }
 }

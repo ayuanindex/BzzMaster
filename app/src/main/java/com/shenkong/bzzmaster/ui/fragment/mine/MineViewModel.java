@@ -88,6 +88,9 @@ public class MineViewModel extends BaseViewMode<MineEvent> {
                         }*/
                         LoggerUtils.d(TAG, "余额", listResultBean.toString());
                     }
-                }, throwable -> LoggerUtils.d(TAG, "网络请求出现错误", throwable.getMessage()));
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    LoggerUtils.d(TAG, "网络请求出现错误", throwable.getMessage());
+                });
     }
 }

@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.graphics.Bitmap;
 import android.view.View;
 
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.lifecycle.MutableLiveData;
 
 import com.shenkong.bzzmaster.R;
@@ -20,6 +21,7 @@ public class ReceivePaymentActivity extends BaseMvpActivity<ReceivePaymentPresen
     private com.google.android.material.textview.MaterialTextView tvCopyAddress;
     private com.google.android.material.textview.MaterialTextView tvTransferTips;
     private ClipboardManager clipboardManager;
+    private androidx.core.widget.ContentLoadingProgressBar progressLoading;
 
     @Override
     public int getLayoutId() {
@@ -35,6 +37,7 @@ public class ReceivePaymentActivity extends BaseMvpActivity<ReceivePaymentPresen
         tvCollectionAddress = findViewById(R.id.tvCollectionAddress);
         tvCopyAddress = findViewById(R.id.tvCopyAddress);
         tvTransferTips = findViewById(R.id.tvTransferTips);
+        progressLoading = findViewById(R.id.progressLoading);
     }
 
     @Override
@@ -61,7 +64,9 @@ public class ReceivePaymentActivity extends BaseMvpActivity<ReceivePaymentPresen
     private void initDataSubscribe() {
         mPresenter.setCapitalBeanListLiveData(new MutableLiveData<>());
         mPresenter.getCapitalBeanListLiveData().observe(this, capitalBeans -> {
+            progressLoading.hide();
             tvCollectionAddress.setVisibility(View.VISIBLE);
+            tvCopyAddress.setVisibility(View.VISIBLE);
             tvCollectionAddress.setText(capitalBeans.get(0).getAdress());
             mPresenter.createQRCodeBitmap(capitalBeans.get(0).getAdress(), 200);
         });

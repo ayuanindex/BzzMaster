@@ -145,8 +145,6 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
         tvOrderAmount.setText(Formatter.numberFormat(count * productPlanBean.getPrice()));
 
         etNeedCount.setText(String.valueOf(count));
-
-        mPresenter.selectUSDTBalance();
     }
 
     private void initDataSubscribe() {
@@ -215,9 +213,10 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
         ToastUtil.showToast(this, msg);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void setBalanceText(CapitalBean capitalBean) {
-        tvWalletBalance.setText(Formatter.numberFormat(capitalBean.getBalance()));
+        tvWalletBalance.setText(Formatter.numberFormat(capitalBean.getBalance()) + "USDT");
     }
 
     @Override

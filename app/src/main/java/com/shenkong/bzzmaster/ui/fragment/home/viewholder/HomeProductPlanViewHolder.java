@@ -82,10 +82,12 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
             // 预售
             status = "预售";
             btnPurchase.setText("立即购买");
+            btnPurchase.setEnabled(false);
         } else if (productPlanBean.getStaues() == ConstantPool.Pro_Sell) {
             // 销售
             status = "销售";
             btnPurchase.setText("立即购买");
+            btnPurchase.setEnabled(true);
         } else if (productPlanBean.getStaues() == ConstantPool.Pro_SuspensionOfSale) {
             // 暂停申购
             status = "暂停申购";
@@ -113,8 +115,8 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
         String miningTip = "挖矿周期";
         String packingTip = "封装周期";
         // 周期或锁仓数据
-        String miningUnit = "天";
-        String packingUnit = "天";
+        String miningUnit = productPlanBean.getRuntime() + "天";
+        String packingUnit = productPlanBean.getPacktime() + "天";
 
         // 根据币种判断控件是否需要隐藏
         if (productPlanBean.getCurrency() != null) {
@@ -123,44 +125,44 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
                     /*Swarm币种, 显示节点*/
                     priceUnit = "USDT";
                     minimumSale = "节点数量" + productPlanBean.getMincompany() + "";
-                    miningTip = "挖矿周期";
+                    /*miningTip = "挖矿周期";
                     packingTip = "封装周期";
                     miningUnit = productPlanBean.getRuntime() + "天";
                     packingUnit = productPlanBean.getPacktime() + "天";
                     miningGroup.setVisibility(View.VISIBLE);
-                    packingGroup.setVisibility(View.VISIBLE);
+                    packingGroup.setVisibility(View.VISIBLE);*/
                     break;
                 case "xch":
                     /*Chia币种*/
                     priceUnit = "USDT/TiB";
                     minimumSale = "" + productPlanBean.getMincompany() + "TiB起售";
-                    miningTip = "挖矿周期";
+                    /*miningTip = "挖矿周期";
                     packingTip = "";
                     miningUnit = productPlanBean.getRuntime() + "天";
                     packingUnit = "";
                     miningGroup.setVisibility(View.VISIBLE);
-                    packingGroup.setVisibility(View.GONE);
+                    packingGroup.setVisibility(View.GONE);*/
                     break;
                 case "fil":
                     /*FIL币种*/
                     priceUnit = "USDT/TiB";
                     minimumSale = "" + productPlanBean.getMincompany() + "TiB起售";
-                    miningTip = "锁仓时间";
+                    /*miningTip = "锁仓时间";
                     packingTip = "锁仓金额";
                     miningUnit = productPlanBean.getLocktime() + "天";
                     packingUnit = Formatter.numberFormat(productPlanBean.getLockmoney()) + "USDT";
                     miningGroup.setVisibility(View.VISIBLE);
-                    packingGroup.setVisibility(View.VISIBLE);
+                    packingGroup.setVisibility(View.VISIBLE);*/
                     break;
                 default:
                     priceUnit = "USDT";
                     minimumSale = "数量";
-                    miningTip = "挖矿周期";
+                    /*miningTip = "挖矿周期";
                     packingTip = "封装周期";
                     miningUnit = productPlanBean.getRuntime() + "天";
                     packingUnit = productPlanBean.getPacktime() + "天";
                     miningGroup.setVisibility(View.VISIBLE);
-                    packingGroup.setVisibility(View.VISIBLE);
+                    packingGroup.setVisibility(View.VISIBLE);*/
                     break;
             }
         }

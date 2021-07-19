@@ -10,6 +10,7 @@ import com.shenkong.bzzmaster.common.base.ResultBean;
 import com.shenkong.bzzmaster.common.base.SharedBean;
 import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
+import com.shenkong.bzzmaster.model.bean.AssetsBean;
 import com.shenkong.bzzmaster.model.bean.BannerBean;
 import com.shenkong.bzzmaster.model.bean.CarouselBean;
 import com.shenkong.bzzmaster.model.bean.FrontPage;
@@ -20,6 +21,7 @@ import com.shenkong.bzzmaster.model.bean.RevenueBean;
 import com.shenkong.bzzmaster.model.bean.RevenueListBean;
 import com.shenkong.bzzmaster.net.NetManager;
 import com.shenkong.bzzmaster.net.ObjectLoader;
+import com.shenkong.bzzmaster.net.api.AssetsService;
 import com.shenkong.bzzmaster.net.api.CarouselService;
 import com.shenkong.bzzmaster.net.api.PlanService;
 import com.shenkong.bzzmaster.net.api.ProductService;
@@ -53,6 +55,7 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
     private MutableLiveData<List<MultipleAdapter.LayoutType>> productPlanListLiveData;
     private Disposable profitSubscribe;
     private Disposable productSubscribe;
+    private Disposable assetsSubscribe;
 
     public void setLifecycleProvider(LifecycleProvider<FragmentEvent> lifecycleProvider) {
         this.lifecycleProvider = lifecycleProvider;
@@ -114,7 +117,7 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
         this.webProfitMoneyLiveData = webProfitMoneyLiveData;
     }
 
-    public void initProduct() {
+    public synchronized void initProduct() {
         if (productSubscribe != null && !productSubscribe.isDisposed()) {
             return;
         }
@@ -307,6 +310,26 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
                             productPlanListLiveData.postValue(new ArrayList<>());
                         }
                         LoggerUtils.d(TAG, listResultBean.toString());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        LoggerUtils.d(TAG, "请求出错", throwable.getMessage());
+                    }
+                });
+    }
+
+    public void initCalculationPower() {
+        // 如果上一个请求没有完成，那就不让新的请求发生
+        if (assetsSubscribe != null && !assetsSubscribe.isDisposed()) {
+            return;
+        }
+
+        assetsSubscribe = ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(AssetsService.class).requestAssets(), lifecycleProvider)
+                .subscribe(new Consumer<ResultBean<List<AssetsBean>>>() {
+                    @Override
+                    public void accept(ResultBean<List<AssetsBean>> listResultBean) throws Exception {
+                        LoggerUtils.d(TAG, "用户购买计划" + listResultBean.toString());
                     }
                 }, new Consumer<Throwable>() {
                     @Override
