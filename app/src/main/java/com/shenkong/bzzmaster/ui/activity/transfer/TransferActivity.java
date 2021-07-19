@@ -22,6 +22,7 @@ import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.AlertDialogUtil;
 import com.shenkong.bzzmaster.common.utils.Formatter;
+import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.databinding.DialogConfirmBinding;
 import com.shenkong.bzzmaster.databinding.ItemSpinnerDropdownBinding;
@@ -82,7 +83,18 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
         ivArrowBack.setOnClickListener(v -> finish());
 
         btnConfirmTransfer.setOnClickListener(v -> {
-            // TODO: 2021/7/11 转账功能待完成
+            if (mPresenter.getProductBeanListLiveData().getValue() == null) {
+                ToastUtil.showToast(this, "正在加载相关币种");
+                mPresenter.requestAllProduct();
+                return;
+            }
+
+            if (mPresenter.getCapitalBeanListLiveData().getValue() == null) {
+                ToastUtil.showToast(this, "正在加载币种余额");
+                mPresenter.requestBalance(currentPosition);
+                return;
+            }
+
             mPresenter.confirmTransfer(inputAddress.getEditableText().toString().trim(), inputAmountOfMoney.getEditableText().toString().trim());
         });
 
@@ -165,7 +177,7 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
         AlertDialog alertDialog = AlertDialogUtil.getAlertDialog(this, confirmBinding.getRoot());
         alertDialog.setCancelable(false);
         confirmBinding.tvAddress.setText("↓目标收款地址↓\n" + address);
-        confirmBinding.tvBalance.setText("↓转账金额↓\n" + Formatter.numberFormat(doubleAmountOfMoney));
+        confirmBinding.tvBalance.setText("↓转账金额↓\n" + doubleAmountOfMoney);
         confirmBinding.cbInformationConfirmation.setOnCheckedChangeListener((buttonView, isChecked) -> {
             confirmBinding.btnSubmitImmediately.setEnabled(isChecked);
         });
@@ -181,7 +193,7 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
     @Override
     public void setBalanceText(CapitalBean capitalBean) {
         tvCurrency.setText("余额(" + capitalBean.getName() + ")");
-        tvBalance.setText(Formatter.numberFormat(capitalBean.getBalance()));
+        tvBalance.setText(capitalBean.getBalance() + "");
     }
 
     @Override

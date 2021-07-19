@@ -93,4 +93,23 @@ public class MineViewModel extends BaseViewMode<MineEvent> {
                     LoggerUtils.d(TAG, "网络请求出现错误", throwable.getMessage());
                 });
     }
+
+    public void requestBalance(List<ProductBean> productBeanList) {
+        for (ProductBean productBean : productBeanList) {
+            CapitalBean capitalBean = new CapitalBean();
+            capitalBean.setPid(productBean.getProductid());
+            ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(CapitalService.class).requestBalance(capitalBean), lifecycleProvider)
+                    .subscribe(new Consumer<ResultBean<List<CapitalBean>>>() {
+                        @Override
+                        public void accept(ResultBean<List<CapitalBean>> listResultBean) throws Exception {
+
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+
+                        }
+                    });
+        }
+    }
 }

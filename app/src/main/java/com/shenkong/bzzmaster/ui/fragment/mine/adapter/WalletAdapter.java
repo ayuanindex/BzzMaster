@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.databinding.ItemCurrencyBalanceBinding;
 import com.shenkong.bzzmaster.model.bean.CapitalBean;
@@ -35,7 +34,7 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder
 
         holder.itemCurrencyBalanceBinding.tvCurrencyName.setText(capitalBean.getName());
         holder.itemCurrencyBalanceBinding.tvCurrency.setText(capitalBean.getCurrency());
-        holder.itemCurrencyBalanceBinding.tvAvailable.setText(Formatter.numberFormat(capitalBean.getBalance()));
+        holder.itemCurrencyBalanceBinding.tvAvailable.setText(String.valueOf(capitalBean.getBalance()));
     }
 
     @Override

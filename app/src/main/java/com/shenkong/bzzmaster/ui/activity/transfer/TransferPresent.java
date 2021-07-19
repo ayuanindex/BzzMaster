@@ -25,6 +25,7 @@ import java.util.function.Predicate;
 import javax.crypto.interfaces.PBEKey;
 
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import retrofit2.http.POST;
@@ -33,6 +34,7 @@ public class TransferPresent extends BasePresenter<TransferEvent> {
     private LifecycleProvider<ActivityEvent> lifecycleProvider;
     private MutableLiveData<List<ProductBean>> productBeanListLiveData;
     private MutableLiveData<List<CapitalBean>> capitalBeanListLiveData;
+    private Disposable productSubscribe;
 
     public void setLifecycleProvider(LifecycleProvider<ActivityEvent> lifecycleProvider) {
         this.lifecycleProvider = lifecycleProvider;
@@ -76,7 +78,12 @@ public class TransferPresent extends BasePresenter<TransferEvent> {
     }
 
     public void requestAllProduct() {
-        ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(ProductService.class).requestAllProduct(), lifecycleProvider)
+        if (productSubscribe != null && !productSubscribe.isDisposed()) {
+            LoggerUtils.d(TAG, "已经又一个线程在家宅了");
+            return;
+        }
+
+        productSubscribe = ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(ProductService.class).requestAllProduct(), lifecycleProvider)
                 .map(new Function<ResultBean<List<ProductBean>>, ResultBean<List<ProductBean>>>() {
                     @Override
                     public ResultBean<List<ProductBean>> apply(@NonNull ResultBean<List<ProductBean>> listResultBean) throws Exception {

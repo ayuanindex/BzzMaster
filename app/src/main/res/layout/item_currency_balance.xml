@@ -44,11 +44,10 @@
         android:id="@+id/tvAvailableTip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="16dp"
         android:text="可用"
         app:layout_constraintBottom_toBottomOf="@+id/tvCurrencyTip"
-        app:layout_constraintEnd_toStartOf="@+id/tvFrozenTip"
-        app:layout_constraintStart_toEndOf="@+id/tvCurrencyTip"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvCurrencyTip" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -57,10 +56,10 @@
         android:layout_height="wrap_content"
         android:text="0.00"
         app:layout_constraintBottom_toBottomOf="@+id/tvCurrency"
-        app:layout_constraintStart_toStartOf="@+id/tvAvailableTip"
+        app:layout_constraintEnd_toEndOf="@+id/tvAvailableTip"
         app:layout_constraintTop_toTopOf="@+id/tvCurrency" />
 
-    <com.google.android.material.textview.MaterialTextView
+    <!--<com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvFrozenTip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,5 +76,5 @@
         android:text="0.00"
         app:layout_constraintBottom_toBottomOf="@+id/tvAvailable"
         app:layout_constraintEnd_toEndOf="@+id/tvFrozenTip"
-        app:layout_constraintTop_toTopOf="@+id/tvAvailable" />
+        app:layout_constraintTop_toTopOf="@+id/tvAvailable" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

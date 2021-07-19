@@ -29,6 +29,8 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
     public LinearLayoutCompat llTags;
     public MaterialTextView tvPrice;
     public MaterialTextView tvPriceUnit;
+    public MaterialTextView tvLockUp;
+    public MaterialTextView tvLockUpTip;
     public MaterialTextView tvMinimumSale;
     public Group miningGroup;
     public MaterialTextView tvRevenueDate;
@@ -49,6 +51,8 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
         this.llTags = rootView.findViewById(R.id.llTags);
         this.tvPrice = rootView.findViewById(R.id.tvPrice);
         this.tvPriceUnit = rootView.findViewById(R.id.tvPriceUnit);
+        this.tvLockUp = rootView.findViewById(R.id.tvLockUp);
+        this.tvLockUpTip = rootView.findViewById(R.id.tvLockUpTip);
         this.tvMinimumSale = rootView.findViewById(R.id.tvMinimumSale);
         this.miningGroup = rootView.findViewById(R.id.miningGroup);
         this.tvRevenueDate = rootView.findViewById(R.id.tvRevenueDate);
@@ -107,6 +111,9 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
         tvProductPlanStatus.setVisibility(View.VISIBLE);
         tvProductPlanStatus.setText(status);
 
+        tvLockUp.setVisibility(View.INVISIBLE);
+        tvLockUpTip.setVisibility(View.INVISIBLE);
+
         // 价格单位
         String priceUnit = "USDT";
         // 最低起售说明文字
@@ -114,9 +121,12 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
         // 周期或锁仓提示文字
         String miningTip = "挖矿周期";
         String packingTip = "封装周期";
-        // 周期或锁仓数据
+        // 周期
         String miningUnit = productPlanBean.getRuntime() + "天";
         String packingUnit = productPlanBean.getPacktime() + "天";
+        // 锁仓
+        String lockTime = "";
+        String lockTimeTip = "锁仓周期";
 
         // 根据币种判断控件是否需要隐藏
         if (productPlanBean.getCurrency() != null) {
@@ -147,8 +157,13 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
                     /*FIL币种*/
                     priceUnit = "USDT/TiB";
                     minimumSale = "" + productPlanBean.getMincompany() + "TiB起售";
-                    /*miningTip = "锁仓时间";
-                    packingTip = "锁仓金额";
+                    if (productPlanBean.getLocktime() > 0) {
+                        tvLockUp.setVisibility(View.VISIBLE);
+                        tvLockUpTip.setVisibility(View.VISIBLE);
+                        lockTime = productPlanBean.getLocktime() + "天";
+                        lockTimeTip = "锁仓周期";
+                    }
+                    /*
                     miningUnit = productPlanBean.getLocktime() + "天";
                     packingUnit = Formatter.numberFormat(productPlanBean.getLockmoney()) + "USDT";
                     miningGroup.setVisibility(View.VISIBLE);
@@ -167,9 +182,11 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
             }
         }
 
-        tvPrice.setText(String.valueOf(productPlanBean.getPrice()));
+        tvPrice.setText(Formatter.numberFormat(productPlanBean.getPrice()));
         tvPriceUnit.setText(priceUnit);
         tvMinimumSale.setText(minimumSale);
+        tvLockUp.setText(lockTime);
+        tvLockUpTip.setText(lockTimeTip);
         tvMiningCycleTip.setText(miningTip);
         tvPackagingCycleTip.setText(packingTip);
         tvRevenueDate.setText(miningUnit);

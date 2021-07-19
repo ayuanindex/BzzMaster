@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true">
@@ -55,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:text="USDT/1TiB"
-        android:textSize="12sp"
+        android:textSize="10sp"
         app:layout_constraintBaseline_toBaselineOf="@id/tvPrice"
         app:layout_constraintBottom_toBottomOf="@id/tvPrice"
         app:layout_constraintStart_toEndOf="@id/tvPrice"
@@ -78,6 +79,28 @@
         app:constraint_referenced_ids="tvRevenueDate, tvMiningCycleTip" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvLockUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:minWidth="30dp"
+        android:text="120天"
+        android:textColor="@color/black"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvPrice"
+        app:layout_constraintStart_toStartOf="@id/tvLockUpTip" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvLockUpTip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="锁仓周期"
+        android:textSize="11sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvMinimumSale"
+        app:layout_constraintEnd_toStartOf="@id/tvMiningCycleTip"
+        app:layout_constraintStart_toEndOf="@+id/tvPriceUnit"
+        app:layout_goneMarginBottom="10dp" />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvRevenueDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,20 +108,18 @@
         android:text="365天"
         android:textColor="@color/black"
         app:layout_constraintBaseline_toBaselineOf="@id/tvPrice"
-        app:layout_constraintBottom_toBottomOf="@id/tvDay"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvDay" />
+        app:layout_constraintStart_toStartOf="@id/tvMiningCycleTip" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvMiningCycleTip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
         android:text="挖矿周期"
         android:textSize="11sp"
-        app:layout_constraintStart_toStartOf="@id/tvRevenueDate"
-        app:layout_constraintTop_toBottomOf="@id/tvRevenueDate" />
+        app:layout_constraintBaseline_toBaselineOf="@id/tvMinimumSale"
+        app:layout_constraintEnd_toStartOf="@+id/tvPackagingCycleTip"
+        app:layout_constraintStart_toEndOf="@id/tvLockUpTip"
+        app:layout_goneMarginStart="20dp" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/packingGroup"
@@ -110,13 +131,11 @@
         android:id="@+id/tvDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:minWidth="30dp"
         android:text="1天"
         android:textColor="@color/black"
         app:layout_constraintBaseline_toBaselineOf="@id/tvPrice"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llTags" />
+        app:layout_constraintEnd_toEndOf="@+id/tvPackagingCycleTip" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvPackagingCycleTip"
@@ -126,8 +145,8 @@
         android:layout_marginEnd="16dp"
         android:text="封装周期"
         android:textSize="11sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tvMinimumSale"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDay"
         app:layout_goneMarginBottom="10dp" />
 
     <com.google.android.material.button.MaterialButton

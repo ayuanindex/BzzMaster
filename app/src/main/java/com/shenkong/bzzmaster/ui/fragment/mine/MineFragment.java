@@ -168,14 +168,19 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
     private void initDataSubscribe() {
         // 所有产品的列表
         customerViewModel.setProductBeanListLiveData(new MutableLiveData<>());
-        customerViewModel.getProductBeanListLiveData().observe(this, productBeanList -> customerViewModel.requestAllBalance(productBeanList));
+        customerViewModel.getProductBeanListLiveData().observe(this, productBeanList -> {
+            customerViewModel.requestAllBalance(productBeanList);
+
+            // 临时使用
+            customerViewModel.requestBalance(productBeanList);
+        });
 
         customerViewModel.setCapitalBeanListLiveData(new MutableLiveData<>());
         customerViewModel.getCapitalBeanListLiveData().observe(this, capitalBeans -> {
             for (CapitalBean capitalBean : capitalBeans) {
                 if ("usdt".equals(capitalBean.getCurrency().toLowerCase())) {
                     tvUSDTAvailable.setText(capitalBean.getCurrency() + "可用余额");
-                    tvUSDTAvailableBalance.setText(Formatter.numberFormat(capitalBean.getBalance()));
+                    tvUSDTAvailableBalance.setText(capitalBean.getBalance() + "");
                     break;
                 }
             }

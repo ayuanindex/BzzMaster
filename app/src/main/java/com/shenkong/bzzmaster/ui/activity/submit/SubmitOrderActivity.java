@@ -110,7 +110,7 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
                 LoggerUtils.d(TAG, s.toString());
                 if (!TextUtils.isEmpty(s.toString())) {
                     count = Integer.parseInt(s.toString());
-                    tvOrderAmount.setText(Formatter.numberFormat(count * productPlanBean.getPrice()));
+                    tvOrderAmount.setText((count * productPlanBean.getPrice()) + "USDT");
                 } else {
                     tvOrderAmount.setText(Formatter.numberFormat(0));
                 }
@@ -142,7 +142,7 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
 
         tvProductName.setText(productPlanBean.getName());
         tvProductPrice.setText("1份=" + minCount + CurrencyUtil.getUnit(productPlanBean.getCurrency()) + "=" + Formatter.numberFormat(productPlanBean.getPrice() * minCount) + "USDT");
-        tvOrderAmount.setText(Formatter.numberFormat(count * productPlanBean.getPrice()));
+        tvOrderAmount.setText((count * productPlanBean.getPrice()) + "USDT");
 
         etNeedCount.setText(String.valueOf(count));
     }
@@ -173,13 +173,13 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
         alertDialog.setCancelable(false);
 
         if (capitalBean.getBalance() < needPrice) {
-            submitOrderBinding.tvPriceDifference.setText("余额不足，还差" + Formatter.numberFormat(needPrice - capitalBean.getBalance()) + "USDT");
+            submitOrderBinding.tvPriceDifference.setText("余额不足，还差" + (needPrice - capitalBean.getBalance()) + "USDT");
             submitOrderBinding.tvPriceDifference.setVisibility(View.VISIBLE);
             submitOrderBinding.btnPayImmediately.setEnabled(false);
         }
 
-        submitOrderBinding.tvNeedPrice.setText("订单需支付(USDT):" + Formatter.numberFormat(productPlanBean.getPrice() * count));
-        submitOrderBinding.tvBalance.setText("账户余额(USDT):" + Formatter.numberFormat(capitalBean.getBalance()));
+        submitOrderBinding.tvNeedPrice.setText("订单需支付(USDT):" + (productPlanBean.getPrice() * count));
+        submitOrderBinding.tvBalance.setText("账户余额(USDT):" + capitalBean.getBalance());
         submitOrderBinding.btnCancel.setOnClickListener(v -> alertDialog.dismiss());
         submitOrderBinding.btnPayImmediately.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,7 +216,7 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
     @SuppressLint("SetTextI18n")
     @Override
     public void setBalanceText(CapitalBean capitalBean) {
-        tvWalletBalance.setText(Formatter.numberFormat(capitalBean.getBalance()) + "USDT");
+        tvWalletBalance.setText(capitalBean.getBalance() + "USDT");
     }
 
     @Override
