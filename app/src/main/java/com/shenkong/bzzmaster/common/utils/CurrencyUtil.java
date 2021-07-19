@@ -26,7 +26,7 @@ public class CurrencyUtil {
             case "xch":
             case "fil":
             default:
-                return "算力/T";
+                return "T";
         }
     }
 

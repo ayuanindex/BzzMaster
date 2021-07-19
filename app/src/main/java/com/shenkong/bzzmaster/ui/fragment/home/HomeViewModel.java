@@ -48,7 +48,9 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
     private LifecycleProvider<FragmentEvent> lifecycleProvider;
     private MutableLiveData<BannerBean> bannerBeanDataLiveData;
     private MutableLiveData<List<ProductBean>> productBeanListLiveData;
+    private MutableLiveData<List<ProductPlanBean>> productPlanBeanListLiveData;
     private MutableLiveData<ProfitBean> profitBeanDataLiveData;
+    private MutableLiveData<List<AssetsBean>> assetsBeanListLiveData;
     private MutableLiveData<String> webDataLiveData;
     private MutableLiveData<String> webProfitDaysLiveData;
     private MutableLiveData<String> webProfitMoneyLiveData;
@@ -56,6 +58,7 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
     private Disposable profitSubscribe;
     private Disposable productSubscribe;
     private Disposable assetsSubscribe;
+    private Disposable productPlanSubscribe;
 
     public void setLifecycleProvider(LifecycleProvider<FragmentEvent> lifecycleProvider) {
         this.lifecycleProvider = lifecycleProvider;
@@ -117,6 +120,25 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
         this.webProfitMoneyLiveData = webProfitMoneyLiveData;
     }
 
+    public MutableLiveData<List<AssetsBean>> getAssetsBeanListLiveData() {
+        return assetsBeanListLiveData;
+    }
+
+    public void setAssetsBeanListLiveData(MutableLiveData<List<AssetsBean>> assetsBeanListLiveData) {
+        this.assetsBeanListLiveData = assetsBeanListLiveData;
+    }
+
+    public MutableLiveData<List<ProductPlanBean>> getProductPlanBeanListLiveData() {
+        return productPlanBeanListLiveData;
+    }
+
+    public void setProductPlanBeanListLiveData(MutableLiveData<List<ProductPlanBean>> productPlanBeanListLiveData) {
+        this.productPlanBeanListLiveData = productPlanBeanListLiveData;
+    }
+
+    /**
+     * 查询所有产品
+     */
     public synchronized void initProduct() {
         if (productSubscribe != null && !productSubscribe.isDisposed()) {
             return;
@@ -164,6 +186,9 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
     }
 
 
+    /**
+     * 查询所有轮播图
+     */
     public void initHomeBannerData() {
         ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(CarouselService.class).requestCarousel(), lifecycleProvider)
                 .subscribe(new Observer<ResultBean<List<CarouselBean>>>() {
@@ -286,6 +311,9 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
         return lists;
     }
 
+    /**
+     * 查询热门产品计划
+     */
     public void initHomeHotProductData() {
         ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(PlanService.class).requestHotProductPlan(), lifecycleProvider)
                 .map(new Function<ResultBean<List<ProductPlanBean>>, ResultBean<List<MultipleAdapter.LayoutType>>>() {
@@ -319,6 +347,42 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
                 });
     }
 
+    /**
+     * 根据产品ID获取产品计划
+     *
+     * @param productId 产品ID
+     */
+    public synchronized void initProductPlanData(int productId) {
+        if (productPlanSubscribe != null && !productPlanSubscribe.isDisposed()) {
+            productPlanSubscribe.dispose();
+            productPlanSubscribe = null;
+        }
+
+        ProductBean productBean = new ProductBean();
+        productBean.setProductid(productId);
+        productPlanSubscribe = ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(ProductService.class).requestProductPlan(productBean), lifecycleProvider)
+                .subscribe(new Consumer<ResultBean<List<ProductPlanBean>>>() {
+                    @Override
+                    public void accept(ResultBean<List<ProductPlanBean>> listResultBean) throws Exception {
+                        if (listResultBean.getCode() == 200) {
+                            productPlanBeanListLiveData.postValue(listResultBean.getDate());
+                        } else {
+                            productPlanBeanListLiveData.postValue(new ArrayList<>());
+                            uiRefreshCallBack.hideLoading();
+                        }
+                        LoggerUtils.d(TAG, listResultBean.toString());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        LoggerUtils.d(TAG, "网络出现问题" + throwable.getMessage());
+                        productPlanBeanListLiveData.postValue(new ArrayList<>());
+                        uiRefreshCallBack.hideLoading();
+                    }
+                });
+    }
+
+
     public void initCalculationPower() {
         // 如果上一个请求没有完成，那就不让新的请求发生
         if (assetsSubscribe != null && !assetsSubscribe.isDisposed()) {
@@ -329,11 +393,17 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
                 .subscribe(new Consumer<ResultBean<List<AssetsBean>>>() {
                     @Override
                     public void accept(ResultBean<List<AssetsBean>> listResultBean) throws Exception {
+                        if (listResultBean.getCode() == 200) {
+                            assetsBeanListLiveData.postValue(listResultBean.getDate());
+                        } else {
+                            assetsBeanListLiveData.postValue(new ArrayList<>());
+                        }
                         LoggerUtils.d(TAG, "用户购买计划" + listResultBean.toString());
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
                         LoggerUtils.d(TAG, "请求出错", throwable.getMessage());
                     }
                 });

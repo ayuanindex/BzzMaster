@@ -124,7 +124,11 @@ public class HomeFragment extends BaseFragment<HomeViewModel, HomeEvent> impleme
         // 产品
         customerViewModel.setProductBeanListLiveData(new MutableLiveData<>());
 
-        // 给网页端的收益数据
+        // 产品计划
+        customerViewModel.setProductPlanBeanListLiveData(new MutableLiveData<>());
+
+        // 收益数据
+        customerViewModel.setAssetsBeanListLiveData(new MutableLiveData<>());
         customerViewModel.setWebDataLiveData(new MutableLiveData<>());
         customerViewModel.setWebProfitDaysLiveData(new MutableLiveData<>());
         customerViewModel.setWebProfitMoneyLiveData(new MutableLiveData<>());

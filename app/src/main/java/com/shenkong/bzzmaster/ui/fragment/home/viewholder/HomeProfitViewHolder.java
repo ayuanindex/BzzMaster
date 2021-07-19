@@ -6,16 +6,18 @@ import android.webkit.WebView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.CurrencyUtil;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
+import com.shenkong.bzzmaster.model.bean.AssetsBean;
 import com.shenkong.bzzmaster.model.bean.ProductBean;
+import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 import com.shenkong.bzzmaster.ui.fragment.home.HomeViewModel;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
@@ -41,6 +43,7 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
     private Timer timer;
     private TimerTask task;
     private boolean isNew = true;
+    private List<ProductPlanBean> productPlanBeanList;
 
     public HomeProfitViewHolder(View rootView, FragmentActivity fragmentActivity) {
         super(rootView);
@@ -69,8 +72,7 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
                     productId = productBean.getProductid();
                     tvProductName.setText(productBean.getName());
                     tvProductNodeCount.setText(CurrencyUtil.getProfitUnit(productBean.getCurrency()));
-                    // 获取用户算力数据
-                    homeViewModel.initCalculationPower();
+                    homeViewModel.initProductPlanData(productId);
                     // 获取收益数据
                     homeViewModel.initHomeProfitData(productId);
                     // 开启查询收益的定时器
@@ -94,16 +96,6 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void load(MultipleAdapter multipleAdapter, int position) {
-/*
-        this.cardSwarm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(fragmentActivity, OrderActivity.class);
-                intent.putExtra("type", 0);
-                fragmentActivity.startActivity(intent);
-            }
-        });
-*/
         if (isNew) {
             isNew = false;
             webViewChart.getSettings().setJavaScriptEnabled(true);
@@ -134,6 +126,34 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
             }
             tabSwitchProduct.setVisibility(View.VISIBLE);
             cardSwarm.setVisibility(View.VISIBLE);
+        });
+
+        // 产品计划数据
+        homeViewModel.getProductPlanBeanListLiveData().observe(fragmentActivity, new Observer<List<ProductPlanBean>>() {
+            @Override
+            public void onChanged(List<ProductPlanBean> productPlanBeans) {
+                HomeProfitViewHolder.this.productPlanBeanList = productPlanBeans;
+                // 请求用户产品数据
+                homeViewModel.initCalculationPower();
+            }
+        });
+
+        // 算力数据
+        homeViewModel.getAssetsBeanListLiveData().observe(fragmentActivity, new Observer<List<AssetsBean>>() {
+            @Override
+            public void onChanged(List<AssetsBean> assetsBeans) {
+                long a = 0;
+                for (AssetsBean assetsBean : assetsBeans) {
+                    for (ProductPlanBean productPlanBean : productPlanBeanList) {
+                        if (productPlanBean.getPlanid() == assetsBean.getPid()) {
+                            a += assetsBean.getNumber();
+                        }
+                    }
+                }
+
+                String calculationPower = a + tvProductNodeCount.getText().toString().trim();
+                tvProductNodeCount.setText(calculationPower);
+            }
         });
 
         // 图表数据
