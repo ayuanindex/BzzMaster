@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +41,19 @@ public class StartPagerActivity extends RxAppCompatActivity {
 
     private void startTimer() {
         uiHandler = new Handler(getMainLooper());
+
+        boolean loginStatus = SpUtil.getBoolean(StartPagerActivity.this, SpUtil.loginStatus, false);
+        // 如果已经是登录状态，检查token是否过期
+        if (loginStatus) {
+            loginCheck();
+        } else {
+            startLogin();
+        }
+    }
+
+    private void loginCheck() {
+        binding.tvLoginTip.setVisibility(View.VISIBLE);
+        binding.tvLoginTip.setText("登录验证中请稍后");
         // 进行token国旗和登录验证
         Disposable start = ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(UserService.class).requestDetail(), this)
                 .subscribe(new Consumer<ResultBean<User>>() {
@@ -52,10 +66,7 @@ public class StartPagerActivity extends RxAppCompatActivity {
                             if (loginStatus && userResultBean.getCode() == 200) {
                                 startActivity(new Intent(StartPagerActivity.this, MainActivity.class));
                             } else if (userResultBean.getCode() == 400) {
-                                ToastUtil.showToast(StartPagerActivity.this, "用户登录过期");
-                                Intent intent = new Intent(StartPagerActivity.this, LoginActivity.class);
-                                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(StartPagerActivity.this, binding.startIcon, "start").toBundle());
-                            } else {
+                                ToastUtil.showToast(StartPagerActivity.this, "登录过期, 请重新登录!!!");
                                 Intent intent = new Intent(StartPagerActivity.this, LoginActivity.class);
                                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(StartPagerActivity.this, binding.startIcon, "start").toBundle());
                             }
@@ -66,6 +77,7 @@ public class StartPagerActivity extends RxAppCompatActivity {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+                        ToastUtil.showToast(StartPagerActivity.this, "登录验证失败, 请重新登录!!!");
                         throwable.printStackTrace();
                         LoggerUtils.d(TAG, "请求出错,进入登录界面", throwable.getMessage());
                         Intent intent = new Intent(StartPagerActivity.this, LoginActivity.class);
@@ -73,6 +85,15 @@ public class StartPagerActivity extends RxAppCompatActivity {
                         uiHandler.postDelayed(() -> finish(), 2000);
                     }
                 });
+    }
+
+    private void startLogin() {
+        uiHandler.postDelayed(() -> {
+            Intent intent = new Intent(StartPagerActivity.this, LoginActivity.class);
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(StartPagerActivity.this, binding.startIcon, "start").toBundle());
+        }, 1000);
+
+        uiHandler.postDelayed(this::finish, 2000);
     }
 
     @Override
