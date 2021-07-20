@@ -5,11 +5,13 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.scwang.smart.refresh.footer.BallPulseFooter;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -19,10 +21,14 @@ import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
 
+/**
+ * 充值、提币、收益
+ */
 public class ShouZhiActivity extends BaseMvpActivity<ShouZhiPresent> implements ShouZhiEvent {
     private RelativeLayout titleLayout;
     private AppCompatImageView ivArrowBack;
     private MaterialTextView tvTitle;
+    private TabLayout tabSwitchProduct;
     private SwipeRefreshLayout refreshLayout;
     private SmartRefreshLayout smartRefreshLayout;
     private RecyclerView rcShouZhi;
@@ -45,6 +51,7 @@ public class ShouZhiActivity extends BaseMvpActivity<ShouZhiPresent> implements 
         rcShouZhi = (RecyclerView) findViewById(R.id.rcShouZhi);
         progressLoadingData = (ContentLoadingProgressBar) findViewById(R.id.progressLoadingData);
         ivEmptyView = (AppCompatImageView) findViewById(R.id.ivEmptyView);
+        tabSwitchProduct = (TabLayout) findViewById(R.id.tabSwitchProduct);
 
         rcShouZhi.setLayoutManager(new LinearLayoutManager(this));
         smartRefreshLayout.setRefreshFooter(new BallPulseFooter(this));
@@ -63,6 +70,23 @@ public class ShouZhiActivity extends BaseMvpActivity<ShouZhiPresent> implements 
     @Override
     protected void initEvent() {
         ivArrowBack.setOnClickListener(v -> finish());
+
+        tabSwitchProduct.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                // 加载
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         refreshLayout.setOnRefreshListener(() -> {
             isLoadMore = false;

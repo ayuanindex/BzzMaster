@@ -45,7 +45,6 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
     private androidx.swiperefreshlayout.widget.SwipeRefreshLayout refreshLayout;
     private OrderAdapter orderAdapter;
     private SmartRefreshLayout smartRefreshLayout;
-    private int type;
     private long productid = 0;
     private boolean isLoadMore = false;
 
@@ -98,14 +97,12 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
             }
 
             private void load(TabLayout.Tab tab) {
-                if (type == 0) {
-                    if (mPresenter.getProductList().getValue() != null) {
-                        showLoading();
-                        mPresenter.setPage(1);
-                        isLoadMore = false;
-                        productid = mPresenter.getProductList().getValue().get(tab.getPosition()).getProductid();
-                        mPresenter.requestAllProductPlan(productid);
-                    }
+                if (mPresenter.getProductList().getValue() != null) {
+                    showLoading();
+                    mPresenter.setPage(1);
+                    isLoadMore = false;
+                    productid = mPresenter.getProductList().getValue().get(tab.getPosition()).getProductid();
+                    mPresenter.requestAllProductPlan(productid);
                 }
             }
 
@@ -138,17 +135,14 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
 
     @Override
     protected void initData() {
-        type = getIntent().getIntExtra("type", 0);
         mPresenter.setLifecycleProvider(this);
 
         initDataSubscribe();
 
         mPresenter.initProductCategory();
 
-        if (type == 0) {
-            orderAdapter = new OrderAdapter(this);
-            rcOrders.setAdapter(orderAdapter);
-        }
+        orderAdapter = new OrderAdapter(this);
+        rcOrders.setAdapter(orderAdapter);
     }
 
     private void initDataSubscribe() {

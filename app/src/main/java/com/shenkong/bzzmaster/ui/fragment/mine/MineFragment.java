@@ -24,6 +24,7 @@ import com.shenkong.bzzmaster.ui.activity.contact.ContactActivity;
 import com.shenkong.bzzmaster.ui.activity.orders.OrderActivity;
 import com.shenkong.bzzmaster.ui.activity.receive.ReceivePaymentActivity;
 import com.shenkong.bzzmaster.ui.activity.settings.SettingsActivity;
+import com.shenkong.bzzmaster.ui.activity.shouzhi.ShouZhiActivity;
 import com.shenkong.bzzmaster.ui.activity.transfer.TransferActivity;
 import com.shenkong.bzzmaster.ui.base.BaseFragment;
 import com.shenkong.bzzmaster.ui.fragment.mine.adapter.WalletAdapter;
@@ -100,14 +101,12 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
         // 我的订单
         tvMyOrder.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), OrderActivity.class);
-            intent.putExtra("type", 0);
             startActivity(intent);
         });
 
         // 收支明细
         tvRevenueAndExpenditure.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), OrderActivity.class);
-            intent.putExtra("type", 1);
+            Intent intent = new Intent(requireContext(), ShouZhiActivity.class);
             startActivity(intent);
         });
 

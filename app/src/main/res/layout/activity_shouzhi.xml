@@ -47,47 +47,51 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!--
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/llTop"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            android:orientation="vertical"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/llTop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                            <com.google.android.material.tabs.TabLayout
-                                android:id="@+id/tabSwitchProduct"
-                                android:layout_width="wrap_content"
-                                android:layout_height="28dp"
-                                android:layout_marginStart="16dp"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginEnd="16dp"
-                                android:layout_marginBottom="5dp"
-                                android:background="@drawable/xml_bg_gray_radius"
-                                app:tabIndicator="@drawable/xml_bg_white_radius"
-                                app:tabIndicatorColor="#FFFFFF"
-                                app:tabIndicatorGravity="center"
-                                app:tabIndicatorHeight="28dp"
-                                app:tabMode="auto"
-                                app:tabRippleColor="#00000000">
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabSwitchProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/xml_bg_gray_radius"
+                    app:tabIndicator="@drawable/xml_bg_white_radius"
+                    app:tabIndicatorColor="#FFFFFF"
+                    app:tabIndicatorGravity="center"
+                    app:tabIndicatorHeight="28dp"
+                    app:tabMode="fixed"
+                    app:tabRippleColor="#00000000">
 
-                                &lt;!&ndash;<com.google.android.material.tabs.TabItem
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="XCH"
-                                    android:visibility="gone" />
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="充值"
+                        android:visibility="gone" />
 
-                                <com.google.android.material.tabs.TabItem
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="BZZ"
-                                    android:visibility="gone" />&ndash;&gt;
-                            </com.google.android.material.tabs.TabLayout>
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-            -->
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="提币"
+                        android:visibility="gone" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="收益"
+                        android:visibility="gone" />
+                </com.google.android.material.tabs.TabLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.scwang.smart.refresh.layout.SmartRefreshLayout
                 android:id="@+id/smartRefreshLayout"
@@ -96,7 +100,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/llTop">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcShouZhi"
@@ -134,7 +138,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/llTop" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
