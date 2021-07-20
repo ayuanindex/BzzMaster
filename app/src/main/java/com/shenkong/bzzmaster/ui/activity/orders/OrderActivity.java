@@ -11,17 +11,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.savedstate.SavedStateRegistryOwner;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.scwang.smart.refresh.footer.BallPulseFooter;
-import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.shenkong.bzzmaster.R;
-import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.model.bean.OrderBean;
 import com.shenkong.bzzmaster.model.bean.ProductBean;
@@ -29,8 +26,6 @@ import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 import com.shenkong.bzzmaster.ui.activity.orders.adapter.OrderAdapter;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements OrderEvent {

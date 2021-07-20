@@ -70,4 +70,9 @@ public class ModelPath {
      * 用户购买计划
      */
     public static final String Assets = "assets";
+
+    /**
+     * 收支详情
+     */
+    public static final String Detail = "detail";
 }

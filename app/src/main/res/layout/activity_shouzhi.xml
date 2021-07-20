@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/titleLayout"
@@ -34,111 +35,148 @@
             android:textColor="@color/green_primary" />
     </RelativeLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refreshLayout"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llTop"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleLayout">
+        app:layout_constraintTop_toBottomOf="@id/titleLayout">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabSwitchDetailType"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="28dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/xml_bg_gray_radius"
+            app:tabIndicator="@drawable/xml_bg_white_radius"
+            app:tabIndicatorColor="#FFFFFF"
+            app:tabIndicatorGravity="center"
+            app:tabIndicatorHeight="28dp"
+            app:tabMode="fixed"
+            app:tabRippleColor="#00000000">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/llTop"
-                android:layout_width="match_parent"
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:text="充值"
+                android:visibility="gone" />
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabSwitchProduct"
-                    android:layout_width="match_parent"
-                    android:layout_height="28dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/xml_bg_gray_radius"
-                    app:tabIndicator="@drawable/xml_bg_white_radius"
-                    app:tabIndicatorColor="#FFFFFF"
-                    app:tabIndicatorGravity="center"
-                    app:tabIndicatorHeight="28dp"
-                    app:tabMode="fixed"
-                    app:tabRippleColor="#00000000">
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提币"
+                android:visibility="gone" />
 
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="充值"
-                        android:visibility="gone" />
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收益"
+                android:visibility="gone" />
+        </com.google.android.material.tabs.TabLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="提币"
-                        android:visibility="gone" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/llTop">
 
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="收益"
-                        android:visibility="gone" />
-                </com.google.android.material.tabs.TabLayout>
-            </androidx.appcompat.widget.LinearLayoutCompat>
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <com.scwang.smart.refresh.layout.SmartRefreshLayout
-                android:id="@+id/smartRefreshLayout"
+            <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/llTop">
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcShouZhi"
+                <!--统计布局-->
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/llTop"
-                    tools:listitem="@layout/item_order" />
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <com.scwang.smart.refresh.footer.BallPulseFooter
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/llStatisticsLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:text="统计布局" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </com.google.android.material.card.MaterialCardView>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_anchorGravity="center"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/refreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="80dp">
+
+                <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                    android:id="@+id/smartRefreshLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:foregroundTint="@color/green_primary_dark" />
-            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+                    android:layout_height="match_parent">
 
-            <androidx.core.widget.ContentLoadingProgressBar
-                android:id="@+id/progressLoadingData"
-                style="@style/Widget.AppCompat.ProgressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcShouZhi"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:listitem="@layout/item_shouzhi" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivEmptyView"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/img_empty"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/llTop" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                    <com.scwang.smart.refresh.footer.BallPulseFooter
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:foregroundTint="@color/green_primary_dark" />
+                </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progressLoadingData"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llTop" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivEmptyView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/img_empty"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llTop" />
 </androidx.constraintlayout.widget.ConstraintLayout>

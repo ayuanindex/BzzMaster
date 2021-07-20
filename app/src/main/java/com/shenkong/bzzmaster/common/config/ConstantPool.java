@@ -52,4 +52,18 @@ public class ConstantPool {
      * 审核未通过
      */
     public static final Long Order_AuditFailed = 6L;
+
+    /*--------------------收支详情------------------------*/
+    /**
+     * 转帐（入）
+     */
+    public static final int Detail_Transaction = 1;
+    /**
+     * 提币
+     */
+    public static final int Detail_Apply = 2;
+    /**
+     * 收益
+     */
+    public static final int Detail_Revenue = 3;
 }
