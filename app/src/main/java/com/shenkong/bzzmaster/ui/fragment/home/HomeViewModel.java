@@ -352,7 +352,7 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
      *
      * @param productId 产品ID
      */
-    public synchronized void initProductPlanData(int productId) {
+    public synchronized void initProductPlanData(long productId) {
         if (productPlanSubscribe != null && !productPlanSubscribe.isDisposed()) {
             productPlanSubscribe.dispose();
             productPlanSubscribe = null;

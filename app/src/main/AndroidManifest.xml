@@ -68,6 +68,12 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!--收支明细-->
+        <activity
+            android:name=".ui.activity.shouzhi.ShouZhiActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
         <!--联系我们-->
         <activity
             android:name=".ui.activity.contact.ContactActivity"

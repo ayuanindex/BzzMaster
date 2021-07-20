@@ -3,35 +3,76 @@ package com.shenkong.bzzmaster.model.bean;
 import com.shenkong.bzzmaster.ui.fragment.home.Types;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
+import java.util.Date;
+
 public class ProductBean implements MultipleAdapter.LayoutType {
-    private int productid;
+
+    /**
+     * 产品ID
+     */
+    private long productid;
+
+    /**
+     * 产品名称
+     */
     private String name;
-    private int staues;
+
+    /**
+     * 状态
+     */
+    private long staues;
+    /**
+     * 权限
+     * default: 0
+     */
+//    private long jurisdiction;
+    /**
+     * 产品图片
+     */
     private String pic;
+
+    /**
+     * 介绍
+     */
     private String introduce;
-    private int aid;
-    private int top;
+
+    /**
+     * 管理员
+     */
+    private long aid;
+
+    /**
+     * 管理员名字
+     */
+    private String aname;
+
+    /**
+     * 置顶
+     * default: 0
+     */
+    private long top;
+
     private String currency;
 
-    public ProductBean() {
-    }
+    private double rate;
+    private String createtime;
+    private String updatetime;
 
-    public ProductBean(int productid, String name, int staues, String pic, String introduce, int aid, int top, String currency) {
-        this.productid = productid;
-        this.name = name;
-        this.staues = staues;
-        this.pic = pic;
-        this.introduce = introduce;
-        this.aid = aid;
-        this.top = top;
-        this.currency = currency;
-    }
+    private long updateaid;
+    /**
+     * 管理员名字
+     */
+    private String updatename;
+    /**
+     * 总余额
+     */
+    private double balance;
 
-    public int getProductid() {
+    public long getProductid() {
         return productid;
     }
 
-    public void setProductid(int productid) {
+    public void setProductid(long productid) {
         this.productid = productid;
     }
 
@@ -43,11 +84,11 @@ public class ProductBean implements MultipleAdapter.LayoutType {
         this.name = name;
     }
 
-    public int getStaues() {
+    public long getStaues() {
         return staues;
     }
 
-    public void setStaues(int staues) {
+    public void setStaues(long staues) {
         this.staues = staues;
     }
 
@@ -67,19 +108,27 @@ public class ProductBean implements MultipleAdapter.LayoutType {
         this.introduce = introduce;
     }
 
-    public int getAid() {
+    public long getAid() {
         return aid;
     }
 
-    public void setAid(int aid) {
+    public void setAid(long aid) {
         this.aid = aid;
     }
 
-    public int getTop() {
+    public String getAname() {
+        return aname;
+    }
+
+    public void setAname(String aname) {
+        this.aname = aname;
+    }
+
+    public long getTop() {
         return top;
     }
 
-    public void setTop(int top) {
+    public void setTop(long top) {
         this.top = top;
     }
 
@@ -91,6 +140,54 @@ public class ProductBean implements MultipleAdapter.LayoutType {
         this.currency = currency;
     }
 
+    public double getRate() {
+        return rate;
+    }
+
+    public void setRate(double rate) {
+        this.rate = rate;
+    }
+
+    public String getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(String createtime) {
+        this.createtime = createtime;
+    }
+
+    public String getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(String updatetime) {
+        this.updatetime = updatetime;
+    }
+
+    public long getUpdateaid() {
+        return updateaid;
+    }
+
+    public void setUpdateaid(long updateaid) {
+        this.updateaid = updateaid;
+    }
+
+    public String getUpdatename() {
+        return updatename;
+    }
+
+    public void setUpdatename(String updatename) {
+        this.updatename = updatename;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
     @Override
     public String toString() {
         return "ProductBean{" +
@@ -100,8 +197,15 @@ public class ProductBean implements MultipleAdapter.LayoutType {
                 ", pic='" + pic + '\'' +
                 ", introduce='" + introduce + '\'' +
                 ", aid=" + aid +
+                ", aname='" + aname + '\'' +
                 ", top=" + top +
                 ", currency='" + currency + '\'' +
+                ", rate=" + rate +
+                ", createtime='" + createtime + '\'' +
+                ", updatetime='" + updatetime + '\'' +
+                ", updateaid=" + updateaid +
+                ", updatename='" + updatename + '\'' +
+                ", balance=" + balance +
                 '}';
     }
 

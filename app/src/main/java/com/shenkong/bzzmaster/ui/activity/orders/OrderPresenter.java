@@ -119,7 +119,7 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
      *
      * @param productId 需要查询的产品
      */
-    public void requestAllProductPlan(int productId) {
+    public void requestAllProductPlan(long productId) {
         if (orderSubscribe != null && !orderSubscribe.isDisposed()) {
             orderSubscribe.dispose();
             orderSubscribe = null;
@@ -157,7 +157,7 @@ public class OrderPresenter extends BasePresenter<OrderEvent> {
      * @param productPlanBeans 匹配订单名称所用的参数
      * @param productid
      */
-    public void requestOrders(List<ProductPlanBean> productPlanBeans, int productid) {
+    public void requestOrders(List<ProductPlanBean> productPlanBeans, long productid) {
         LoggerUtils.d(TAG, "page" + page);
         FrontPage frontPage = new FrontPage();
         frontPage.setRows(20);

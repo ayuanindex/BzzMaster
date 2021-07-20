@@ -39,7 +39,7 @@ public class HomeProfitViewHolder extends MultipleAdapter.MultipleBaseViewHolder
     private HomeViewModel homeViewModel;
     private List<ProductBean> productBeanList;
     private int position;
-    private int productId;
+    private long productId;
     private Timer timer;
     private TimerTask task;
     private boolean isNew = true;

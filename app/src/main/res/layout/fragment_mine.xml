@@ -55,7 +55,7 @@
         android:insetTop="8dp"
         android:insetRight="5dp"
         android:insetBottom="8dp"
-        android:text="转账"
+        android:text="提币"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -90,8 +90,8 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvUSDTAvailableBalance"
             android:layout_width="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="0.0000"
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/btnSeeMore"
@@ -175,16 +175,14 @@
                 android:gravity="center_vertical"
                 android:minHeight="50dp"
                 android:paddingStart="20dp"
-                android:text="收支明细"
-                android:visibility="gone" />
+                android:text="收支明细" />
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:background="#E1E1E1"
-                android:visibility="gone" />
+                android:background="#E1E1E1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvContactUs"

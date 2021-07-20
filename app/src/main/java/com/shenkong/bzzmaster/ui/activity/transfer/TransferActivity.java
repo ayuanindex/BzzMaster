@@ -1,6 +1,9 @@
 package com.shenkong.bzzmaster.ui.activity.transfer;
 
 import android.annotation.SuppressLint;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -12,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.lifecycle.HasDefaultViewModelProviderFactory;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.material.button.MaterialButton;
@@ -40,6 +44,7 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
     private MaterialCardView cardSelectCurrency;
     private AppCompatSpinner spCurrency;
     private LinearLayoutCompat llBalanceContent;
+    private MaterialTextView tvMaxTransactionCost;
     private MaterialTextView tvBalance;
     private MaterialTextView tvCurrency;
     private TextInputLayout inputAddressLayout;
@@ -49,7 +54,7 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
     private LinearLayoutCompat tvTipLayout;
     private MaterialTextView tvWaringTip;
     private MaterialButton btnConfirmTransfer;
-    private int productId;
+    private long productId;
     private int currentPosition;
     private final double maxAmountOfMoney = 1000000;
     private final double minAmountOfMoney = 0.01;
@@ -65,6 +70,7 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
         ivArrowBack = findViewById(R.id.ivArrowBack);
         tvTitle = findViewById(R.id.tvTitle);
         cardSelectCurrency = findViewById(R.id.cardSelectCurrency);
+        tvMaxTransactionCost = findViewById(R.id.tvMaxTransactionCost);
         spCurrency = findViewById(R.id.spCurrency);
         llBalanceContent = findViewById(R.id.llBalanceContent);
         tvBalance = findViewById(R.id.tvBalance);
@@ -102,7 +108,8 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (mPresenter.getProductBeanListLiveData().getValue() != null) {
-                    productId = mPresenter.getProductBeanListLiveData().getValue().get(position).getProductid();
+                    ProductBean productBean = mPresenter.getProductBeanListLiveData().getValue().get(position);
+                    productId = productBean.getProductid();
                 }
                 currentPosition = position;
                 mPresenter.requestBalance(position);
@@ -194,6 +201,7 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
     public void setBalanceText(CapitalBean capitalBean) {
         tvCurrency.setText("余额(" + capitalBean.getName() + ")");
         tvBalance.setText(capitalBean.getBalance() + "");
+        tvMaxTransactionCost.setText("最大交易费用" + capitalBean.getName().toUpperCase());
     }
 
     @Override

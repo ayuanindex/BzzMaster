@@ -46,7 +46,7 @@ public class OrderActivity extends BaseMvpActivity<OrderPresenter> implements Or
     private OrderAdapter orderAdapter;
     private SmartRefreshLayout smartRefreshLayout;
     private int type;
-    private int productid = 0;
+    private long productid = 0;
     private boolean isLoadMore = false;
 
     @Override

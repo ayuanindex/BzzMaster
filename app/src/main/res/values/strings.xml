@@ -22,6 +22,12 @@
         再提交转申请交由后台审核。
     </string>
 
+    <!--提币界面提示文字-->
+    <string name="TipsForWithdrawal">
+        • 请仔细检查填写的收款地址，若填写有误，转账发起后，资金将无法找回。\n
+        • <font color="red">预计到账时间为每天上午10点～下午4点</font>
+    </string>
+
     <string-array name="Currency">
         <item>USDT</item>
         <item>XCH</item>

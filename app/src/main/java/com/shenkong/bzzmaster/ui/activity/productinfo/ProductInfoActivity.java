@@ -72,7 +72,6 @@ public class ProductInfoActivity extends BaseMvpActivity<ProductInfoPresenter> i
                     super.onPageFinished(view, url);
                     if (data.getDetailslink() != null) {
                         webViewProductInfo.loadUrl("javascript:setImgUrl('" + data.getPic() + "')");
-                        webViewProductInfo.setVisibility(View.VISIBLE);
                         scrollContent.setVisibility(View.VISIBLE);
                     }
                 }

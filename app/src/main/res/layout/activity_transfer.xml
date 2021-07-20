@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="转账"
+            android:text="提币"
             android:textColor="@color/green_primary" />
     </RelativeLayout>
 
@@ -103,7 +103,7 @@
             android:id="@+id/inputAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入收款地址"
+            android:hint="请输入提现地址"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,7 +125,7 @@
             android:id="@+id/inputAmountOfMoney"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入转账金额"
+            android:hint="请输入提现金额"
             android:inputType="numberDecimal" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -133,14 +133,16 @@
         android:id="@+id/tvTipLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@+id/inputAmountOfMoneyLayout"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/inputAmountOfMoneyLayout"
         app:layout_constraintTop_toBottomOf="@+id/inputAmountOfMoneyLayout">
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvMaxTransactionCost"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -160,9 +162,9 @@
         android:id="@+id/tvWaringTip"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/xml_waring"
+        android:drawableTop="@drawable/xml_waring"
         android:gravity="center_vertical"
-        android:text="请仔细检查填写的收款地址，若填写有误，转账发起后，资金将无法找回。"
+        android:text="@string/TipsForWithdrawal"
         android:textColor="#FF4900"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/btnConfirmTransfer"
@@ -177,7 +179,7 @@
         android:layout_marginBottom="10dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:text="确认转账"
+        android:text="确认提币"
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/tvWaringTip"
