@@ -95,7 +95,7 @@ public class DetailBean {
         /**
          * 实际金额
          */
-        private double amout;
+        private Double amout;
         /**
          * 币种
          */
@@ -118,11 +118,11 @@ public class DetailBean {
             this.name = name;
         }
 
-        public double getAmout() {
+        public Double getAmout() {
             return amout;
         }
 
-        public void setAmout(double amout) {
+        public void setAmout(Double amout) {
             this.amout = amout;
         }
 

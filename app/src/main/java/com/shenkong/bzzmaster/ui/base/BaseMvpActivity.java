@@ -24,7 +24,7 @@ import com.shenkong.bzzmaster.model.presenter.BasePresenter;
 
 public abstract class BaseMvpActivity<P extends BasePresenter> extends RxAppCompatActivity implements BaseEven, View.OnClickListener {
     public final String TAG = this.getClass().getSimpleName();
-    public static Handler uiHandler = uiHandler = new Handler(Looper.getMainLooper());
+    public static Handler uiHandler = new Handler(Looper.getMainLooper());
     public P mPresenter;
 
     @Override

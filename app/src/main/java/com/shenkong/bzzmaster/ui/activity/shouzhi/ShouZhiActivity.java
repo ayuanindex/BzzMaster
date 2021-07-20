@@ -1,10 +1,12 @@
 package com.shenkong.bzzmaster.ui.activity.shouzhi;
 
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -19,11 +21,16 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.config.ConstantPool;
+import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
+import com.shenkong.bzzmaster.databinding.ItemCountBinding;
 import com.shenkong.bzzmaster.model.bean.DetailBean;
 import com.shenkong.bzzmaster.ui.activity.shouzhi.adapter.DetailItemAdapter;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -49,14 +56,14 @@ public class ShouZhiActivity extends BaseMvpActivity<ShouZhiPresent> implements 
 
     @Override
     protected void initView() {
-        ivArrowBack = (AppCompatImageView) findViewById(R.id.ivArrowBack);
-        tabSwitchDetailType = (TabLayout) findViewById(R.id.tabSwitchDetailType);
-        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
-        llStatisticsLayout = (LinearLayoutCompat) findViewById(R.id.llStatisticsLayout);
-        smartRefreshLayout = (SmartRefreshLayout) findViewById(R.id.smartRefreshLayout);
-        rcShouZhi = (RecyclerView) findViewById(R.id.rcShouZhi);
-        progressLoadingData = (ContentLoadingProgressBar) findViewById(R.id.progressLoadingData);
-        ivEmptyView = (AppCompatImageView) findViewById(R.id.ivEmptyView);
+        ivArrowBack = findViewById(R.id.ivArrowBack);
+        tabSwitchDetailType = findViewById(R.id.tabSwitchDetailType);
+        refreshLayout = findViewById(R.id.refreshLayout);
+        llStatisticsLayout = findViewById(R.id.llStatisticsLayout);
+        smartRefreshLayout = findViewById(R.id.smartRefreshLayout);
+        rcShouZhi = findViewById(R.id.rcShouZhi);
+        progressLoadingData = findViewById(R.id.progressLoadingData);
+        ivEmptyView = findViewById(R.id.ivEmptyView);
 
         rcShouZhi.setLayoutManager(new LinearLayoutManager(this));
         smartRefreshLayout.setRefreshFooter(new BallPulseFooter(this));
@@ -144,6 +151,8 @@ public class ShouZhiActivity extends BaseMvpActivity<ShouZhiPresent> implements 
         mPresenter.getDetailBeanLiveData().observe(this, new Observer<DetailBean>() {
             @Override
             public void onChanged(DetailBean detailBean) {
+                loadStatisticsView(detailBean.getStatistics());
+
                 if (isLoadMore) {
                     isLoadMore = false;
                     switchAdapterAddData(detailBean);
@@ -153,6 +162,51 @@ public class ShouZhiActivity extends BaseMvpActivity<ShouZhiPresent> implements 
                 hideLoading();
             }
         });
+    }
+
+    /**
+     * 加载统计布局的View
+     *
+     * @param statistics 统计信息
+     */
+    private void loadStatisticsView(ArrayList<DetailBean.Statistics> statistics) {
+        List<DetailBean.Statistics> list;
+        switch (tabPosition) {
+            case 0:
+                // 充值明细
+                list = getSelectType(statistics, ConstantPool.Detail_Transaction);
+                break;
+            case 1:
+                // 提币
+                list = getSelectType(statistics, ConstantPool.Detail_Apply);
+                break;
+            case 2:
+                // 收益
+                list = getSelectType(statistics, ConstantPool.Detail_Revenue);
+                break;
+            default:
+                list = new ArrayList<>();
+                break;
+        }
+
+        llStatisticsLayout.removeAllViews();
+        for (DetailBean.Statistics bean : list) {
+            ItemCountBinding inflate = ItemCountBinding.inflate(getLayoutInflater(), llStatisticsLayout, false);
+            inflate.tvCurrency.setText(bean.getCurrency().toUpperCase());
+            inflate.tvMoney.setText("统计金额:" + Formatter.numberFormat(bean.getAmout()));
+            inflate.tvCount.setText("共" + bean.getNumber() + "条记录");
+            llStatisticsLayout.addView(inflate.getRoot());
+        }
+    }
+
+    private List<DetailBean.Statistics> getSelectType(List<DetailBean.Statistics> statisticsList, int type) {
+        List<DetailBean.Statistics> list = new ArrayList<>();
+        for (DetailBean.Statistics statistics : statisticsList) {
+            if (statistics.getType() == type) {
+                list.add(statistics);
+            }
+        }
+        return list;
     }
 
     /**
@@ -274,6 +328,7 @@ public class ShouZhiActivity extends BaseMvpActivity<ShouZhiPresent> implements 
 
     @Override
     public void showLoading() {
+        progressLoadingData.setVisibility(View.VISIBLE);
         progressLoadingData.show();
     }
 

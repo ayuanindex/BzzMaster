@@ -10,11 +10,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.databinding.ItemShouzhiBinding;
 import com.shenkong.bzzmaster.model.bean.DetailBean;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DetailItemAdapter extends RecyclerView.Adapter<DetailItemAdapter.ViewHolder> {
@@ -39,7 +41,7 @@ public class DetailItemAdapter extends RecyclerView.Adapter<DetailItemAdapter.Vi
         holder.itemShouzhiBinding.tvDetailDate.setText(detailItem.getCreatetime());
         holder.itemShouzhiBinding.tvDetailName.setText(detailItem.getName());
         holder.itemShouzhiBinding.tvCurrency.setText(detailItem.getCurrency().toUpperCase());
-        holder.itemShouzhiBinding.tvDetailMoney.setText(detailItem.getAmout() + "");
+        holder.itemShouzhiBinding.tvDetailMoney.setText(Formatter.numberFormat(detailItem.getAmout()));
         if (TextUtils.isEmpty(detailItem.getAdress())) {
             holder.itemShouzhiBinding.llAddressLayout.setVisibility(View.GONE);
         } else {

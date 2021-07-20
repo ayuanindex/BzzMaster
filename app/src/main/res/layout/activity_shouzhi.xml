@@ -95,7 +95,9 @@
                 android:background="@color/white"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
+                <include layout="@layout/layout_statistics" />
                 <!--统计布局-->
+<!--
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -107,20 +109,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/llStatisticsLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:text="统计布局" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
                 </com.google.android.material.card.MaterialCardView>
+-->
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -157,6 +147,16 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivEmptyView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/img_empty"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llTop" />
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progressLoadingData"
@@ -164,17 +164,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llTop" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivEmptyView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/img_empty"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

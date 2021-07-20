@@ -1,5 +1,7 @@
 package com.shenkong.bzzmaster.common.utils;
 
+import android.annotation.SuppressLint;
+
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -7,9 +9,9 @@ import java.util.Date;
 import java.util.Random;
 
 public class Formatter {
-    private static DecimalFormat decimalFormat = new DecimalFormat("#.####");
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final DecimalFormat decimalFormat = new DecimalFormat("#.##############");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static final int oneDayTime = 86400000;
 
     public static String numberFormat(double value) {

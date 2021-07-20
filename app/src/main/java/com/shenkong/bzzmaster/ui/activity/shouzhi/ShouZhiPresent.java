@@ -90,7 +90,7 @@ public class ShouZhiPresent extends BasePresenter<ShouZhiEvent> {
 
         FrontPage<DetailVo> frontPage = new FrontPage<DetailVo>();
         frontPage.setPage(page);
-        frontPage.setRows(2);
+        frontPage.setRows(15);
         frontPage.setT(t);
         shouZhiSubscribe = ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(ShouZhiDetailService.class).requestShouZhiDetail(frontPage), lifecycleProvider)
                 .subscribe(new Consumer<ResultBean<DetailBean>>() {
