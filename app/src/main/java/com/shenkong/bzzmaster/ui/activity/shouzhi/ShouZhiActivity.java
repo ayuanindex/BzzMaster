@@ -46,6 +46,7 @@ public class ShouZhiActivity extends BaseMvpActivity<ShouZhiPresent> implements 
     private ContentLoadingProgressBar progressLoadingData;
     private AppCompatImageView ivEmptyView;
     private boolean isLoadMore = false;
+    private boolean isRefresh = false;
     private int tabPosition = 0;
     private DetailItemAdapter detailItemAdapter;
 
@@ -109,18 +110,22 @@ public class ShouZhiActivity extends BaseMvpActivity<ShouZhiPresent> implements 
         });
 
         refreshLayout.setOnRefreshListener(() -> {
-            isLoadMore = false;
-            setLoadPage();
-            // 请求收支记录
-            mPresenter.requestShouZhi();
+            if (!isLoadMore) {
+                isRefresh = true;
+                setLoadPage();
+                // 请求收支记录
+                mPresenter.requestShouZhi();
+            }
         });
 
         smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                isLoadMore = true;
-                setLoadPage();
-                mPresenter.requestShouZhi();
+                if (!isRefresh) {
+                    isLoadMore = true;
+                    setLoadPage();
+                    mPresenter.requestShouZhi();
+                }
             }
 
             @Override
@@ -152,7 +157,7 @@ public class ShouZhiActivity extends BaseMvpActivity<ShouZhiPresent> implements 
             @Override
             public void onChanged(DetailBean detailBean) {
                 loadStatisticsView(detailBean.getStatistics());
-
+                isRefresh = false;
                 if (isLoadMore) {
                     isLoadMore = false;
                     switchAdapterAddData(detailBean);
@@ -188,13 +193,12 @@ public class ShouZhiActivity extends BaseMvpActivity<ShouZhiPresent> implements 
                 list = new ArrayList<>();
                 break;
         }
-
         llStatisticsLayout.removeAllViews();
         for (DetailBean.Statistics bean : list) {
             ItemCountBinding inflate = ItemCountBinding.inflate(getLayoutInflater(), llStatisticsLayout, false);
             inflate.tvCurrency.setText(bean.getCurrency().toUpperCase());
-            inflate.tvMoney.setText("统计金额:" + Formatter.numberFormat(bean.getAmout()));
-            inflate.tvCount.setText("共" + bean.getNumber() + "条记录");
+            inflate.tvMoney.setText("累计金额" + Formatter.numberFormat(bean.getAmout()));
+            inflate.tvCount.setText(bean.getNumber() + "条记录");
             llStatisticsLayout.addView(inflate.getRoot());
         }
     }

@@ -86,18 +86,17 @@ public class ShouZhiPresent extends BasePresenter<ShouZhiEvent> {
         }
 
         int type = t.getType();
-        LoggerUtils.d(TAG, "记载了" + (type == 1 ? "充值" : (type == 2 ? "提币" : "收益")) + "的第" + page + "页数据");
+        // LoggerUtils.d(TAG, "记载了" + (type == 1 ? "充值" : (type == 2 ? "提币" : "收益")) + "的第" + page + "页数据");
 
         FrontPage<DetailVo> frontPage = new FrontPage<DetailVo>();
         frontPage.setPage(page);
-        frontPage.setRows(15);
+        frontPage.setRows(20);
         frontPage.setT(t);
         shouZhiSubscribe = ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(ShouZhiDetailService.class).requestShouZhiDetail(frontPage), lifecycleProvider)
                 .subscribe(new Consumer<ResultBean<DetailBean>>() {
                     @Override
                     public void accept(ResultBean<DetailBean> detailBeanResultBean) throws Exception {
                         if (detailBeanResultBean.getCode() == 200) {
-                            // TODO: 2021/7/20
                             detailBeanLiveData.postValue(detailBeanResultBean.getDate());
                         } else {
                             detailBeanLiveData.postValue(new DetailBean());
@@ -108,6 +107,7 @@ public class ShouZhiPresent extends BasePresenter<ShouZhiEvent> {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+                        detailBeanLiveData.postValue(new DetailBean());
                         mView.hideLoading();
                         LoggerUtils.d(TAG, "请求出错", throwable.getMessage());
                         throwable.printStackTrace();
