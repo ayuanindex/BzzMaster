@@ -252,7 +252,7 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
                                 money += allGain.getMoney();
                             }
 
-                            webProfitDaysLiveData.postValue("");
+                            webProfitDaysLiveData.postValue("一次性释放");
                             webProfitMoneyLiveData.postValue(Formatter.numberFormat(money));
                             webDataLiveData.postValue(new Gson().toJson(jsonLists));
                             //LoggerUtils.d(TAG, money + "-------收益----" + revenueListBeanResultBean.toString());
