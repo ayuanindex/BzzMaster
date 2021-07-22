@@ -2,6 +2,7 @@ package com.shenkong.bzzmaster.ui.activity.main;
 
 import android.annotation.SuppressLint;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textview.MaterialTextView;
 import com.king.app.updater.AppUpdater;
 import com.king.app.updater.callback.AppUpdateCallback;
+import com.shenkong.bzzmaster.BuildConfig;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.broadcast.LogOutBroadCast;
 import com.shenkong.bzzmaster.common.config.ConstantPool;
@@ -114,7 +116,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         mPresenter.requestNotice();
 
         // 检查app更新
-        mPresenter.checkAppWhetherUpdate(0);
+        mPresenter.checkAppWhetherUpdate(BuildConfig.VERSION_CODE);
 
         mPresenter.initViewPager();
 

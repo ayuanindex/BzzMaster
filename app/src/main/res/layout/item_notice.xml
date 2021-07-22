@@ -32,6 +32,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
+            android:ellipsize="end"
+            android:maxLines="4"
             android:text="消息体"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,9 +60,10 @@
             android:drawableEnd="@drawable/xml_arrow_next"
             android:gravity="center_vertical"
             android:text="查看详情"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvNoticeCreateTime"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvNoticeCreateTime"
+            app:layout_constraintTop_toBottomOf="@+id/tvNoticeMessage"
             app:layout_constraintVertical_bias="0.2"
             app:layout_goneMarginTop="10dp" />
 
@@ -70,6 +73,7 @@
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:text="时间"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivNoticeImg" />
     </androidx.constraintlayout.widget.ConstraintLayout>

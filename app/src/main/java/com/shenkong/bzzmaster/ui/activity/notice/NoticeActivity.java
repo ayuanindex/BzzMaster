@@ -1,6 +1,7 @@
 package com.shenkong.bzzmaster.ui.activity.notice;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -126,12 +127,18 @@ public class NoticeActivity extends BaseMvpActivity<NoticePresenter> implements 
             holder.itemNoticeBinding.tvNoticeMessage.setText(noticeBean.getMessage());
             holder.itemNoticeBinding.tvNoticeCreateTime.setText(noticeBean.getPushtime());
 
-            holder.itemNoticeBinding.getRoot().setOnClickListener(v -> {
-                Intent intent = new Intent(NoticeActivity.this, WebViewActivity.class);
-                intent.putExtra(WebViewActivity.TITLE, noticeBean.getTitle());
-                intent.putExtra(WebViewActivity.URL, noticeBean.getLink());
-                startActivity(intent);
-            });
+            if (TextUtils.isEmpty(noticeBean.getLink())) {
+                holder.itemNoticeBinding.tvLink.setVisibility(View.GONE);
+                holder.itemNoticeBinding.getRoot().setOnClickListener(null);
+            } else {
+                holder.itemNoticeBinding.tvLink.setVisibility(View.VISIBLE);
+                holder.itemNoticeBinding.getRoot().setOnClickListener(v -> {
+                    Intent intent = new Intent(NoticeActivity.this, WebViewActivity.class);
+                    intent.putExtra(WebViewActivity.TITLE, noticeBean.getTitle());
+                    intent.putExtra(WebViewActivity.URL, noticeBean.getLink());
+                    startActivity(intent);
+                });
+            }
         }
 
         @Override
