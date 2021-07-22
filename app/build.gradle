@@ -16,7 +16,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -34,7 +34,7 @@ android {
             variant.outputs.all {
                 //在这里修改apk文件名
                 //outputFileName = "Demo${variant.versionName}.apk"
-                outputFileName = "ShenKong.apk"
+                outputFileName = "XingHuiLingHang.apk"
             }
     }
 
@@ -54,7 +54,7 @@ android {
                     firm: 'zy'
             ]
             buildConfigField "String", "firm", '"zy"'
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
 }
