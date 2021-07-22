@@ -2,7 +2,6 @@ package com.shenkong.bzzmaster.ui.activity.main;
 
 import android.annotation.SuppressLint;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
