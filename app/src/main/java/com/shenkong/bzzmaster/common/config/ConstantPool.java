@@ -68,4 +68,26 @@ public class ConstantPool {
      * 收益
      */
     public static final int Detail_Revenue = 3;
+
+    /*------------------App版本类型----------------------*/
+
+    /**
+     * 正常发布 用户可取消
+     */
+    public static final Long A_PUSH = 501L;
+
+    /**
+     * 测试发布 测试版本可见
+     */
+    public static final Long A_TEST = 502L;
+
+    /**
+     * 版本下架 不再可见
+     */
+    public static final Long A_PULL = 503L;
+
+    /**
+     * 强制更新
+     */
+    public static final Long A_FORCE = 504L;
 }

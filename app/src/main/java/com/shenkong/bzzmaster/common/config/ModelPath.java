@@ -13,7 +13,7 @@ public class ModelPath {
     /**
      * 线上
      */
-    public static final String baseUrl = "http://112.91.251.88:8081/";
+    public static final String baseUrl = "http://app.mmskhy.com:8081/";
 
     /**
      * App下载

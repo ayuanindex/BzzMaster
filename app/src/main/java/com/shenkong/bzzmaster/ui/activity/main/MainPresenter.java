@@ -2,11 +2,13 @@ package com.shenkong.bzzmaster.ui.activity.main;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.AsyncDifferConfig;
 
 import com.shenkong.bzzmaster.BuildConfig;
 import com.shenkong.bzzmaster.common.base.ResultBean;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.AppUpdateBean;
+import com.shenkong.bzzmaster.model.bean.EditionDTO;
 import com.shenkong.bzzmaster.model.bean.NoticeBean;
 import com.shenkong.bzzmaster.model.presenter.BasePresenter;
 import com.shenkong.bzzmaster.net.NetManager;
@@ -46,16 +48,20 @@ public class MainPresenter extends BasePresenter<MainEvent> {
     }
 
     public void checkAppWhetherUpdate(int versionCode) {
-        AppUpdateBean appUpdateBean = new AppUpdateBean();
-        appUpdateBean.setEdition(versionCode);
-        ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(AppService.class).resultCheckAppUpdate(appUpdateBean), lifecycleProvider)
+        LoggerUtils.d(TAG, "更细接口：" + versionCode);
+        EditionDTO editionDTO = new EditionDTO();
+        editionDTO.setEdition(versionCode);
+        editionDTO.setFirm(BuildConfig.firm);
+        ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(AppService.class).resultCheckAppUpdate(editionDTO), lifecycleProvider)
                 .subscribe(new Consumer<ResultBean<AppUpdateBean>>() {
                     @Override
                     public void accept(ResultBean<AppUpdateBean> appUpdateBeanResultBean) throws Exception {
                         if (appUpdateBeanResultBean.getCode() == 200) {
-                            mView.showUpdateDialog(appUpdateBeanResultBean.getDate());
+                            if (appUpdateBeanResultBean.getDate() != null) {
+                                mView.showUpdateDialog(appUpdateBeanResultBean.getDate());
+                            }
                         }
-                        LoggerUtils.d(TAG, "App检查更新" + appUpdateBeanResultBean.toString());
+                        LoggerUtils.d(TAG, "更细接口", appUpdateBeanResultBean.toString());
                     }
                 }, new Consumer<Throwable>() {
                     @Override

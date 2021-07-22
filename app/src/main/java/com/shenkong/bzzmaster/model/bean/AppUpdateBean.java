@@ -32,7 +32,7 @@ public class AppUpdateBean {
     /**
      * 发布时间
      */
-    private Date pushtime;
+    private String pushtime;
 
     /**
      * 发布人
@@ -42,7 +42,12 @@ public class AppUpdateBean {
     /**
      * 类型
      */
-    private long type;
+    private int type;
+
+    /**
+     * 类型
+     */
+    private String firm;
 
     public long getAppid() {
         return appid;
@@ -84,11 +89,11 @@ public class AppUpdateBean {
         this.title = title;
     }
 
-    public Date getPushtime() {
+    public String getPushtime() {
         return pushtime;
     }
 
-    public void setPushtime(Date pushtime) {
+    public void setPushtime(String pushtime) {
         this.pushtime = pushtime;
     }
 
@@ -100,12 +105,20 @@ public class AppUpdateBean {
         this.aid = aid;
     }
 
-    public long getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(long type) {
+    public void setType(int type) {
         this.type = type;
+    }
+
+    public String getFirm() {
+        return firm;
+    }
+
+    public void setFirm(String firm) {
+        this.firm = firm;
     }
 
     @Override
@@ -116,9 +129,10 @@ public class AppUpdateBean {
                 ", downloadurl='" + downloadurl + '\'' +
                 ", message='" + message + '\'' +
                 ", title='" + title + '\'' +
-                ", pushtime=" + pushtime +
+                ", pushtime='" + pushtime + '\'' +
                 ", aid=" + aid +
                 ", type=" + type +
+                ", firm='" + firm + '\'' +
                 '}';
     }
 }

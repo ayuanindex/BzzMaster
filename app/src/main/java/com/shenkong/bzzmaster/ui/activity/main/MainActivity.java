@@ -23,7 +23,7 @@ import com.king.app.updater.AppUpdater;
 import com.king.app.updater.callback.AppUpdateCallback;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.broadcast.LogOutBroadCast;
-import com.shenkong.bzzmaster.common.config.ExternalLinks;
+import com.shenkong.bzzmaster.common.config.ConstantPool;
 import com.shenkong.bzzmaster.common.utils.AlertDialogUtil;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
@@ -114,8 +114,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         mPresenter.requestNotice();
 
         // 检查app更新
-        // mPresenter.checkAppWhetherUpdate(ApkVersionInfoUtil.getVersionCode(this));
-        showUpdateDialog(new AppUpdateBean());
+        mPresenter.checkAppWhetherUpdate(0);
 
         mPresenter.initViewPager();
 
@@ -197,24 +196,31 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         DialogUpdateAppBinding updateAppBinding = DialogUpdateAppBinding.inflate(getLayoutInflater());
         AlertDialog alertDialog = AlertDialogUtil.getAlertDialog(this, updateAppBinding.getRoot());
         alertDialog.setCancelable(false);
-
+        updateAppBinding.tvTitle.setText(appUpdateBean.getTitle());
         updateAppBinding.tvUpdateTip.setText(appUpdateBean.getMessage());
-        updateAppBinding.btnNextTime.setOnClickListener(v -> alertDialog.dismiss());
 
-        AppUpdater appUpdater = new AppUpdater.Builder()
+        // 根据类型判断是否强制更新
+        if (appUpdateBean.getType() == ConstantPool.A_FORCE) {
+            updateAppBinding.btnNextTime.setEnabled(false);
+        } else if (appUpdateBean.getType() == ConstantPool.A_PUSH) {
+            updateAppBinding.btnNextTime.setEnabled(true);
+        } else if (appUpdateBean.getType() == ConstantPool.A_TEST) {
+            updateAppBinding.btnNextTime.setEnabled(true);
+        }
+
+        AppUpdater appDownloadTask = new AppUpdater.Builder()
                 .setInstallApk(true)
-                .setUrl(ExternalLinks.APP_DOWNLOAD_LINK)
+                .setUrl(appUpdateBean.getDownloadurl())
                 .setAuthority(AppFileProvider.AUTHORITY)
                 .build(this);
 
-        appUpdater.setUpdateCallback(new AppUpdateCallback() {
+        appDownloadTask.setUpdateCallback(new AppUpdateCallback() {
             private int previousProgress;
 
             @Override
             public void onStart(String url) {
                 super.onStart(url);
                 previousProgress = 0;
-                updateAppBinding.btnNextTime.setEnabled(false);
                 updateAppBinding.btnUpdate.setEnabled(false);
                 updateAppBinding.tvDownloadProgress.setVisibility(View.VISIBLE);
                 updateAppBinding.downloadProgress.setVisibility(View.VISIBLE);
@@ -238,7 +244,6 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
                 updateAppBinding.btnUpdate.setEnabled(true);
                 updateAppBinding.tvDownloadProgress.setText("下载完成");
                 updateAppBinding.btnUpdate.setText("立即安装");
-                updateAppBinding.btnNextTime.setEnabled(false);
                 LoggerUtils.d(TAG, "下载完成" + file.getAbsolutePath());
             }
 
@@ -257,6 +262,7 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
             public void onCancel() {
                 super.onCancel();
                 LoggerUtils.d(TAG, "下载取消");
+                ToastUtil.showToast(MainActivity.this, "下载取消");
             }
         });
 
@@ -264,8 +270,13 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
             if (downloadSuccess) {
                 IntentUtil.installApk(this, apkFile.getPath(), AppFileProvider.AUTHORITY);
             } else {
-                appUpdater.start();
+                appDownloadTask.start();
             }
+        });
+
+        updateAppBinding.btnNextTime.setOnClickListener(v -> {
+            appDownloadTask.stop();
+            alertDialog.dismiss();
         });
 
         alertDialog.show();
