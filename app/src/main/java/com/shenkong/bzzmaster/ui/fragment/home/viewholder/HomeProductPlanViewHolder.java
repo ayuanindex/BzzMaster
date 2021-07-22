@@ -86,7 +86,7 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
             // 预售
             status = "预售";
             btnPurchase.setText("立即购买");
-            btnPurchase.setEnabled(false);
+            btnPurchase.setEnabled(true);
         } else if (productPlanBean.getStaues() == ConstantPool.Pro_Sell) {
             // 销售
             status = "销售";
