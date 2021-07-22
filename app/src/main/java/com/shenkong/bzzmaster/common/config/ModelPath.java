@@ -16,6 +16,11 @@ public class ModelPath {
     public static final String baseUrl = "http://112.91.251.88:8081/";
 
     /**
+     * App下载
+     */
+    public static final String appDownloadBaseUrl = "https://ayuanindex-guangzhou.oss-cn-guangzhou.aliyuncs.com/";
+
+    /**
      * 用户
      */
     public static final String User = "user";

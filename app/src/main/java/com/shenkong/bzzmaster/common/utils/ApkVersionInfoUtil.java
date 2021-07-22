@@ -8,7 +8,7 @@ public class ApkVersionInfoUtil {
      * 获取当前apk版本号
      *
      * @param context 上下文
-     * @return 返回versioncode
+     * @return 返回versionCode
      */
     public static int getVersionCode(Context context) {
         int versionCode = 1;
@@ -25,7 +25,7 @@ public class ApkVersionInfoUtil {
      * 获取当前apk版本名
      *
      * @param context 上下文
-     * @return 返回versionname
+     * @return 返回versionName
      */
     public static String getVersionName(Context context) {
         String versionName = "1.0";

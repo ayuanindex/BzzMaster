@@ -1,6 +1,8 @@
 package com.shenkong.bzzmaster.common.config;
 
 public class ConstantPool {
+    public static final int permissionCode = 5;
+
     /*-------------------计划状态---------------------*/
     /**
      * 预售

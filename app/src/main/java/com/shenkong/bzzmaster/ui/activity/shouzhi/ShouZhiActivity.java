@@ -1,5 +1,6 @@
 package com.shenkong.bzzmaster.ui.activity.shouzhi;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -194,11 +195,17 @@ public class ShouZhiActivity extends BaseMvpActivity<ShouZhiPresent> implements 
                 break;
         }
         llStatisticsLayout.removeAllViews();
+        ItemCountBinding itemCountBinding = ItemCountBinding.inflate(getLayoutInflater(), llStatisticsLayout, false);
+        llStatisticsLayout.addView(itemCountBinding.getRoot(), 0);
         for (DetailBean.Statistics bean : list) {
+            if (TextUtils.isEmpty(bean.getCurrency())) {
+                continue;
+            }
+
             ItemCountBinding inflate = ItemCountBinding.inflate(getLayoutInflater(), llStatisticsLayout, false);
             inflate.tvCurrency.setText(bean.getCurrency().toUpperCase());
-            inflate.tvMoney.setText("累计金额" + Formatter.numberFormat(bean.getAmout()));
-            inflate.tvCount.setText(bean.getNumber() + "条记录");
+            inflate.tvMoney.setText(Formatter.numberFormat(bean.getAmout()));
+            inflate.tvCount.setText(bean.getNumber() + "条");
             llStatisticsLayout.addView(inflate.getRoot());
         }
     }

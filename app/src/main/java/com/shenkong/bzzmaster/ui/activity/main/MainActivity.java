@@ -1,10 +1,7 @@
 package com.shenkong.bzzmaster.ui.activity.main;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.tv.TvView;
-import android.net.Uri;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,15 +19,22 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textview.MaterialTextView;
+import com.king.app.updater.AppUpdater;
+import com.king.app.updater.callback.AppUpdateCallback;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.broadcast.LogOutBroadCast;
+import com.shenkong.bzzmaster.common.config.ExternalLinks;
 import com.shenkong.bzzmaster.common.utils.AlertDialogUtil;
-import com.shenkong.bzzmaster.common.utils.ApkVersionInfoUtil;
+import com.shenkong.bzzmaster.common.utils.LoggerUtils;
+import com.shenkong.bzzmaster.common.utils.ToastUtil;
+import com.shenkong.bzzmaster.common.utils.download.AppFileProvider;
+import com.shenkong.bzzmaster.common.utils.download.IntentUtil;
 import com.shenkong.bzzmaster.databinding.DialogUpdateAppBinding;
 import com.shenkong.bzzmaster.model.bean.AppUpdateBean;
 import com.shenkong.bzzmaster.ui.activity.notice.NoticeActivity;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -42,6 +46,8 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
     private AppCompatImageView ivNoticeIcon;
     private MaterialTextView tvNoticeCount;
     private LinearLayoutCompat llNoticeLayout;
+    private boolean downloadSuccess = false;
+    private File apkFile;
 
     @Override
     public int getLayoutId() {
@@ -108,7 +114,8 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         mPresenter.requestNotice();
 
         // 检查app更新
-        mPresenter.checkAppWhetherUpdate(ApkVersionInfoUtil.getVersionCode(this));
+        // mPresenter.checkAppWhetherUpdate(ApkVersionInfoUtil.getVersionCode(this));
+        showUpdateDialog(new AppUpdateBean());
 
         mPresenter.initViewPager();
 
@@ -185,6 +192,8 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
      */
     @Override
     public void showUpdateDialog(AppUpdateBean appUpdateBean) {
+        apkFile = null;
+        downloadSuccess = false;
         DialogUpdateAppBinding updateAppBinding = DialogUpdateAppBinding.inflate(getLayoutInflater());
         AlertDialog alertDialog = AlertDialogUtil.getAlertDialog(this, updateAppBinding.getRoot());
         alertDialog.setCancelable(false);
@@ -192,15 +201,74 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
         updateAppBinding.tvUpdateTip.setText(appUpdateBean.getMessage());
         updateAppBinding.btnNextTime.setOnClickListener(v -> alertDialog.dismiss());
 
-        updateAppBinding.btnUpdate.setOnClickListener(v -> {
-            // 跳转到浏览器下载
-            Intent intent = new Intent();
-            intent.setAction("android.intent.action.VIEW");
-            Uri content_url = Uri.parse(appUpdateBean.getDownloadurl());
-            intent.setData(content_url);
-            startActivity(intent);
-            alertDialog.dismiss();
+        AppUpdater appUpdater = new AppUpdater.Builder()
+                .setInstallApk(true)
+                .setFilename("BzzMaster.apk")
+                .setUrl(ExternalLinks.APP_DOWNLOAD_LINK)
+                .setAuthority(AppFileProvider.AUTHORITY)
+                .build(this);
+
+        appUpdater.setUpdateCallback(new AppUpdateCallback() {
+            private int previousProgress;
+
+            @Override
+            public void onStart(String url) {
+                super.onStart(url);
+                previousProgress = 0;
+                updateAppBinding.btnNextTime.setEnabled(false);
+                updateAppBinding.btnUpdate.setEnabled(false);
+                updateAppBinding.tvDownloadProgress.setVisibility(View.VISIBLE);
+                updateAppBinding.downloadProgress.setVisibility(View.VISIBLE);
+                updateAppBinding.downloadProgress.setProgress(0);
+            }
+
+            @Override
+            public void onProgress(long progress, long total, boolean isChange) {
+                int currentProgress = (int) (progress / (total * 0.01));
+                if (currentProgress > previousProgress) {
+                    previousProgress = currentProgress;
+                    updateAppBinding.tvDownloadProgress.setText("下载进度" + currentProgress + "%");
+                    updateAppBinding.downloadProgress.setProgress(currentProgress);
+                }
+            }
+
+            @Override
+            public void onFinish(File file) {
+                apkFile = file;
+                downloadSuccess = true;
+                updateAppBinding.btnUpdate.setEnabled(true);
+                updateAppBinding.tvDownloadProgress.setText("下载完成");
+                updateAppBinding.btnUpdate.setText("立即安装");
+                updateAppBinding.btnNextTime.setEnabled(false);
+                LoggerUtils.d(TAG, "下载完成" + file.getAbsolutePath());
+            }
+
+            @Override
+            public void onError(Exception e) {
+                super.onError(e);
+                e.printStackTrace();
+                LoggerUtils.d(TAG, "下载出错", e.getMessage());
+                downloadSuccess = false;
+                ToastUtil.showToast(MainActivity.this, "下载出错");
+                updateAppBinding.btnUpdate.setEnabled(true);
+                updateAppBinding.btnUpdate.setText("重新下载");
+            }
+
+            @Override
+            public void onCancel() {
+                super.onCancel();
+                LoggerUtils.d(TAG, "下载取消");
+            }
         });
+
+        updateAppBinding.btnUpdate.setOnClickListener(v -> {
+            if (downloadSuccess) {
+                IntentUtil.installApk(this, apkFile.getPath(), AppFileProvider.AUTHORITY);
+            } else {
+                appUpdater.start();
+            }
+        });
+
         alertDialog.show();
     }
 }

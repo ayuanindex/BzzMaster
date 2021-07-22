@@ -3,6 +3,7 @@ package com.shenkong.bzzmaster.ui.activity.main;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 
+import com.shenkong.bzzmaster.BuildConfig;
 import com.shenkong.bzzmaster.common.base.ResultBean;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.AppUpdateBean;
@@ -13,7 +14,6 @@ import com.shenkong.bzzmaster.net.ObjectLoader;
 import com.shenkong.bzzmaster.net.api.AppService;
 import com.shenkong.bzzmaster.net.api.NoticeService;
 import com.shenkong.bzzmaster.ui.fragment.home.HomeFragment;
-import com.shenkong.bzzmaster.ui.fragment.invitation.InvitationFragment;
 import com.shenkong.bzzmaster.ui.fragment.mine.MineFragment;
 import com.shenkong.bzzmaster.ui.fragment.product.ProductFragment;
 import com.trello.rxlifecycle2.LifecycleProvider;
@@ -49,28 +49,19 @@ public class MainPresenter extends BasePresenter<MainEvent> {
         AppUpdateBean appUpdateBean = new AppUpdateBean();
         appUpdateBean.setEdition(versionCode);
         ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(AppService.class).resultCheckAppUpdate(appUpdateBean), lifecycleProvider)
-                .subscribe(new Observer<ResultBean<AppUpdateBean>>() {
+                .subscribe(new Consumer<ResultBean<AppUpdateBean>>() {
                     @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(@NonNull ResultBean<AppUpdateBean> appUpdateBeanResultBean) {
-                        if (appUpdateBeanResultBean.getCode() == 401) {
+                    public void accept(ResultBean<AppUpdateBean> appUpdateBeanResultBean) throws Exception {
+                        if (appUpdateBeanResultBean.getCode() == 200) {
                             mView.showUpdateDialog(appUpdateBeanResultBean.getDate());
                         }
-                        LoggerUtils.d(TAG, appUpdateBeanResultBean.toString());
+                        LoggerUtils.d(TAG, "App检查更新" + appUpdateBeanResultBean.toString());
                     }
-
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onError(@NonNull Throwable e) {
-                        LoggerUtils.d(TAG, "出现错误", e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
+                    public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
+                        LoggerUtils.d(TAG, "请求出错", throwable.getMessage());
                     }
                 });
     }

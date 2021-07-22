@@ -5,11 +5,19 @@ import com.shenkong.bzzmaster.common.config.ModelPath;
 import com.shenkong.bzzmaster.model.bean.AppUpdateBean;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 public interface AppService {
 
     @POST(value = ModelPath.App + "/edition")
     Observable<ResultBean<AppUpdateBean>> resultCheckAppUpdate(@Body AppUpdateBean appUpdateBean);
+
+    @Streaming
+    @GET
+    Observable<ResponseBody> download(@Url String url);
 }

@@ -4,6 +4,9 @@
     package="com.shenkong.bzzmaster">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:allowBackup="false"
@@ -14,8 +17,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BzzMaster"
+        android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
+
+        <meta-data
+            android:name="firm"
+            android:value="${firm}" />
+
         <activity
             android:name=".ui.activity.start.StartPagerActivity"
             android:screenOrientation="portrait">
@@ -31,6 +40,24 @@
                 <action android:name="logOut" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name="android.content.BroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+                <action android:name="android.intent.action.VIEW_DOWNLOADS" />
+                <action android:name="bytes_so_far" />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name="com.shenkong.bzzmaster.common.utils.download.AppFileProvider"
+            android:authorities="com.shenkong.bzzmaster.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
 
         <!--登录界面-->
         <activity
