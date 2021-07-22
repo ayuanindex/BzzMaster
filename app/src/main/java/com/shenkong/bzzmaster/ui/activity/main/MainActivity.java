@@ -203,7 +203,6 @@ public class MainActivity extends BaseMvpActivity<MainPresenter> implements Main
 
         AppUpdater appUpdater = new AppUpdater.Builder()
                 .setInstallApk(true)
-                .setFilename("BzzMaster.apk")
                 .setUrl(ExternalLinks.APP_DOWNLOAD_LINK)
                 .setAuthority(AppFileProvider.AUTHORITY)
                 .build(this);

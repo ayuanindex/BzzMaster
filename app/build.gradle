@@ -29,6 +29,24 @@ android {
         viewBinding true
     }
 
+    applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                //在这里修改apk文件名
+                //outputFileName = "Demo${variant.versionName}.apk"
+                outputFileName = "ShenKong.apk"
+            }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('/Users/ayuanindex/Documents/CodeProjects/AndroidProjects/ShenKongProjects/BzzMaster/keystore')
+            storePassword '123456'
+            keyAlias 'ayuan'
+            keyPassword '123456'
+        }
+    }
+
     flavorDimensions "channel"
     productFlavors {
         zy {
