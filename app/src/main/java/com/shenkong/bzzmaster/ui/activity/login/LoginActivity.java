@@ -1,7 +1,9 @@
 package com.shenkong.bzzmaster.ui.activity.login;
 
+import android.view.KeyEvent;
 import android.view.View;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.google.android.material.button.MaterialButton;
@@ -25,6 +27,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     private MaterialButton btnLogin;
     private String bizid = "null";
     private TextInputLayout tilPhone;
+    private long mExitTime;
 
     @Override
     public int getLayoutId() {
@@ -131,5 +134,24 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     @Override
     public String getBizid() {
         return this.bizid;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            exit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void exit() {
+        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+            ToastUtils.showShort(R.string.exit_tips);
+            mExitTime = System.currentTimeMillis();
+        } else {
+            onBackPressed();
+            uiHandler.postDelayed(AppUtils::exitApp, 1000);
+        }
     }
 }

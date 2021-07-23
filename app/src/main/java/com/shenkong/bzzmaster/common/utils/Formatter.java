@@ -1,7 +1,5 @@
 package com.shenkong.bzzmaster.common.utils;
 
-import android.annotation.SuppressLint;
-
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -18,8 +16,8 @@ public class Formatter {
         return decimalFormat.format(value);
     }
 
-    public static String dateToDayFormat(Date date) {
-        return String.valueOf(date.getTime() / (1000 * 24 * 60 * 60));
+    public static long dateToDayFormat(Date date) {
+        return date.getTime() / (1000 * 24 * 60 * 60);
     }
 
     public static Date parseDate(String dateString) {

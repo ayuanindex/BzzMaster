@@ -7,9 +7,13 @@ import com.shenkong.bzzmaster.model.bean.AssetsBean;
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface AssetsService {
     @POST(value = ModelPath.Assets + "/select")
     Observable<ResultBean<List<AssetsBean>>> requestAssets();
+
+    @POST(value = ModelPath.Assets + "/cancel")
+    Observable<ResultBean<Boolean>> requestCancel(@Body AssetsBean assetsBean);
 }

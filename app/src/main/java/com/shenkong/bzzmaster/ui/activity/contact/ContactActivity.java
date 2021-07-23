@@ -44,7 +44,7 @@ public class ContactActivity extends BaseMvpActivity<ContactPresenter> implement
         tvEmail = findViewById(R.id.tvEmail);
         tvPhone = findViewById(R.id.tvPhone);
 
-        tvVersionName.setText(BuildConfig.VERSION_NAME);
+        tvVersionName.setText("版本V" + BuildConfig.VERSION_NAME);
     }
 
     @Override

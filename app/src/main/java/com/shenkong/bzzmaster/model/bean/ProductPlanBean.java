@@ -3,8 +3,6 @@ package com.shenkong.bzzmaster.model.bean;
 import com.shenkong.bzzmaster.ui.fragment.home.Types;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
-import java.util.Date;
-
 public class ProductPlanBean implements MultipleAdapter.LayoutType {
     @Override
     public int getLayoutType() {
@@ -122,6 +120,16 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
     private String updatetime;
 
     private long updateaid;
+
+    /**
+     * 类型
+     */
+    private int type;
+
+    /**
+     * 质押时间
+     */
+    private int pledgetime;
 
     /**
      * 管理员名字
@@ -345,6 +353,22 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
         this.total = total;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getPledgetime() {
+        return pledgetime;
+    }
+
+    public void setPledgetime(int pledgetime) {
+        this.pledgetime = pledgetime;
+    }
+
     @Override
     public String toString() {
         return "ProductPlanBean{" +
@@ -371,6 +395,8 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
                 ", servicecharge=" + servicecharge +
                 ", updatetime='" + updatetime + '\'' +
                 ", updateaid=" + updateaid +
+                ", type=" + type +
+                ", pledgetime=" + pledgetime +
                 ", aname='" + aname + '\'' +
                 ", updatename='" + updatename + '\'' +
                 ", total=" + total +

@@ -2,6 +2,7 @@ package com.shenkong.bzzmaster.ui.activity.submit;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.blankj.utilcode.util.ApiUtils;
 import com.blankj.utilcode.util.Utils;
 import com.shenkong.bzzmaster.common.base.ResultBean;
 import com.shenkong.bzzmaster.common.utils.Formatter;
@@ -21,7 +22,9 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 import java.util.Date;
 import java.util.List;
 
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 public class SubmitOrderPresenter extends BasePresenter<SubmitOrderEvent> {
     private LifecycleProvider<ActivityEvent> lifecycleProvider;
@@ -60,6 +63,28 @@ public class SubmitOrderPresenter extends BasePresenter<SubmitOrderEvent> {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
+                        LoggerUtils.d(TAG, "请求出错", throwable.getMessage());
+                    }
+                });
+    }
+
+    public void selectBalanceByProductId(Long productId) {
+        CapitalBean capitalBean = new CapitalBean();
+        capitalBean.setPid(productId);
+        ObjectLoader.observeat(NetManager.getInstance().getRetrofit().create(CapitalService.class).requestBalance(capitalBean), lifecycleProvider)
+                .subscribe(new Consumer<ResultBean<List<CapitalBean>>>() {
+                    @Override
+                    public void accept(ResultBean<List<CapitalBean>> listResultBean) throws Exception {
+                        if (listResultBean.getCode() == 200) {
+                            capitalBeanListLiveData.postValue(listResultBean.getDate());
+                        }
+                        LoggerUtils.d(TAG, listResultBean.toString());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
                         LoggerUtils.d(TAG, "请求出错", throwable.getMessage());
                     }
                 });

@@ -19,6 +19,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.base.SharedBean;
+import com.shenkong.bzzmaster.common.config.ConstantPool;
 import com.shenkong.bzzmaster.common.utils.AlertDialogUtil;
 import com.shenkong.bzzmaster.common.utils.CurrencyUtil;
 import com.shenkong.bzzmaster.common.utils.Formatter;
@@ -55,6 +56,7 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
     private long minCount = 0;
     private ProductPlanBean productPlanBean;
     private androidx.core.widget.ContentLoadingProgressBar progress;
+    private String currency;
 
     @Override
     public int getLayoutId() {
@@ -110,7 +112,7 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
                 LoggerUtils.d(TAG, s.toString());
                 if (!TextUtils.isEmpty(s.toString())) {
                     count = Integer.parseInt(s.toString());
-                    tvOrderAmount.setText((count * productPlanBean.getPrice()) + "USDT");
+                    tvOrderAmount.setText((count * productPlanBean.getPrice()) + currency);
                 } else {
                     tvOrderAmount.setText(Formatter.numberFormat(0));
                 }
@@ -140,9 +142,18 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
         productPlanBean = (ProductPlanBean) SharedBean.getData(SharedBean.ProductPlanBean);
         count = minCount = productPlanBean.getMincompany();
 
+        currency = "";
+
+        if (productPlanBean.getType() == ConstantPool.PlanType_Normal) {
+            currency = "USDT";
+        } else if (productPlanBean.getType() == ConstantPool.PlanType_Pledge) {
+            currency = productPlanBean.getCurrency();
+            btnRechargeImmediately.setEnabled(false);
+        }
+
         tvProductName.setText(productPlanBean.getName());
-        tvProductPrice.setText("1份=" + minCount + CurrencyUtil.getUnit(productPlanBean.getCurrency()) + "=" + Formatter.numberFormat(productPlanBean.getPrice() * minCount) + "USDT");
-        tvOrderAmount.setText((count * productPlanBean.getPrice()) + "USDT");
+        tvProductPrice.setText("1份=" + minCount + CurrencyUtil.getUnit(productPlanBean.getCurrency()) + "=" + Formatter.numberFormat(productPlanBean.getPrice() * minCount) + currency);
+        tvOrderAmount.setText((count * productPlanBean.getPrice()) + currency);
 
         etNeedCount.setText(String.valueOf(count));
     }
@@ -173,13 +184,13 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
         alertDialog.setCancelable(false);
 
         if (capitalBean.getBalance() < needPrice) {
-            submitOrderBinding.tvPriceDifference.setText("余额不足，还差" + (needPrice - capitalBean.getBalance()) + "USDT");
+            submitOrderBinding.tvPriceDifference.setText("余额不足，还差" + (needPrice - capitalBean.getBalance()) + currency);
             submitOrderBinding.tvPriceDifference.setVisibility(View.VISIBLE);
             submitOrderBinding.btnPayImmediately.setEnabled(false);
         }
 
-        submitOrderBinding.tvNeedPrice.setText("订单需支付(USDT):" + (productPlanBean.getPrice() * count));
-        submitOrderBinding.tvBalance.setText("账户余额(USDT):" + capitalBean.getBalance());
+        submitOrderBinding.tvNeedPrice.setText("订单需支付(" + currency + "):" + (productPlanBean.getPrice() * count));
+        submitOrderBinding.tvBalance.setText("账户余额(" + currency + "):" + capitalBean.getBalance());
         submitOrderBinding.btnCancel.setOnClickListener(v -> alertDialog.dismiss());
         submitOrderBinding.btnPayImmediately.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,18 +227,26 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
     @SuppressLint("SetTextI18n")
     @Override
     public void setBalanceText(CapitalBean capitalBean) {
-        tvWalletBalance.setText(capitalBean.getBalance() + "USDT");
+        tvWalletBalance.setText(capitalBean.getBalance() + currency);
     }
 
     @Override
     public void setAddOrderStatus(boolean date) {
         progress.hide();
-        mPresenter.selectUSDTBalance();
+        if (productPlanBean.getType() == ConstantPool.PlanType_Normal) {
+            mPresenter.selectUSDTBalance();
+        } else {
+            mPresenter.selectBalanceByProductId(productPlanBean.getProductid());
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.selectUSDTBalance();
+        if (productPlanBean.getType() == ConstantPool.PlanType_Normal) {
+            mPresenter.selectUSDTBalance();
+        } else {
+            mPresenter.selectBalanceByProductId(productPlanBean.getProductid());
+        }
     }
 }

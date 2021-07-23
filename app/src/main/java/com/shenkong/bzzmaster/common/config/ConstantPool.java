@@ -29,6 +29,27 @@ public class ConstantPool {
      */
     public static final Long Pro_OffShelf = 5L;
 
+    /**
+     * 用户计划质押周期未结束
+     */
+    public static final Long Pledge = 1L;
+    /**
+     * 用户计划质押周期结束
+     */
+    public static final Long PledgeEnd = 2L;
+
+    /*-----------------------计划类型------------------------*/
+
+    /**
+     * 普通计划
+     */
+    public static final int PlanType_Normal = 1;
+
+    /**
+     * 质押计划
+     */
+    public static final int PlanType_Pledge = 2;
+
     /*-------------------------订单状态----------------------*/
     /**
      * 未支付

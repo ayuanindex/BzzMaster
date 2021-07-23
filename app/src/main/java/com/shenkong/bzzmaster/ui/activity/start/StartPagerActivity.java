@@ -68,7 +68,8 @@ public class StartPagerActivity extends RxAppCompatActivity {
                             } else if (userResultBean.getCode() == 400) {
                                 ToastUtil.showToast(StartPagerActivity.this, "登录过期, 请重新登录!!!");
                                 Intent intent = new Intent(StartPagerActivity.this, LoginActivity.class);
-                                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(StartPagerActivity.this, binding.startIcon, "start").toBundle());
+                                startActivity(intent);
+                                //startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(StartPagerActivity.this, binding.startIcon, "start").toBundle());
                             }
                         }, 1000);
 
@@ -81,7 +82,8 @@ public class StartPagerActivity extends RxAppCompatActivity {
                         throwable.printStackTrace();
                         LoggerUtils.d(TAG, "请求出错,进入登录界面", throwable.getMessage());
                         Intent intent = new Intent(StartPagerActivity.this, LoginActivity.class);
-                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(StartPagerActivity.this, binding.startIcon, "start").toBundle());
+                        // startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(StartPagerActivity.this, binding.startIcon, "start").toBundle());
+                        startActivity(intent);
                         uiHandler.postDelayed(() -> finish(), 2000);
                     }
                 });
@@ -90,7 +92,8 @@ public class StartPagerActivity extends RxAppCompatActivity {
     private void startLogin() {
         uiHandler.postDelayed(() -> {
             Intent intent = new Intent(StartPagerActivity.this, LoginActivity.class);
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(StartPagerActivity.this, binding.startIcon, "start").toBundle());
+            startActivity(intent);
+            //startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(StartPagerActivity.this, binding.startIcon, "start").toBundle());
         }, 1000);
 
         uiHandler.postDelayed(this::finish, 2000);

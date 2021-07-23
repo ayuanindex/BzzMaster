@@ -1,8 +1,21 @@
 package com.shenkong.bzzmaster.model.bean;
 
-import java.util.Date;
+import com.shenkong.bzzmaster.ui.activity.plan.Types;
+import com.shenkong.bzzmaster.ui.customerview.adapter.MultiLayoutAdapter;
 
-public class AssetsBean {
+import io.reactivex.annotations.NonNull;
+
+public class AssetsBean implements MultiLayoutAdapter.LayoutType {
+
+    @Override
+    public int getLayoutType() {
+        if (this.pledgetime > 0) {
+            return Types.PLEDGE;
+        } else {
+            return Types.NORMAL;
+        }
+    }
+
     /**
      * 我的资产ID
      */
@@ -11,17 +24,17 @@ public class AssetsBean {
     /**
      * 用户ID
      */
-    private long uid;
+    private Long uid;
 
     /**
      * 用户购买的计划
      */
-    private long pid;
+    private Long pid;
 
     /**
      * 数量
      */
-    private long number;
+    private Long number;
 
     /**
      * 计划名字
@@ -41,12 +54,12 @@ public class AssetsBean {
     /**
      * 是否已结束
      */
-    private long staue;
+    private Long staue;
 
     /**
      * 运行时间
      */
-    private long runtime;
+    private Long runtime;
 
     /**
      * 购买订单
@@ -56,7 +69,17 @@ public class AssetsBean {
     /**
      * 封装时间
      */
-    private long packtime;
+    private Long packtime;
+
+    /**
+     * 质押时间
+     */
+    private long pledgetime = 0L;
+
+    /**
+     * 质押结束
+     */
+    private int endOfPledge;
 
     public String getAssetsid() {
         return assetsid;
@@ -66,27 +89,27 @@ public class AssetsBean {
         this.assetsid = assetsid;
     }
 
-    public long getUid() {
+    public Long getUid() {
         return uid;
     }
 
-    public void setUid(long uid) {
+    public void setUid(Long uid) {
         this.uid = uid;
     }
 
-    public long getPid() {
+    public Long getPid() {
         return pid;
     }
 
-    public void setPid(long pid) {
+    public void setPid(Long pid) {
         this.pid = pid;
     }
 
-    public long getNumber() {
+    public Long getNumber() {
         return number;
     }
 
-    public void setNumber(long number) {
+    public void setNumber(Long number) {
         this.number = number;
     }
 
@@ -114,19 +137,19 @@ public class AssetsBean {
         this.endtime = endtime;
     }
 
-    public long getStaue() {
+    public Long getStaue() {
         return staue;
     }
 
-    public void setStaue(long staue) {
+    public void setStaue(Long staue) {
         this.staue = staue;
     }
 
-    public long getRuntime() {
+    public Long getRuntime() {
         return runtime;
     }
 
-    public void setRuntime(long runtime) {
+    public void setRuntime(Long runtime) {
         this.runtime = runtime;
     }
 
@@ -138,14 +161,31 @@ public class AssetsBean {
         this.orderid = orderid;
     }
 
-    public long getPacktime() {
+    public Long getPacktime() {
         return packtime;
     }
 
-    public void setPacktime(long packtime) {
+    public void setPacktime(Long packtime) {
         this.packtime = packtime;
     }
 
+    public Long getPledgetime() {
+        return pledgetime;
+    }
+
+    public void setPledgetime(Long pledgetime) {
+        this.pledgetime = pledgetime;
+    }
+
+    public int getEndOfPledge() {
+        return endOfPledge;
+    }
+
+    public void setEndOfPledge(int endOfPledge) {
+        this.endOfPledge = endOfPledge;
+    }
+
+    @NonNull
     @Override
     public String toString() {
         return "AssetsBean{" +
@@ -160,6 +200,8 @@ public class AssetsBean {
                 ", runtime=" + runtime +
                 ", orderid='" + orderid + '\'' +
                 ", packtime=" + packtime +
+                ", pledgetime=" + pledgetime +
+                ", endOfPledge=" + endOfPledge +
                 '}';
     }
 }

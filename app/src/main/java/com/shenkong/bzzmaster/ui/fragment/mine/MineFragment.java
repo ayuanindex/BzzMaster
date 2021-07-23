@@ -22,6 +22,7 @@ import com.shenkong.bzzmaster.databinding.DialogBottomWalletBinding;
 import com.shenkong.bzzmaster.model.bean.CapitalBean;
 import com.shenkong.bzzmaster.ui.activity.contact.ContactActivity;
 import com.shenkong.bzzmaster.ui.activity.orders.OrderActivity;
+import com.shenkong.bzzmaster.ui.activity.plan.PlanActivity;
 import com.shenkong.bzzmaster.ui.activity.receive.ReceivePaymentActivity;
 import com.shenkong.bzzmaster.ui.activity.settings.SettingsActivity;
 import com.shenkong.bzzmaster.ui.activity.shouzhi.ShouZhiActivity;
@@ -35,6 +36,7 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
     private MaterialTextView tvUserPhone;
     private MaterialButton btnCollection;
     private MaterialButton btnTransferAccounts;
+    private MaterialTextView tvMyPlan;
     private MaterialTextView tvMyOrder;
     private MaterialTextView tvRevenueAndExpenditure;
     private MaterialTextView tvContactUs;
@@ -72,6 +74,7 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
         tvUSDTAvailable = inflate.findViewById(R.id.tvUSDTAvailable);
         tvUSDTAvailableBalance = inflate.findViewById(R.id.tvUSDTAvailableBalance);
         btnSeeMore = inflate.findViewById(R.id.btnSeeMore);
+        tvMyPlan = inflate.findViewById(R.id.tvMyPlan);
         tvMyOrder = inflate.findViewById(R.id.tvMyOrder);
         tvRevenueAndExpenditure = inflate.findViewById(R.id.tvRevenueAndExpenditure);
         tvContactUs = inflate.findViewById(R.id.tvContactUs);
@@ -97,6 +100,11 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
 
         // 查看更多
         btnSeeMore.setOnClickListener(v -> showBalanceBottomSheetDialog());
+
+        tvMyPlan.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), PlanActivity.class);
+            startActivity(intent);
+        });
 
         // 我的订单
         tvMyOrder.setOnClickListener(v -> {

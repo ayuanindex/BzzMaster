@@ -34,7 +34,7 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletAdapter.ViewHolder
 
         holder.itemCurrencyBalanceBinding.tvCurrencyName.setText(capitalBean.getName());
         holder.itemCurrencyBalanceBinding.tvCurrency.setText(capitalBean.getCurrency());
-        holder.itemCurrencyBalanceBinding.tvAvailable.setText(String.valueOf(capitalBean.getBalance()));
+        holder.itemCurrencyBalanceBinding.tvAvailable.setText(Formatter.numberFormat(capitalBean.getBalance()));
     }
 
     @Override
