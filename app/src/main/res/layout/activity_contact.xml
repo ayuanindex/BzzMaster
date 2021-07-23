@@ -45,6 +45,15 @@
         app:layout_constraintTop_toBottomOf="@+id/titleLayout" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvVersionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="版本v1.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivIcon" />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvTip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,7 +62,7 @@
         android:text="如您对矿工计划有任何意见或建议，或者有订单事宜需要与我们联系，下方是我们的联系方式。"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivIcon" />
+        app:layout_constraintTop_toBottomOf="@+id/tvVersionName" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvContactTip"
@@ -77,17 +86,17 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvEmail"
             android:layout_width="wrap_content"
-            android:textIsSelectable="true"
             android:layout_height="wrap_content"
-            android:text="邮箱:jecsoon@163.com" />
+            android:text="邮箱:jecsoon@163.com"
+            android:textIsSelectable="true" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvPhone"
-            android:textIsSelectable="true"
             android:layout_width="wrap_content"
-            android:linksClickable="true"
-            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
-            android:text="联系电话:17682109472" />
+            android:layout_marginTop="10dp"
+            android:linksClickable="true"
+            android:text="联系电话:17682109472"
+            android:textIsSelectable="true" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>

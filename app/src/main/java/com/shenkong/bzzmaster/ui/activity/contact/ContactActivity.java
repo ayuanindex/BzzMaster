@@ -1,11 +1,14 @@
 package com.shenkong.bzzmaster.ui.activity.contact;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.view.View;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.google.android.material.textview.MaterialTextView;
+import com.shenkong.bzzmaster.BuildConfig;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.model.bean.ChatBean;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
@@ -22,6 +25,7 @@ public class ContactActivity extends BaseMvpActivity<ContactPresenter> implement
     private com.google.android.material.textview.MaterialTextView tvContactTip;
     private com.google.android.material.textview.MaterialTextView tvEmail;
     private com.google.android.material.textview.MaterialTextView tvPhone;
+    private com.google.android.material.textview.MaterialTextView tvVersionName;
 
     @Override
     public int getLayoutId() {
@@ -34,10 +38,13 @@ public class ContactActivity extends BaseMvpActivity<ContactPresenter> implement
         ivArrowBack = findViewById(R.id.ivArrowBack);
         tvTitle = findViewById(R.id.tvTitle);
         ivIcon = findViewById(R.id.ivIcon);
+        tvVersionName = findViewById(R.id.tvVersionName);
         tvTip = findViewById(R.id.tvTip);
         tvContactTip = findViewById(R.id.tvContactTip);
         tvEmail = findViewById(R.id.tvEmail);
         tvPhone = findViewById(R.id.tvPhone);
+
+        tvVersionName.setText(BuildConfig.VERSION_NAME);
     }
 
     @Override
