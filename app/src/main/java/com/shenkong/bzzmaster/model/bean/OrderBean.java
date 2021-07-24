@@ -2,6 +2,8 @@ package com.shenkong.bzzmaster.model.bean;
 
 import java.util.Date;
 
+import io.reactivex.annotations.NonNull;
+
 public class OrderBean {
 
     /**
@@ -60,6 +62,11 @@ public class OrderBean {
      * 购买计划的名字
      */
     private String pname;
+
+    /**
+     * 返还金额
+     */
+    private double refundamount;
 
     public String getOrderid() {
         return orderid;
@@ -149,6 +156,15 @@ public class OrderBean {
         this.pname = pname;
     }
 
+    public double getRefundamount() {
+        return refundamount;
+    }
+
+    public void setRefundamount(double refundamount) {
+        this.refundamount = refundamount;
+    }
+
+    @NonNull
     @Override
     public String toString() {
         return "OrderBean{" +
@@ -158,11 +174,12 @@ public class OrderBean {
                 ", number=" + number +
                 ", staue=" + staue +
                 ", amount=" + amount +
-                ", createtime=" + createtime +
-                ", paytime=" + paytime +
+                ", createtime='" + createtime + '\'' +
+                ", paytime='" + paytime + '\'' +
                 ", aid=" + aid +
                 ", message='" + message + '\'' +
                 ", pname='" + pname + '\'' +
+                ", refundamount=" + refundamount +
                 '}';
     }
 }

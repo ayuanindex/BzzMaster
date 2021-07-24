@@ -3,6 +3,8 @@ package com.shenkong.bzzmaster.model.bean;
 import com.shenkong.bzzmaster.ui.fragment.home.Types;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
+import io.reactivex.annotations.NonNull;
+
 public class ProductPlanBean implements MultipleAdapter.LayoutType {
     @Override
     public int getLayoutType() {
@@ -144,6 +146,11 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
      * 已购买数量
      */
     private int total;
+
+    /**
+     * 消耗币
+     */
+    private double consumed;
 
     public long getPlanid() {
         return planid;
@@ -369,6 +376,15 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
         this.pledgetime = pledgetime;
     }
 
+    public double getConsumed() {
+        return consumed;
+    }
+
+    public void setConsumed(double consumed) {
+        this.consumed = consumed;
+    }
+
+    @NonNull
     @Override
     public String toString() {
         return "ProductPlanBean{" +
@@ -400,6 +416,7 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
                 ", aname='" + aname + '\'' +
                 ", updatename='" + updatename + '\'' +
                 ", total=" + total +
+                ", consumed=" + consumed +
                 '}';
     }
 }

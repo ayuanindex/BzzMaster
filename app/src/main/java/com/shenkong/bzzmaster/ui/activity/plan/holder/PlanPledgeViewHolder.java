@@ -18,6 +18,7 @@ import com.shenkong.bzzmaster.ui.customerview.adapter.MultiLayoutAdapter;
 import java.util.Date;
 
 public class PlanPledgeViewHolder extends MultiLayoutAdapter.MultipleLayoutViewHolder {
+    private static final String TAG = "PlanPledgeViewHolder";
 
     private final ItemPlanPledgeBinding itemPlanPledgeBinding;
     private final PlanActivity planActivity;
@@ -44,23 +45,23 @@ public class PlanPledgeViewHolder extends MultiLayoutAdapter.MultipleLayoutViewH
         long dayFormat = Formatter.dateToDayFormat(new Date(currentDate.getTime() - createTime.getTime()));
 
         if (dayFormat > assetsBean.getPacktime() + assetsBean.getPledgetime()) {
-            itemPlanPledgeBinding.tvEndTime.setVisibility(View.VISIBLE);
             itemPlanPledgeBinding.btnReturnPledge.setEnabled(true);
-            itemPlanPledgeBinding.tvEndTime.setText("结束时间:" + Formatter.formatData(new Date()));
         }
 
         if (assetsBean.getStaue() == 2L) {
+            itemPlanPledgeBinding.tvEndTime.setVisibility(View.VISIBLE);
             itemPlanPledgeBinding.ivPlanStatus.setVisibility(View.VISIBLE);
             itemPlanPledgeBinding.btnReturnPledge.setEnabled(false);
+            itemPlanPledgeBinding.tvEndTime.setText("结束时间:" + assetsBean.getEndtime());
         }
 
         itemPlanPledgeBinding.tvPlanName.setText(assetsBean.getPname());
         itemPlanPledgeBinding.tvPlanStartDate.setText("购买日期:" + assetsBean.getCreatetime());
-        itemPlanPledgeBinding.tvPledgeTime.setText("质押时间:" + assetsBean.getPledgetime());
-        itemPlanPledgeBinding.tvPackingTime.setText("封装时间:" + assetsBean.getPacktime());
-        itemPlanPledgeBinding.tvRunTime.setText("运行时间:" + assetsBean.getRuntime());
+        itemPlanPledgeBinding.tvPledgeTime.setText("质押时间(天):" + assetsBean.getPledgetime());
+        itemPlanPledgeBinding.tvPackingTime.setText("封装时间(天):" + assetsBean.getPacktime());
+        itemPlanPledgeBinding.tvRunTime.setText("运行时间(天):" + assetsBean.getRuntime());
         itemPlanPledgeBinding.tvPurchaseCount.setText("购买数量:" + assetsBean.getNumber());
-        itemPlanPledgeBinding.tvRefundableCount.setText("可退质押币(FIL)" + assetsBean.getNumber());
+        itemPlanPledgeBinding.tvRefundableCount.setText("可退质押币(" + assetsBean.getCurrency() + "):" + assetsBean.getRefundamount());
 
         itemPlanPledgeBinding.btnReturnPledge.setOnClickListener(null);
         itemPlanPledgeBinding.btnReturnPledge.setOnClickListener(v -> {

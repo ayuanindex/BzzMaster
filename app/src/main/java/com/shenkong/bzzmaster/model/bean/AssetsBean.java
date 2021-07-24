@@ -81,6 +81,16 @@ public class AssetsBean implements MultiLayoutAdapter.LayoutType {
      */
     private int endOfPledge;
 
+    /**
+     * 返还金额
+     */
+    private double refundamount;
+
+    /**
+     * 币种
+     */
+    private String currency;
+
     public String getAssetsid() {
         return assetsid;
     }
@@ -185,6 +195,26 @@ public class AssetsBean implements MultiLayoutAdapter.LayoutType {
         this.endOfPledge = endOfPledge;
     }
 
+    public void setPledgetime(long pledgetime) {
+        this.pledgetime = pledgetime;
+    }
+
+    public double getRefundamount() {
+        return refundamount;
+    }
+
+    public void setRefundamount(double refundamount) {
+        this.refundamount = refundamount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -202,6 +232,8 @@ public class AssetsBean implements MultiLayoutAdapter.LayoutType {
                 ", packtime=" + packtime +
                 ", pledgetime=" + pledgetime +
                 ", endOfPledge=" + endOfPledge +
+                ", refundamount=" + refundamount +
+                ", currency='" + currency + '\'' +
                 '}';
     }
 }

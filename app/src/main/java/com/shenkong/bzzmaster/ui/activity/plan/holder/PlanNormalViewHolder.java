@@ -46,8 +46,8 @@ public class PlanNormalViewHolder extends MultiLayoutAdapter.MultipleLayoutViewH
 
         itemPlanNormalBinding.tvPlanName.setText(assetsBean.getPname());
         itemPlanNormalBinding.tvPlanStartDate.setText("购买日期:" + assetsBean.getCreatetime());
-        itemPlanNormalBinding.tvPackingTime.setText("封装时间:" + assetsBean.getPacktime());
-        itemPlanNormalBinding.tvRunTime.setText("运行时间:" + assetsBean.getRuntime());
+        itemPlanNormalBinding.tvPackingTime.setText("封装时间(天):" + assetsBean.getPacktime());
+        itemPlanNormalBinding.tvRunTime.setText("运行时间(天):" + assetsBean.getRuntime());
         itemPlanNormalBinding.tvPurchaseCount.setText("购买数量:" + assetsBean.getNumber());
     }
 }

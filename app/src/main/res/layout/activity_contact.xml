@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:linksClickable="true"
-            android:text="联系电话:17682109472"
+            android:text="联系电话:17681777777"
             android:textIsSelectable="true" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>
