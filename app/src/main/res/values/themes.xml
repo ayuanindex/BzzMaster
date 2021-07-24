@@ -51,6 +51,12 @@
         <item name="cornerSize">10%</item>
     </style>
 
+    <!--圆角图片-->
+    <style name="filletImageStyle20">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10%</item>
+    </style>
+
     <style name="dialogAnimation">
         <item name="android:windowEnterAnimation">@anim/xml_in</item>
         <item name="android:windowExitAnimation">@anim/xml_out</item>

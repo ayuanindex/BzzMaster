@@ -33,21 +33,25 @@
             android:textColor="@color/green_primary" />
     </RelativeLayout>
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivIcon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginTop="20dp"
         android:adjustViewBounds="true"
+        android:background="@drawable/icon_logo_back"
+        android:scaleType="center"
         android:src="@mipmap/ic_launcher_foreground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/titleLayout"
+        app:shapeAppearanceOverlay="@style/filletImageStyle20" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvVersionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="版本v1.0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -17,9 +17,11 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/startIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:adjustViewBounds="true"
+            android:background="@drawable/icon_logo_back"
+            android:scaleType="center"
             android:src="@mipmap/ic_launcher_foreground"
             android:transitionName="start" />
 
