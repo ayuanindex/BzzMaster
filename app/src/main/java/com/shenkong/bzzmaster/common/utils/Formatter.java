@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Random;
 
 public class Formatter {
-    private static final DecimalFormat decimalFormat = new DecimalFormat("#.##############");
+    private static final DecimalFormat decimalFormat = new DecimalFormat("#0.0##########");
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static final int oneDayTime = 86400000;
