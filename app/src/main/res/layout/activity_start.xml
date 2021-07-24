@@ -26,6 +26,7 @@
             android:transitionName="start" />
 
         <androidx.core.widget.ContentLoadingProgressBar
+            android:layout_marginTop="10dp"
             style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="30dp"
             android:layout_height="30dp" />

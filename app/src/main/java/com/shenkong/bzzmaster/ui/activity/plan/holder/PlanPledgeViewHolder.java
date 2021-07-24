@@ -1,7 +1,6 @@
 package com.shenkong.bzzmaster.ui.activity.plan.holder;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -61,6 +60,7 @@ public class PlanPledgeViewHolder extends MultiLayoutAdapter.MultipleLayoutViewH
         itemPlanPledgeBinding.tvPackingTime.setText("封装时间:" + assetsBean.getPacktime());
         itemPlanPledgeBinding.tvRunTime.setText("运行时间:" + assetsBean.getRuntime());
         itemPlanPledgeBinding.tvPurchaseCount.setText("购买数量:" + assetsBean.getNumber());
+        itemPlanPledgeBinding.tvRefundableCount.setText("可退质押币(FIL)" + assetsBean.getNumber());
 
         itemPlanPledgeBinding.btnReturnPledge.setOnClickListener(null);
         itemPlanPledgeBinding.btnReturnPledge.setOnClickListener(v -> {

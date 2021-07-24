@@ -112,7 +112,7 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
                 LoggerUtils.d(TAG, s.toString());
                 if (!TextUtils.isEmpty(s.toString())) {
                     count = Integer.parseInt(s.toString());
-                    tvOrderAmount.setText((count * productPlanBean.getPrice()) + currency);
+                    tvOrderAmount.setText(Formatter.numberFormat(count * productPlanBean.getPrice()) + currency);
                 } else {
                     tvOrderAmount.setText(Formatter.numberFormat(0));
                 }
@@ -153,7 +153,7 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
 
         tvProductName.setText(productPlanBean.getName());
         tvProductPrice.setText("1份=" + minCount + CurrencyUtil.getUnit(productPlanBean.getCurrency()) + "=" + Formatter.numberFormat(productPlanBean.getPrice() * minCount) + currency);
-        tvOrderAmount.setText((count * productPlanBean.getPrice()) + currency);
+        tvOrderAmount.setText(Formatter.numberFormat(count * productPlanBean.getPrice()) + currency);
 
         etNeedCount.setText(String.valueOf(count));
     }
@@ -189,8 +189,8 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
             submitOrderBinding.btnPayImmediately.setEnabled(false);
         }
 
-        submitOrderBinding.tvNeedPrice.setText("订单需支付(" + currency + "):" + (productPlanBean.getPrice() * count));
-        submitOrderBinding.tvBalance.setText("账户余额(" + currency + "):" + capitalBean.getBalance());
+        submitOrderBinding.tvNeedPrice.setText("订单需支付(" + currency + "):" + Formatter.numberFormat(productPlanBean.getPrice() * count));
+        submitOrderBinding.tvBalance.setText("账户余额(" + currency + "):" + Formatter.numberFormat(capitalBean.getBalance()));
         submitOrderBinding.btnCancel.setOnClickListener(v -> alertDialog.dismiss());
         submitOrderBinding.btnPayImmediately.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,7 +227,7 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
     @SuppressLint("SetTextI18n")
     @Override
     public void setBalanceText(CapitalBean capitalBean) {
-        tvWalletBalance.setText(capitalBean.getBalance() + currency);
+        tvWalletBalance.setText(Formatter.numberFormat(capitalBean.getBalance()) + currency);
     }
 
     @Override

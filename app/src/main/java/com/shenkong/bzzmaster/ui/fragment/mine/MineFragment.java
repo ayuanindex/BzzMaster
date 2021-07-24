@@ -187,7 +187,7 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
             for (CapitalBean capitalBean : capitalBeans) {
                 if ("usdt".equals(capitalBean.getCurrency().toLowerCase())) {
                     tvUSDTAvailable.setText(capitalBean.getCurrency() + "可用余额");
-                    tvUSDTAvailableBalance.setText(capitalBean.getBalance() + "");
+                    tvUSDTAvailableBalance.setText(Formatter.numberFormat(capitalBean.getBalance()) + "");
                     break;
                 }
             }

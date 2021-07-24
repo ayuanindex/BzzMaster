@@ -184,7 +184,7 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
         AlertDialog alertDialog = AlertDialogUtil.getAlertDialog(this, confirmBinding.getRoot());
         alertDialog.setCancelable(false);
         confirmBinding.tvAddress.setText("↓目标收款地址↓\n" + address);
-        confirmBinding.tvBalance.setText("↓转账金额↓\n" + doubleAmountOfMoney);
+        confirmBinding.tvBalance.setText("↓转账金额↓\n" + Formatter.numberFormat(doubleAmountOfMoney));
         confirmBinding.cbInformationConfirmation.setOnCheckedChangeListener((buttonView, isChecked) -> {
             confirmBinding.btnSubmitImmediately.setEnabled(isChecked);
         });
@@ -200,7 +200,7 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
     @Override
     public void setBalanceText(CapitalBean capitalBean) {
         tvCurrency.setText("余额(" + capitalBean.getName() + ")");
-        tvBalance.setText(capitalBean.getBalance() + "");
+        tvBalance.setText(Formatter.numberFormat(capitalBean.getBalance()));
         tvMaxTransactionCost.setText("最大交易费用" + capitalBean.getName().toUpperCase());
     }
 
