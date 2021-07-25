@@ -41,6 +41,11 @@ public class ReceivePaymentPresenter extends BasePresenter<ReceivePaymentEvent> 
         mView.setQrCodeToView(qrCodeBitmap);
     }
 
+    public void createQRCodeBitmap(String content, int size, Bitmap logo) {
+        Bitmap qrCodeBitmap = CodeUtils.createQRCode(content, size, logo, 0.2f);
+        mView.setQrCodeToView(qrCodeBitmap);
+    }
+
     /**
      * 查询USDT的余额
      * 服务器端接收到参数PID为0的时候会自动查询USDT的余额

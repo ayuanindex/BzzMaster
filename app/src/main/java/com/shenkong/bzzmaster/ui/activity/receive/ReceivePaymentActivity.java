@@ -3,25 +3,29 @@ package com.shenkong.bzzmaster.ui.activity.receive;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.View;
 
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
 
 public class ReceivePaymentActivity extends BaseMvpActivity<ReceivePaymentPresenter> implements ReceivePaymentEvent {
-    private androidx.appcompat.widget.AppCompatImageView ivArrowBack;
-    private com.google.android.material.textview.MaterialTextView tvTitle;
-    private com.google.android.material.textview.MaterialTextView tvNameOfCurrency;
-    private androidx.appcompat.widget.AppCompatImageView ivQrCode;
-    private com.google.android.material.textview.MaterialTextView tvCollectionAddress;
-    private com.google.android.material.textview.MaterialTextView tvCopyAddress;
-    private com.google.android.material.textview.MaterialTextView tvTransferTips;
+    private AppCompatImageView ivArrowBack;
+    private MaterialTextView tvTitle;
+    private MaterialTextView tvNameOfCurrency;
+    private ShapeableImageView ivQrCode;
+    private MaterialTextView tvCollectionAddress;
+    private MaterialTextView tvCopyAddress;
+    private MaterialTextView tvTransferTips;
     private ClipboardManager clipboardManager;
-    private androidx.core.widget.ContentLoadingProgressBar progressLoading;
+    private ContentLoadingProgressBar progressLoading;
 
     @Override
     public int getLayoutId() {
@@ -68,7 +72,7 @@ public class ReceivePaymentActivity extends BaseMvpActivity<ReceivePaymentPresen
             tvCollectionAddress.setVisibility(View.VISIBLE);
             tvCopyAddress.setVisibility(View.VISIBLE);
             tvCollectionAddress.setText(capitalBeans.get(0).getAdress());
-            mPresenter.createQRCodeBitmap(capitalBeans.get(0).getAdress(), 200);
+            mPresenter.createQRCodeBitmap(capitalBeans.get(0).getAdress(), 200, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_round));
         });
     }
 
