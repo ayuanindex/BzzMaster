@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.zxing.EncodeHintType;
 import com.king.zxing.util.CodeUtils;
 import com.shenkong.bzzmaster.common.base.ResultBean;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
@@ -15,6 +16,7 @@ import com.shenkong.bzzmaster.net.api.CapitalService;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -42,7 +44,10 @@ public class ReceivePaymentPresenter extends BasePresenter<ReceivePaymentEvent> 
     }
 
     public void createQRCodeBitmap(String content, int size, Bitmap logo) {
-        Bitmap qrCodeBitmap = CodeUtils.createQRCode(content, size, logo, 0.2f);
+        //Bitmap qrCodeBitmap = CodeUtils.createQRCode(content, size, logo, 0.2f);
+        HashMap<EncodeHintType, Object> hints = new HashMap<>();
+        hints.put(EncodeHintType.MARGIN, 2);
+        Bitmap qrCodeBitmap = CodeUtils.createQRCode(content, size, logo, 0.2f, hints);
         mView.setQrCodeToView(qrCodeBitmap);
     }
 

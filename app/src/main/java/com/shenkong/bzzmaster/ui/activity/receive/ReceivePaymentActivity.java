@@ -13,7 +13,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
+import com.shenkong.bzzmaster.common.base.SharedBean;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
+import com.shenkong.bzzmaster.model.bean.ProductBean;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
 
 public class ReceivePaymentActivity extends BaseMvpActivity<ReceivePaymentPresenter> implements ReceivePaymentEvent {
@@ -56,13 +58,32 @@ public class ReceivePaymentActivity extends BaseMvpActivity<ReceivePaymentPresen
 
     @Override
     protected void initData() {
+        mPresenter.setLifecycleProvider(this);
+        initDataSubscribe();
+
         // 获取剪贴板管理器
         clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
-        initDataSubscribe();
+        ProductBean productBean = SharedBean.getData(ProductBean.class, SharedBean.Product);
 
-        mPresenter.setLifecycleProvider(this);
-        mPresenter.requestBalance();
+        switch (productBean.getCurrency().toUpperCase()) {
+            case "FIL":
+                tvNameOfCurrency.setText(R.string.FIL_Filecoin_Network);
+                tvTransferTips.setText(R.string.FIL_TransferTips);
+                break;
+            case "USDT":
+                tvNameOfCurrency.setText(R.string.USDT_TRC20_Network);
+                tvTransferTips.setText(R.string.USDT_TransferTips);
+            default:
+                break;
+        }
+
+        progressLoading.hide();
+        tvCollectionAddress.setVisibility(View.VISIBLE);
+        tvCopyAddress.setVisibility(View.VISIBLE);
+        tvCollectionAddress.setText(productBean.getCapitalBean().getAdress());
+        mPresenter.createQRCodeBitmap(productBean.getCapitalBean().getAdress(), 200, BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_round));
+        // mPresenter.requestBalance();
     }
 
     private void initDataSubscribe() {

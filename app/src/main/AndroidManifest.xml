@@ -83,6 +83,12 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!--充值界面-->
+        <activity
+            android:name=".ui.activity.currencyinfo.CurrencyInfoActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
         <!--转账-->
         <activity
             android:name=".ui.activity.transfer.TransferActivity"

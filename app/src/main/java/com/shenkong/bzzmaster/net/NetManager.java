@@ -2,6 +2,7 @@ package com.shenkong.bzzmaster.net;
 
 import com.blankj.utilcode.util.Utils;
 import com.google.gson.GsonBuilder;
+import com.shenkong.bzzmaster.BuildConfig;
 import com.shenkong.bzzmaster.common.config.ModelPath;
 import com.shenkong.bzzmaster.common.utils.SpUtil;
 
@@ -35,8 +36,17 @@ public class NetManager {
             Request build = method.build();
             return chain.proceed(build);
         });
+
+        // 根据版本类型判断需要的服务器地址
+        String baseUrl = "";
+        if (BuildConfig.DEBUG) {
+            baseUrl = ModelPath.testUrl;
+        } else {
+            baseUrl = ModelPath.baseUrl;
+        }
+
         mRetrofit = new Retrofit.Builder()
-                .baseUrl(ModelPath.baseUrl)
+                .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
                         .setLenient()
                         .create()))

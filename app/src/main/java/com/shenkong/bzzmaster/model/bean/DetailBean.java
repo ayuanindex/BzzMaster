@@ -118,7 +118,7 @@ public class DetailBean {
             this.name = name;
         }
 
-        public Double getAmout() {
+        public double getAmout() {
             return amout;
         }
 

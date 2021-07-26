@@ -42,6 +42,13 @@ public class DetailItemAdapter extends RecyclerView.Adapter<DetailItemAdapter.Vi
         holder.itemShouzhiBinding.tvDetailName.setText(detailItem.getName());
         holder.itemShouzhiBinding.tvCurrency.setText(detailItem.getCurrency().toUpperCase());
         holder.itemShouzhiBinding.tvDetailMoney.setText(Formatter.numberFormat(detailItem.getAmout()));
+
+        if (TextUtils.isEmpty(detailItem.getName())) {
+            holder.itemShouzhiBinding.tvDetailName.setVisibility(View.GONE);
+        } else {
+            holder.itemShouzhiBinding.tvDetailName.setVisibility(View.VISIBLE);
+        }
+
         if (TextUtils.isEmpty(detailItem.getAdress())) {
             holder.itemShouzhiBinding.llAddressLayout.setVisibility(View.GONE);
         } else {

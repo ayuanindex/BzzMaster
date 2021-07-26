@@ -7,7 +7,7 @@ public class ModelPath {
 
     /**
      * 本地
-    public static final String baseUrl = "http://192.168.1.103:8081/";
+    public static final String testUrl = "http://192.168.1.105:8081/";
      */
 
     /**
@@ -16,9 +16,9 @@ public class ModelPath {
     public static final String baseUrl = "http://app.mmskhy.com:8081/";
 
     /**
-     * App下载
+     * 测试
      */
-    public static final String appDownloadBaseUrl = "https://ayuanindex-guangzhou.oss-cn-guangzhou.aliyuncs.com/";
+    public static final String testUrl = "http://app.mmskhy.com:58081/";
 
     /**
      * 用户

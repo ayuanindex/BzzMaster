@@ -33,96 +33,106 @@
             android:textColor="@color/green_primary" />
     </RelativeLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@color/backgroundColor"
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/contentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardBackgroundColor="@color/backgroundColor"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleLayout">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvNameOfCurrency"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="USDT(TRC-20)"
-            android:textColor="@color/black"
-            app:fontFamily="monospace"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_margin="5dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
-        <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/progressLoading"
-            style="@style/Widget.AppCompat.ProgressBar"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvNameOfCurrency" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvNameOfCurrency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/USDT_TRC20_Network"
+                android:textColor="@color/black"
+                app:fontFamily="monospace"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivQrCode"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="10dp"
-            android:adjustViewBounds="true"
-            android:maxWidth="200dp"
-            android:maxHeight="200dp"
-            android:src="@drawable/img_test_qrcode"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressLoading"
-            app:layout_goneMarginTop="10dp"
-            app:shapeAppearanceOverlay="@style/filletImageStyle" />
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/progressLoading"
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNameOfCurrency" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvCollectionAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:lines="1"
-            android:text="测试地址:aaaa-bbbb-cccc-dddd-eeee"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivQrCode" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivQrCode"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp"
+                android:adjustViewBounds="false"
+                android:visibility="gone"
+                android:maxWidth="200dp"
+                android:maxHeight="200dp"
+                android:src="@drawable/img_test_qrcode"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressLoading"
+                app:layout_goneMarginTop="10dp"
+                app:shapeAppearanceOverlay="@style/filletImageStyle" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvCopyAddress"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="复制地址"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvCollectionAddress"
-            app:layout_goneMarginBottom="10dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvCollectionAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:enabled="true"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/xml_bg_green_raius"
+                android:gravity="center"
+                android:text="aaaa-bbbb-cccc-dddd-eeee"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="4dp"
+                android:textColor="@color/green_primary"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivQrCode" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvCopyAddress"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="复制地址"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCollectionAddress"
+                app:layout_goneMarginBottom="10dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvTransferTips"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#ECECEC"
-        android:padding="10dp"
-        android:text="
-        \n• 请勿向上述地址充值任何非USDT的数字货币，否则资产将不可找回。
-        \n• 请确认转账的地址为TRC20地址，否则资产将不可找回。
-        \n• 您充值至上述地址后，需要全部网络节点的确认，1次网络确认后到账。
-        \n• 请务必确认电脑及浏览器安全，防止信息被篡改或泄漏
-        \n• 100USDT起充，充值少于100USDT系统不会到账，请注意。"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/USDT_TransferTips"
         app:fontFamily="monospace"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/contentLayout"
+        app:layout_constraintStart_toStartOf="@id/contentLayout"
         app:layout_constraintTop_toBottomOf="@+id/contentLayout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

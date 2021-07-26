@@ -18,6 +18,7 @@ import com.shenkong.bzzmaster.net.api.NoticeService;
 import com.shenkong.bzzmaster.ui.fragment.home.HomeFragment;
 import com.shenkong.bzzmaster.ui.fragment.mine.MineFragment;
 import com.shenkong.bzzmaster.ui.fragment.product.ProductFragment;
+import com.shenkong.bzzmaster.ui.fragment.wallet.WalletFragment;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -76,6 +77,7 @@ public class MainPresenter extends BasePresenter<MainEvent> {
         ArrayList<Fragment> fragments = new ArrayList<>(4);
         fragments.add(HomeFragment.getInstance());
         fragments.add(ProductFragment.getInstance());
+        fragments.add(WalletFragment.getInstance());
         // fragments.add(InvitationFragment.getInstance());
         fragments.add(MineFragment.getInstance());
 

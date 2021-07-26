@@ -11,14 +11,19 @@
         android:icon="@drawable/icon_product"
         android:orderInCategory="1"
         android:title="产品" />
-
-<!--
     <item
-        android:id="@+id/invitation"
-        android:icon="@drawable/icon_invitation"
-        android:orderInCategory="2"
-        android:title="邀请" />
--->
+        android:id="@+id/wallet"
+        android:icon="@drawable/icon_wallet"
+        android:orderInCategory="1"
+        android:title="钱包" />
+
+    <!--
+        <item
+            android:id="@+id/invitation"
+            android:icon="@drawable/icon_invitation"
+            android:orderInCategory="2"
+            android:title="邀请" />
+    -->
 
     <item
         android:id="@+id/mine"

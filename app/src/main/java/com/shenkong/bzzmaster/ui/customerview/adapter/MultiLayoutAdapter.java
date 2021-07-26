@@ -45,8 +45,9 @@ public abstract class MultiLayoutAdapter extends RecyclerView.Adapter<MultiLayou
     }
 
     public void addAllData(List<LayoutType> layoutTypeList) {
+        int itemCount = getItemCount();
         dataList.addAll(layoutTypeList);
-        notifyDataSetChanged();
+        notifyItemInserted(itemCount);
     }
 
     public void updateData(List<LayoutType> layoutTypeList) {

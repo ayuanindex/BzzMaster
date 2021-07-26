@@ -1,11 +1,14 @@
 package com.shenkong.bzzmaster.model.bean;
 
-import com.shenkong.bzzmaster.ui.fragment.home.Types;
-import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
+import com.shenkong.bzzmaster.ui.customerview.adapter.MultiLayoutAdapter;
+import com.shenkong.bzzmaster.ui.fragment.wallet.Types;
 
-import java.util.Date;
+public class ProductBean implements MultiLayoutAdapter.LayoutType {
+    @Override
+    public int getLayoutType() {
+        return Types.SIMPLE;
+    }
 
-public class ProductBean implements MultipleAdapter.LayoutType {
 
     /**
      * 产品ID
@@ -67,6 +70,8 @@ public class ProductBean implements MultipleAdapter.LayoutType {
      * 总余额
      */
     private double balance;
+
+    private CapitalBean capitalBean;
 
     public long getProductid() {
         return productid;
@@ -188,6 +193,14 @@ public class ProductBean implements MultipleAdapter.LayoutType {
         this.balance = balance;
     }
 
+    public CapitalBean getCapitalBean() {
+        return capitalBean;
+    }
+
+    public void setCapitalBean(CapitalBean capitalBean) {
+        this.capitalBean = capitalBean;
+    }
+
     @Override
     public String toString() {
         return "ProductBean{" +
@@ -206,11 +219,7 @@ public class ProductBean implements MultipleAdapter.LayoutType {
                 ", updateaid=" + updateaid +
                 ", updatename='" + updatename + '\'' +
                 ", balance=" + balance +
+                ", capitalBean=" + capitalBean +
                 '}';
-    }
-
-    @Override
-    public int getLayoutType() {
-        return Types.PRODUCT_LAYOUT;
     }
 }

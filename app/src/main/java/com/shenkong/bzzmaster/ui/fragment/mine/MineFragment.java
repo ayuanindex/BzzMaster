@@ -23,7 +23,6 @@ import com.shenkong.bzzmaster.model.bean.CapitalBean;
 import com.shenkong.bzzmaster.ui.activity.contact.ContactActivity;
 import com.shenkong.bzzmaster.ui.activity.orders.OrderActivity;
 import com.shenkong.bzzmaster.ui.activity.plan.PlanActivity;
-import com.shenkong.bzzmaster.ui.activity.receive.ReceivePaymentActivity;
 import com.shenkong.bzzmaster.ui.activity.settings.SettingsActivity;
 import com.shenkong.bzzmaster.ui.activity.shouzhi.ShouZhiActivity;
 import com.shenkong.bzzmaster.ui.activity.transfer.TransferActivity;
@@ -34,11 +33,11 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
     public static MineFragment mineFragment;
     private ShapeableImageView ivHeadPortrait;
     private MaterialTextView tvUserPhone;
-    private MaterialButton btnCollection;
+    // private MaterialButton btnCollection;
     private MaterialButton btnTransferAccounts;
-    private MaterialTextView tvMyPlan;
-    private MaterialTextView tvMyOrder;
-    private MaterialTextView tvRevenueAndExpenditure;
+    private MaterialButton btnMyPlan;
+    private MaterialButton btnMyOrder;
+    private MaterialButton btnRevenueAndExpenditure;
     private MaterialTextView tvContactUs;
     private MaterialTextView tvSetting;
     private ConstraintLayout clWalletCard;
@@ -68,15 +67,15 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
     protected void initView(View inflate) {
         ivHeadPortrait = inflate.findViewById(R.id.ivHeadPortrait);
         tvUserPhone = inflate.findViewById(R.id.tvUserPhone);
-        btnCollection = inflate.findViewById(R.id.btnCollection);
+        // btnCollection = inflate.findViewById(R.id.btnCollection);
         btnTransferAccounts = inflate.findViewById(R.id.btnTransferAccounts);
         clWalletCard = inflate.findViewById(R.id.clWalletCard);
         tvUSDTAvailable = inflate.findViewById(R.id.tvUSDTAvailable);
         tvUSDTAvailableBalance = inflate.findViewById(R.id.tvUSDTAvailableBalance);
         btnSeeMore = inflate.findViewById(R.id.btnSeeMore);
-        tvMyPlan = inflate.findViewById(R.id.tvMyPlan);
-        tvMyOrder = inflate.findViewById(R.id.tvMyOrder);
-        tvRevenueAndExpenditure = inflate.findViewById(R.id.tvRevenueAndExpenditure);
+        btnMyPlan = inflate.findViewById(R.id.btnMyPlan);
+        btnMyOrder = inflate.findViewById(R.id.btnMyOrder);
+        btnRevenueAndExpenditure = inflate.findViewById(R.id.btnRevenueAndExpenditure);
         tvContactUs = inflate.findViewById(R.id.tvContactUs);
         tvSetting = inflate.findViewById(R.id.tvSetting);
         tvShareAndDownload = (MaterialTextView) inflate.findViewById(R.id.tvShareAndDownload);
@@ -85,10 +84,10 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
     @Override
     protected void initEvent() {
         // 收款
-        btnCollection.setOnClickListener(v -> {
+       /* btnCollection.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), ReceivePaymentActivity.class);
             startActivity(intent);
-        });
+        });*/
 
         // 转账
         btnTransferAccounts.setOnClickListener(v -> startActivity(new Intent(getContext(), TransferActivity.class)));
@@ -101,19 +100,19 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
         // 查看更多
         btnSeeMore.setOnClickListener(v -> showBalanceBottomSheetDialog());
 
-        tvMyPlan.setOnClickListener(v -> {
+        btnMyPlan.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), PlanActivity.class);
             startActivity(intent);
         });
 
         // 我的订单
-        tvMyOrder.setOnClickListener(v -> {
+        btnMyOrder.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), OrderActivity.class);
             startActivity(intent);
         });
 
         // 收支明细
-        tvRevenueAndExpenditure.setOnClickListener(v -> {
+        btnRevenueAndExpenditure.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), ShouZhiActivity.class);
             startActivity(intent);
         });

@@ -15,6 +15,10 @@ public class SharedBean {
         return shareData.get(key);
     }
 
+    public static <T> T getData(Class<T> mClass, String key) {
+        return mClass.cast(shareData.get(key));
+    }
+
     public static void remove(String key) {
         shareData.remove(key);
     }

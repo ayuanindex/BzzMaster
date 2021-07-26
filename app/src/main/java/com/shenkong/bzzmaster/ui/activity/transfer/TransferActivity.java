@@ -17,6 +17,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.lifecycle.HasDefaultViewModelProviderFactory;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -24,7 +25,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
+import com.shenkong.bzzmaster.common.base.SharedBean;
 import com.shenkong.bzzmaster.common.utils.AlertDialogUtil;
+import com.shenkong.bzzmaster.common.utils.CurrencyUtil;
 import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
@@ -58,6 +61,8 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
     private int currentPosition;
     private final double maxAmountOfMoney = 1000000;
     private final double minAmountOfMoney = 0.01;
+    private ProductBean productBean;
+    private int isSelect;
 
     @Override
     public int getLayoutId() {
@@ -125,8 +130,14 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
     @Override
     protected void initData() {
         mPresenter.setLifecycleProvider(this);
-
         initDataSubscribe();
+
+        isSelect = getIntent().getIntExtra("isSelect", 0);
+
+        if (isSelect == 1) {
+            // 拿到共享的数据
+            productBean = SharedBean.getData(ProductBean.class, SharedBean.Product);
+        }
 
         mPresenter.requestAllProduct();
     }
@@ -138,6 +149,17 @@ public class TransferActivity extends BaseMvpActivity<TransferPresent> implement
             // 设置spinner的适配器
             CustomerSpinnerAdapter customerSpinnerAdapter = new CustomerSpinnerAdapter(productBeanList);
             spCurrency.setAdapter(customerSpinnerAdapter);
+
+            if (isSelect == 1) {
+                // 选择默认币种
+                for (int i = 0; i < productBeanList.size(); i++) {
+                    if (productBeanList.get(i).getProductid() == productBean.getProductid()) {
+                        currentPosition = i;
+                        spCurrency.setSelection(currentPosition, true);
+                        break;
+                    }
+                }
+            }
         });
 
         // 币种余额数据订阅
