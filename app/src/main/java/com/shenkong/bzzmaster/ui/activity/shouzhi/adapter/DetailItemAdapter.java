@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.shenkong.bzzmaster.common.utils.CurrencyUtil;
 import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.databinding.ItemShouzhiBinding;
 import com.shenkong.bzzmaster.model.bean.DetailBean;
@@ -42,6 +43,13 @@ public class DetailItemAdapter extends RecyclerView.Adapter<DetailItemAdapter.Vi
         holder.itemShouzhiBinding.tvDetailName.setText(detailItem.getName());
         holder.itemShouzhiBinding.tvCurrency.setText(detailItem.getCurrency().toUpperCase());
         holder.itemShouzhiBinding.tvDetailMoney.setText(Formatter.numberFormat(detailItem.getAmout()));
+
+        if (detailItem.getNumber() <= 0) {
+            holder.itemShouzhiBinding.tvNumber.setVisibility(View.GONE);
+        } else {
+            holder.itemShouzhiBinding.tvNumber.setVisibility(View.VISIBLE);
+            holder.itemShouzhiBinding.tvNumber.setText(detailItem.getNumber() + CurrencyUtil.getProfitUnit(detailItem.getCurrency()));
+        }
 
         if (TextUtils.isEmpty(detailItem.getName())) {
             holder.itemShouzhiBinding.tvDetailName.setVisibility(View.GONE);

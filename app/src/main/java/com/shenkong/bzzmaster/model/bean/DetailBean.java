@@ -106,6 +106,11 @@ public class DetailBean {
         private String createtime;
 
         /**
+         * 数量
+         */
+        public long number;
+
+        /**
          * 地址
          */
         public String adress = "";
@@ -150,6 +155,14 @@ public class DetailBean {
             this.adress = adress;
         }
 
+        public long getNumber() {
+            return number;
+        }
+
+        public void setNumber(long number) {
+            this.number = number;
+        }
+
         @NonNull
         @Override
         public String toString() {
@@ -157,7 +170,8 @@ public class DetailBean {
                     "name='" + name + '\'' +
                     ", amout=" + amout +
                     ", currency='" + currency + '\'' +
-                    ", createtime=" + createtime +
+                    ", createtime='" + createtime + '\'' +
+                    ", number=" + number +
                     ", adress='" + adress + '\'' +
                     '}';
         }

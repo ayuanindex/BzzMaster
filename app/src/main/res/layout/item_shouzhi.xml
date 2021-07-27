@@ -42,6 +42,16 @@
             app:layout_constraintTop_toBottomOf="@id/line" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="数量"
+            app:layout_constraintBottom_toBottomOf="@+id/tvDetailName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvDetailName" />
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvCurrency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -87,8 +97,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:inputType="numberDecimal"
                     android:gravity="end"
+                    android:inputType="numberDecimal"
                     android:text="12131" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
