@@ -38,7 +38,7 @@ public class PlanNormalViewHolder extends MultiLayoutAdapter.MultipleLayoutViewH
         // 判断是否有锁仓金额，如果有显示锁仓金额
         if (assetsBean.getUnreleasedAmount() > 0) {
             itemPlanNormalBinding.tvNotReleased.setVisibility(View.VISIBLE);
-            itemPlanNormalBinding.tvNotReleased.setText("锁仓:" + Formatter.numberFormat(assetsBean.getUnreleasedAmount()));
+            itemPlanNormalBinding.tvNotReleased.setText("待释放:" + Formatter.numberFormat(assetsBean.getUnreleasedAmount()));
         }
 
 /*
