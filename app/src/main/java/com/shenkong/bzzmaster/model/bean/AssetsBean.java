@@ -91,6 +91,11 @@ public class AssetsBean implements MultiLayoutAdapter.LayoutType {
      */
     private String currency;
 
+    /**
+     * 未释放金额
+     */
+    private double unreleasedAmount;
+
     public String getAssetsid() {
         return assetsid;
     }
@@ -215,6 +220,14 @@ public class AssetsBean implements MultiLayoutAdapter.LayoutType {
         this.currency = currency;
     }
 
+    public double getUnreleasedAmount() {
+        return unreleasedAmount;
+    }
+
+    public void setUnreleasedAmount(double unreleasedAmount) {
+        this.unreleasedAmount = unreleasedAmount;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -234,6 +247,7 @@ public class AssetsBean implements MultiLayoutAdapter.LayoutType {
                 ", endOfPledge=" + endOfPledge +
                 ", refundamount=" + refundamount +
                 ", currency='" + currency + '\'' +
+                ", unreleasedAmount=" + unreleasedAmount +
                 '}';
     }
 }

@@ -27,6 +27,7 @@ import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.databinding.DialogSubmitOrderBinding;
 import com.shenkong.bzzmaster.model.bean.CapitalBean;
+import com.shenkong.bzzmaster.model.bean.ProductBean;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 import com.shenkong.bzzmaster.ui.activity.receive.ReceivePaymentActivity;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
@@ -57,6 +58,7 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
     private ProductPlanBean productPlanBean;
     private androidx.core.widget.ContentLoadingProgressBar progress;
     private String currency;
+    private ProductBean productBean = null;
 
     @Override
     public int getLayoutId() {
@@ -119,7 +121,14 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
             }
         });
 
-        btnRechargeImmediately.setOnClickListener(v -> startActivity(new Intent(this, ReceivePaymentActivity.class)));
+        btnRechargeImmediately.setOnClickListener(v -> {
+            if (productBean != null) {
+                SharedBean.putData(SharedBean.Product, productBean);
+                SubmitOrderActivity.this.startActivity(new Intent(SubmitOrderActivity.this, ReceivePaymentActivity.class));
+            } else {
+                loadBalance();
+            }
+        });
 
         btnSubmitOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,10 +154,11 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
         currency = "";
 
         if (productPlanBean.getType() == ConstantPool.PlanType_Normal) {
+            // 判断是否是普通的计划，采用USDT
             currency = "USDT";
         } else if (productPlanBean.getType() == ConstantPool.PlanType_Pledge) {
+            // 质押计划，采用计划对应币种支付
             currency = productPlanBean.getCurrency();
-            btnRechargeImmediately.setEnabled(false);
         }
 
         tvProductName.setText(productPlanBean.getName());
@@ -164,6 +174,10 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
             @Override
             public void onChanged(List<CapitalBean> capitalBeans) {
                 setBalanceText(capitalBeans.get(0));
+
+                productBean = new ProductBean();
+                productBean.setCurrency(currency);
+                productBean.setCapitalBean(capitalBeans.get(0));
             }
         });
     }
@@ -204,6 +218,19 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
         alertDialog.show();
     }
 
+    /**
+     * 查询余额
+     */
+    private void loadBalance() {
+        if (productPlanBean.getType() == ConstantPool.PlanType_Normal) {
+            // 普通计划使用USDT支付，查询USDT余额
+            mPresenter.selectUSDTBalance();
+        } else {
+            // 质押计划采用
+            mPresenter.selectBalanceByProductId(productPlanBean.getProductid());
+        }
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -233,20 +260,12 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
     @Override
     public void setAddOrderStatus(boolean date) {
         progress.hide();
-        if (productPlanBean.getType() == ConstantPool.PlanType_Normal) {
-            mPresenter.selectUSDTBalance();
-        } else {
-            mPresenter.selectBalanceByProductId(productPlanBean.getProductid());
-        }
+        loadBalance();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (productPlanBean.getType() == ConstantPool.PlanType_Normal) {
-            mPresenter.selectUSDTBalance();
-        } else {
-            mPresenter.selectBalanceByProductId(productPlanBean.getProductid());
-        }
+        loadBalance();
     }
 }

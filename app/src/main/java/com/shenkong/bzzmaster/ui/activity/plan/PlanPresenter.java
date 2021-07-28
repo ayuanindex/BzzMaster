@@ -1,7 +1,5 @@
 package com.shenkong.bzzmaster.ui.activity.plan;
 
-import android.app.Notification;
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.shenkong.bzzmaster.common.base.ResultBean;
@@ -41,6 +39,9 @@ public class PlanPresenter extends BasePresenter<PlanEvent> {
         return booleanLiveData;
     }
 
+    /**
+     * 查询所有用户已购计划
+     */
     public void requestAssets() {
         if (assetsSubscribe != null && !assetsSubscribe.isDisposed()) {
             return;

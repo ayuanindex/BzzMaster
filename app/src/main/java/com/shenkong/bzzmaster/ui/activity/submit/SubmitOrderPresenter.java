@@ -2,7 +2,6 @@ package com.shenkong.bzzmaster.ui.activity.submit;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.blankj.utilcode.util.ApiUtils;
 import com.blankj.utilcode.util.Utils;
 import com.shenkong.bzzmaster.common.base.ResultBean;
 import com.shenkong.bzzmaster.common.utils.Formatter;
@@ -10,6 +9,7 @@ import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.common.utils.SpUtil;
 import com.shenkong.bzzmaster.model.bean.CapitalBean;
 import com.shenkong.bzzmaster.model.bean.OrderBean;
+import com.shenkong.bzzmaster.model.bean.ProductBean;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 import com.shenkong.bzzmaster.model.presenter.BasePresenter;
 import com.shenkong.bzzmaster.net.NetManager;
@@ -22,13 +22,12 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 import java.util.Date;
 import java.util.List;
 
-import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 
 public class SubmitOrderPresenter extends BasePresenter<SubmitOrderEvent> {
     private LifecycleProvider<ActivityEvent> lifecycleProvider;
     private MutableLiveData<List<CapitalBean>> capitalBeanListLiveData;
+    private MutableLiveData<List<ProductBean>> productBeanListLiveData;
 
     public void setLifecycleProvider(LifecycleProvider<ActivityEvent> lifecycleProvider) {
         this.lifecycleProvider = lifecycleProvider;
@@ -47,6 +46,14 @@ public class SubmitOrderPresenter extends BasePresenter<SubmitOrderEvent> {
 
     public void setCapitalBeanListLiveData(MutableLiveData<List<CapitalBean>> capitalBeanListLiveData) {
         this.capitalBeanListLiveData = capitalBeanListLiveData;
+    }
+
+    public MutableLiveData<List<ProductBean>> getProductBeanListLiveData() {
+        return productBeanListLiveData;
+    }
+
+    public void setProductBeanListLiveData(MutableLiveData<List<ProductBean>> productBeanListLiveData) {
+        this.productBeanListLiveData = productBeanListLiveData;
     }
 
     public void selectUSDTBalance() {

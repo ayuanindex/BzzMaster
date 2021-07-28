@@ -2,11 +2,19 @@ package com.shenkong.bzzmaster.ui.activity.plan;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.ToastUtil;
 import com.shenkong.bzzmaster.databinding.ItemPlanNormalBinding;
@@ -19,17 +27,20 @@ import com.shenkong.bzzmaster.ui.customerview.adapter.MultiLayoutAdapter;
 
 import java.util.List;
 
+/**
+ * 已购计划
+ */
 public class PlanActivity extends BaseMvpActivity<PlanPresenter> implements PlanEvent {
-    private android.widget.RelativeLayout titleLayout;
-    private androidx.appcompat.widget.AppCompatImageView ivArrowBack;
-    private com.google.android.material.textview.MaterialTextView tvTitle;
-    private androidx.appcompat.widget.LinearLayoutCompat llTop;
-    private com.google.android.material.tabs.TabLayout tabSwitchProduct;
-    private androidx.recyclerview.widget.RecyclerView rcMyPlan;
+    private RelativeLayout titleLayout;
+    private AppCompatImageView ivArrowBack;
+    private MaterialTextView tvTitle;
+    private LinearLayoutCompat llTop;
+    private TabLayout tabSwitchProduct;
+    private RecyclerView rcMyPlan;
     private MultiLayoutAdapter multiLayoutAdapter;
-    private androidx.swiperefreshlayout.widget.SwipeRefreshLayout refreshLayout;
-    private androidx.appcompat.widget.AppCompatImageView ivEmptyView;
-    private androidx.core.widget.ContentLoadingProgressBar progressLoadingData;
+    private SwipeRefreshLayout refreshLayout;
+    private AppCompatImageView ivEmptyView;
+    private ContentLoadingProgressBar progressLoadingData;
     private List<ProductBean> productBeanList = null;
 
     @Override
@@ -55,6 +66,7 @@ public class PlanActivity extends BaseMvpActivity<PlanPresenter> implements Plan
                 R.color.green_primary,
                 R.color.red_primary
         );
+        rcMyPlan.setItemViewCacheSize(1);
     }
 
     @Override

@@ -14,13 +14,45 @@
         android:layout_height="match_parent"
         android:layout_margin="10dp">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivPlanStatus"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/img_poll_finished"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivDateIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:padding="2dp"
+            android:src="@drawable/icon_goumai"
+            app:layout_constraintBottom_toBottomOf="@id/tvPlanStartDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvPlanStartDate"
+            app:tint="@color/app_green_dark" />
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvPlanStartDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:text="购买日期"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="13sp"
+            app:layout_constraintStart_toEndOf="@id/ivDateIcon"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvPurchaseCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="购买数量"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ivPlanStatus" />
 
         <View
             android:id="@+id/line"
@@ -44,48 +76,45 @@
             app:layout_constraintTop_toBottomOf="@+id/line" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvRunTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="运行时间"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tvPackingTime"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvPackingTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="封装时间"
+            android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvPlanName" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvRunTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="运行时间"
+            android:textSize="13sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvPackingTime"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvEndTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="结束时间"
+            android:text="计划于2021-10-23 12:23:34结束"
+            android:textColor="@color/orange_primary_dark"
+            android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvPackingTime" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvPurchaseCount"
+            android:id="@+id/tvNotReleased"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="购买数量"
+            android:layout_marginTop="10dp"
+            android:text="未释放金额"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ivPlanStatus" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivPlanStatus"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/img_poll_finished"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/tvRunTime" />
         <!--<com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvPlanEndTime"
             android:layout_width="wrap_content"

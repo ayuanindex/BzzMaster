@@ -39,7 +39,9 @@ public class PlanPledgeViewHolder extends MultiLayoutAdapter.MultipleLayoutViewH
         itemPlanPledgeBinding.ivPlanStatus.setVisibility(View.GONE);
         itemPlanPledgeBinding.tvEndTime.setVisibility(View.GONE);
         itemPlanPledgeBinding.btnReturnPledge.setEnabled(false);
+        itemPlanPledgeBinding.tvNotReleased.setVisibility(View.GONE);
 
+        // 计算剩余实现判断取消计划按钮是否可用
         Date createTime = Formatter.parseDate(assetsBean.getCreatetime());
         Date currentDate = new Date();
         long dayFormat = Formatter.dateToDayFormat(new Date(currentDate.getTime() - createTime.getTime()));
@@ -48,15 +50,22 @@ public class PlanPledgeViewHolder extends MultiLayoutAdapter.MultipleLayoutViewH
             itemPlanPledgeBinding.btnReturnPledge.setEnabled(true);
         }
 
+        // 根据statue判断联合挖矿计划是否结束从而显示结束是否显示,取消计划按钮是否可用
         if (assetsBean.getStaue() == 2L) {
             itemPlanPledgeBinding.tvEndTime.setVisibility(View.VISIBLE);
             itemPlanPledgeBinding.ivPlanStatus.setVisibility(View.VISIBLE);
+            itemPlanPledgeBinding.tvEndTime.setText("计划于" + assetsBean.getEndtime() + "结束");
             itemPlanPledgeBinding.btnReturnPledge.setEnabled(false);
-            itemPlanPledgeBinding.tvEndTime.setText("结束时间:" + assetsBean.getEndtime());
+        }
+
+        // 判断是否有锁仓金额，如果有显示锁仓金额
+        if (assetsBean.getUnreleasedAmount() > 0) {
+            itemPlanPledgeBinding.tvNotReleased.setVisibility(View.VISIBLE);
+            itemPlanPledgeBinding.tvNotReleased.setText("锁仓:" + Formatter.numberFormat(assetsBean.getUnreleasedAmount()));
         }
 
         itemPlanPledgeBinding.tvPlanName.setText(assetsBean.getPname());
-        itemPlanPledgeBinding.tvPlanStartDate.setText("购买日期:" + assetsBean.getCreatetime());
+        itemPlanPledgeBinding.tvPlanStartDate.setText(assetsBean.getCreatetime());
         itemPlanPledgeBinding.tvPledgeTime.setText("质押时间(天):" + assetsBean.getPledgetime());
         itemPlanPledgeBinding.tvPackingTime.setText("封装时间(天):" + assetsBean.getPacktime());
         itemPlanPledgeBinding.tvRunTime.setText("运行时间(天):" + assetsBean.getRuntime());
@@ -66,12 +75,6 @@ public class PlanPledgeViewHolder extends MultiLayoutAdapter.MultipleLayoutViewH
         itemPlanPledgeBinding.btnReturnPledge.setOnClickListener(null);
         itemPlanPledgeBinding.btnReturnPledge.setOnClickListener(v -> {
             showConfirmDialog();
-        });
-
-        planActivity.mPresenter.getBooleanLiveData().observe(planActivity, aBoolean -> {
-            if (aBoolean) {
-                planActivity.mPresenter.requestAssets();
-            }
         });
     }
 

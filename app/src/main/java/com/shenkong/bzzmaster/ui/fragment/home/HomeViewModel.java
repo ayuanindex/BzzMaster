@@ -1,13 +1,11 @@
 package com.shenkong.bzzmaster.ui.fragment.home;
 
 import android.os.Build;
-import android.view.LayoutInflater;
 
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.shenkong.bzzmaster.common.base.ResultBean;
-import com.shenkong.bzzmaster.common.base.SharedBean;
 import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.AssetsBean;
@@ -173,7 +171,7 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
                     public void accept(ResultBean<List<ProductBean>> listResultBean) throws Exception {
                         if (listResultBean.getCode() == 200) {
                             productBeanListLiveData.postValue(listResultBean.getDate());
-                            SharedBean.putData(SharedBean.Product, listResultBean.getDate());
+                            // SharedBean.putData(SharedBean.Product, listResultBean.getDate());
                         }
                         LoggerUtils.d(TAG, listResultBean.toString());
                     }
@@ -232,7 +230,7 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
         // 用户收益记录
         FrontPage frontPage = new FrontPage();
         frontPage.setKeyvalue(productId);
-        frontPage.setRows(7);
+        frontPage.setRows(100);
         frontPage.setPage(1);
         frontPage.setSidx("createtime");
         //排序方式 asc升序  desc降序
@@ -247,7 +245,7 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
 
                             // 计算总收益
                             double money = 0;
-                            ArrayList<RevenueBean> allGains = revenueListBeanResultBean.getDate().getAllGains();
+                            ArrayList<RevenueBean> allGains = revenueListBeanResultBean.getDate().getRevenueDayLists();
                             for (RevenueBean allGain : allGains) {
                                 money += allGain.getMoney();
                             }
@@ -257,6 +255,7 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
                             webDataLiveData.postValue(new Gson().toJson(jsonLists));
                             //LoggerUtils.d(TAG, money + "-------收益----" + revenueListBeanResultBean.toString());
                         }
+                        LoggerUtils.d(TAG, "收益" + revenueListBeanResultBean.toString());
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -295,7 +294,9 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
         for (RevenueBean revenueDayList : revenueDayLists) {
             for (RevenueBean revenueBean : revenueListModel) {
                 if (simpleDateFormat.format(revenueDayList.getCreatedate()).equals(simpleDateFormat.format(revenueBean.getCreatedate()))) {
-                    revenueBean.setMoney(revenueDayList.getMoney());
+                    double money = revenueBean.getMoney();
+                    money += revenueDayList.getMoney();
+                    revenueBean.setMoney(money);
                 }
             }
         }
@@ -305,7 +306,7 @@ public class HomeViewModel extends BaseViewMode<HomeEvent> {
         for (RevenueBean revenueDayList : revenueListModel) {
             ArrayList<Object> key = new ArrayList<>();
             key.add(simpleDateFormat.format(revenueDayList.getCreatedate()));
-            key.add(revenueDayList.getMoney());
+            key.add(Formatter.numberFormat(revenueDayList.getMoney()));
             lists.add(key);
         }
         return lists;

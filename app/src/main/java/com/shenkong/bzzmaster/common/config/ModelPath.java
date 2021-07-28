@@ -7,7 +7,7 @@ public class ModelPath {
 
     /**
      * 本地
-    public static final String testUrl = "http://192.168.1.106:8081/";
+    public static final String testUrl = "http://192.168.1.105:8081/";
      */
 
     /**

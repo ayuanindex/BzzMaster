@@ -14,12 +14,45 @@
         android:layout_height="match_parent"
         android:layout_margin="10dp">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivPlanStatus"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/img_poll_finished"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivDateIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:padding="2dp"
+            android:src="@drawable/icon_goumai"
+            app:layout_constraintBottom_toBottomOf="@id/tvPlanStartDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvPlanStartDate"
+            app:tint="@color/app_green_dark" />
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvPlanStartDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:text="购买日期"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="13sp"
+            android:tooltipText="购买时间"
+            app:layout_constraintStart_toEndOf="@id/ivDateIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvPurchaseCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="购买数量"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
@@ -48,6 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="运行时间"
+            android:textSize="13sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/tvPackingTime"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -57,6 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="封装时间"
+            android:textSize="13sp"
             app:layout_constraintBaseline_toBaselineOf="@id/tvPledgeTime"
             app:layout_constraintEnd_toStartOf="@+id/tvRunTime"
             app:layout_constraintStart_toEndOf="@+id/tvPledgeTime" />
@@ -67,26 +102,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="质押时间"
+            android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvPlanName" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvEndTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="结束时间"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvRefundableCount" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvPurchaseCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="购买数量"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvRefundableCount"
@@ -94,29 +112,44 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:text="可退质押币(FIL):"
+            android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvPledgeTime" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvNotReleased"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未释放金额"
+            android:textSize="13sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvRefundableCount"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="计划于2021-10-23 12:23:34结束"
+            android:textColor="@color/orange_primary_dark"
+            android:textSize="13sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/btnReturnPledge"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btnReturnPledge"
+            app:layout_goneMarginTop="10dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnReturnPledge"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:insetTop="15dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:insetTop="0dp"
             android:insetBottom="0dp"
             android:text="退回质押"
+            android:textSize="12sp"
             app:cornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvRefundableCount" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivPlanStatus"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/img_poll_finished"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tvNotReleased" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
