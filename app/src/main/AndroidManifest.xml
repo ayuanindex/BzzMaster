@@ -129,7 +129,13 @@
 
         <!--订单提交-->
         <activity
-            android:name=".ui.activity.submit.SubmitOrderActivity"
+            android:name=".ui.activity.submitOrder.ordinary.SubmitOrderActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <!--混合支付订单提交-->
+        <activity
+            android:name=".ui.activity.submitOrder.blend.SubmitMixedOrderActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 

@@ -8,12 +8,11 @@ import java.util.List;
 public class CurrencyUtil {
     public static String getUnit(String currency) {
         switch (currency.toLowerCase()) {
-            case "xch":
-                return "TiB";
             case "bzz":
+            case "ebzz":
                 return "节点";
+            case "xch":
             case "fil":
-                return "TiB";
             default:
                 return "TiB";
         }

@@ -152,6 +152,11 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
      */
     private double consumed;
 
+    /**
+     * 混合支付的USDT
+     */
+    private double mixedpayment;
+
     public long getPlanid() {
         return planid;
     }
@@ -384,6 +389,14 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
         this.consumed = consumed;
     }
 
+    public double getMixedpayment() {
+        return mixedpayment;
+    }
+
+    public void setMixedpayment(double mixedpayment) {
+        this.mixedpayment = mixedpayment;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -417,6 +430,7 @@ public class ProductPlanBean implements MultipleAdapter.LayoutType {
                 ", updatename='" + updatename + '\'' +
                 ", total=" + total +
                 ", consumed=" + consumed +
+                ", mixedpayment=" + mixedpayment +
                 '}';
     }
 }

@@ -50,6 +50,11 @@ public class ConstantPool {
      */
     public static final int PlanType_Pledge = 2;
 
+    /**
+     * 混合支付计划
+     */
+    public static final int PlanType_Mixing = 3;
+
     /*-------------------------订单状态----------------------*/
     /**
      * 未支付

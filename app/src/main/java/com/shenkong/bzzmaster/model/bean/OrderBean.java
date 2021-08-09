@@ -36,7 +36,7 @@ public class OrderBean {
     /**
      * 金额
      */
-    private Double amount;
+    private double amount;
 
     /**
      * 创建时间
@@ -67,6 +67,16 @@ public class OrderBean {
      * 返还金额
      */
     private double refundamount;
+
+    /**
+     * 混合支付返回
+     */
+    private double hybridpaymen;
+
+    /**
+     * 购买计划的币种
+     */
+    private String currency;
 
     public String getOrderid() {
         return orderid;
@@ -108,11 +118,11 @@ public class OrderBean {
         this.staue = staue;
     }
 
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -164,6 +174,22 @@ public class OrderBean {
         this.refundamount = refundamount;
     }
 
+    public double getHybridpaymen() {
+        return hybridpaymen;
+    }
+
+    public void setHybridpaymen(double hybridpaymen) {
+        this.hybridpaymen = hybridpaymen;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -180,6 +206,8 @@ public class OrderBean {
                 ", message='" + message + '\'' +
                 ", pname='" + pname + '\'' +
                 ", refundamount=" + refundamount +
+                ", hybridpaymen=" + hybridpaymen +
+                ", currency='" + currency + '\'' +
                 '}';
     }
 }

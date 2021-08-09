@@ -18,7 +18,7 @@ import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.base.SharedBean;
 import com.shenkong.bzzmaster.common.utils.LoggerUtils;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
-import com.shenkong.bzzmaster.ui.activity.submit.SubmitOrderActivity;
+import com.shenkong.bzzmaster.ui.activity.submitOrder.ordinary.SubmitOrderActivity;
 
 import java.util.ArrayList;
 import java.util.List;

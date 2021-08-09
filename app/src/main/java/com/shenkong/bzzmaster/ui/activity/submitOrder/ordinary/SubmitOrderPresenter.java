@@ -1,4 +1,4 @@
-package com.shenkong.bzzmaster.ui.activity.submit;
+package com.shenkong.bzzmaster.ui.activity.submitOrder.ordinary;
 
 import androidx.lifecycle.MutableLiveData;
 

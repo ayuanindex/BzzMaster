@@ -9,8 +9,8 @@ android {
         applicationId "com.shenkong.bzzmaster"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
-        versionCode 9
-        versionName "1.2.3"
+        versionCode 10
+        versionName "1.2.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -53,7 +53,7 @@ android {
             applicationId 'com.shenkong.bzzmaster'
             manifestPlaceholders = [
                     firm: 'zy',
-                    appName: '星汇领航',
+                    appName: '@string/app_name',
                     fileProviderName: 'com.shenkong.bzzmaster.fileprovider',
             ]
             buildConfigField "String", "firm", '"zy"'
@@ -64,7 +64,7 @@ android {
             applicationId 'com.shenkong.bzzmasterbeta'
             manifestPlaceholders = [
                     firm: 'beta',
-                    appName: 'Beta星汇领航',
+                    appName: '@string/app_namebeta',
                     fileProviderName: 'com.shenkong.bzzmasterbeta.fileprovider',
             ]
             buildConfigField "String", "firm", '"beta"'

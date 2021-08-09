@@ -17,7 +17,8 @@ import com.shenkong.bzzmaster.common.config.ConstantPool;
 import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
 import com.shenkong.bzzmaster.ui.activity.productinfo.ProductInfoActivity;
-import com.shenkong.bzzmaster.ui.activity.submit.SubmitOrderActivity;
+import com.shenkong.bzzmaster.ui.activity.submitOrder.blend.SubmitMixedOrderActivity;
+import com.shenkong.bzzmaster.ui.activity.submitOrder.ordinary.SubmitOrderActivity;
 import com.shenkong.bzzmaster.ui.fragment.home.adapter.MultipleAdapter;
 
 public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewHolder {
@@ -117,6 +118,8 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
         tvLockUpTip.setVisibility(View.INVISIBLE);
         tvPledgeTime.setVisibility(View.INVISIBLE);
 
+        // 单价
+        String price = Formatter.numberFormat(productPlanBean.getPrice());
         // 币种
         String currency = "USDT";
         // 价格单位
@@ -145,15 +148,14 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
                 pledgeTime = "质押周期" + productPlanBean.getPledgetime() + "天";
                 tvPledgeTime.setVisibility(View.VISIBLE);
             }
+        } else if (productPlanBean.getType() == ConstantPool.PlanType_Mixing) {
+            // 混合支付计划
+            currency = "";
         }
 
         // 根据币种判断控件是否需要隐藏
         if (productPlanBean.getCurrency() != null) {
             switch (productPlanBean.getCurrency().toLowerCase()) {
-                case "bzz":/*Swarm币种, 显示节点*/
-                    priceUnit = "/节点";
-                    minimumSale = "节点数量" + productPlanBean.getMincompany() + "";
-                    break;
                 case "xch":/*Chia币种*/
                     priceUnit = "/TiB";
                     minimumSale = "" + productPlanBean.getMincompany() + "TiB起售";
@@ -168,14 +170,22 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
                         lockTimeTip = "锁仓周期";
                     }
                     break;
+                case "ebzz":
+                    priceUnit = "/节点";
+                    minimumSale = "节点数量" + productPlanBean.getMincompany() + "";
+                    price = Formatter.numberFormat(productPlanBean.getPrice()) + productPlanBean.getCurrency() + "  " + Formatter.numberFormat(productPlanBean.getMixedpayment()) + "USDT";
+                    break;
+                case "bzz":/*Swarm币种, 显示节点*/
+                    priceUnit = "/节点";
+                    minimumSale = "节点数量" + productPlanBean.getMincompany() + "";
                 default:
                     priceUnit = "/节点";
-                    minimumSale = "数量";
+                    minimumSale = "节点数量" +  productPlanBean.getMincompany() + "";
                     break;
             }
         }
 
-        tvPrice.setText(Formatter.numberFormat(productPlanBean.getPrice()));
+        tvPrice.setText(price);
         tvPriceUnit.setText(currency + priceUnit);
         tvMinimumSale.setText(minimumSale);
         tvLockUp.setText(lockTime);
@@ -198,7 +208,13 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
         btnPurchase.setOnClickListener(null);
         btnPurchase.setOnClickListener(v -> {
             SharedBean.putData(SharedBean.ProductPlanBean, productPlanBean);
-            Intent intent = new Intent(fragmentActivity, SubmitOrderActivity.class);
+            Intent intent;
+            // 判断计划类型
+            if (productPlanBean.getType() == ConstantPool.PlanType_Mixing) {
+                intent = new Intent(fragmentActivity, SubmitMixedOrderActivity.class);
+            } else {
+                intent = new Intent(fragmentActivity, SubmitOrderActivity.class);
+            }
             fragmentActivity.startActivity(intent);
         });
     }

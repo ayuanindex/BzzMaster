@@ -37,7 +37,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         holder.itemOrderBinding.tvProductName.setText(orderBean.getPname());
         holder.itemOrderBinding.tvOrderDate.setText(orderBean.getCreatetime());
         holder.itemOrderBinding.tvOrderStatus.setText(StatusCodeMatching.getOrderStatus(orderBean.getStaue()));
-        holder.itemOrderBinding.tvOrderMoney.setText(Formatter.numberFormat(orderBean.getAmount()));
+        if (orderBean.getHybridpaymen() != 0) {
+            holder.itemOrderBinding.tvOrderMoney.setText(Formatter.numberFormat(orderBean.getAmount()) + orderBean.getCurrency() + " , " + Formatter.numberFormat(orderBean.getHybridpaymen()) + "USDT");
+        } else {
+            holder.itemOrderBinding.tvOrderMoney.setText(Formatter.numberFormat(orderBean.getAmount()) + orderBean.getCurrency());
+        }
         holder.itemOrderBinding.tvProductCount.setText(String.valueOf(orderBean.getNumber()));
         holder.itemOrderBinding.tvProductSize.setText(orderBean.getNumber() + "个");
     }

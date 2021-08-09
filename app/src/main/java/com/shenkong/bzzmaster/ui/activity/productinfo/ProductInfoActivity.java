@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -16,8 +15,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.base.SharedBean;
+import com.shenkong.bzzmaster.common.config.ConstantPool;
 import com.shenkong.bzzmaster.model.bean.ProductPlanBean;
-import com.shenkong.bzzmaster.ui.activity.submit.SubmitOrderActivity;
+import com.shenkong.bzzmaster.ui.activity.submitOrder.blend.SubmitMixedOrderActivity;
+import com.shenkong.bzzmaster.ui.activity.submitOrder.ordinary.SubmitOrderActivity;
 import com.shenkong.bzzmaster.ui.base.BaseMvpActivity;
 
 public class ProductInfoActivity extends BaseMvpActivity<ProductInfoPresenter> implements ProductInfoEvent {
@@ -51,7 +52,13 @@ public class ProductInfoActivity extends BaseMvpActivity<ProductInfoPresenter> i
 
         btnPurchase.setOnClickListener(v -> {
             SharedBean.putData(SharedBean.ProductPlanBean, data);
-            Intent intent = new Intent(this, SubmitOrderActivity.class);
+            Intent intent;
+            // 判断计划类型
+            if (data.getType() == ConstantPool.PlanType_Mixing) {
+                intent = new Intent(this, SubmitMixedOrderActivity.class);
+            } else {
+                intent = new Intent(this, SubmitOrderActivity.class);
+            }
             startActivity(intent);
         });
     }

@@ -1,4 +1,4 @@
-package com.shenkong.bzzmaster.ui.activity.submit;
+package com.shenkong.bzzmaster.ui.activity.submitOrder.ordinary;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -133,6 +133,7 @@ public class SubmitOrderActivity extends BaseMvpActivity<SubmitOrderPresenter> i
         btnSubmitOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadBalance();
                 if (count >= minCount) {
                     showSubmitDialog();
                 } else {
