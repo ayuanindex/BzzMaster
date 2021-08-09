@@ -12,7 +12,7 @@
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="${appName}"
         android:requestLegacyExternalStorage="true"
         android:resizeableActivity="false"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -49,9 +49,11 @@
             </intent-filter>
         </receiver>
 
+        <!--com.shenkong.bzzmaster.fileprovider-->
+
         <provider
             android:name="com.shenkong.bzzmaster.common.utils.download.AppFileProvider"
-            android:authorities="com.shenkong.bzzmaster.fileprovider"
+            android:authorities="${fileProviderName}"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
