@@ -47,6 +47,7 @@ public class WalletViewModel extends BaseViewMode<WalletEvent> {
         this.capitalListLiveData.observe(walletFragment, capitalBeanList -> requestProducts());
 
         this.productListLiveData.observe(walletFragment, productBeanList -> {
+            requestBalance(productBeanList);
             uiRefreshCallBack.setRecyclerViewData(new ArrayList<>(productBeanList));
         });
     }
@@ -75,6 +76,31 @@ public class WalletViewModel extends BaseViewMode<WalletEvent> {
                     }
                 });
     }
+
+    /**
+     * 请求单个产品余额
+     *
+     * @param productBeanList
+     */
+    public void requestBalance(List<ProductBean> productBeanList) {
+        for (ProductBean productBean : productBeanList) {
+            CapitalBean capitalBean = new CapitalBean();
+            capitalBean.setPid(productBean.getProductid());
+            ObjectLoader.observefg(NetManager.getInstance().getRetrofit().create(CapitalService.class).requestBalance(capitalBean), walletFragment)
+                    .subscribe(new Consumer<ResultBean<List<CapitalBean>>>() {
+                        @Override
+                        public void accept(ResultBean<List<CapitalBean>> listResultBean) throws Exception {
+
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+
+                        }
+                    });
+        }
+    }
+
 
     /**
      * 查询所有产品

@@ -178,7 +178,7 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
             customerViewModel.requestAllBalance(productBeanList);
 
             // 临时使用
-            customerViewModel.requestBalance(productBeanList);
+            // customerViewModel.requestBalance(productBeanList);
         });
 
         customerViewModel.setCapitalBeanListLiveData(new MutableLiveData<>());

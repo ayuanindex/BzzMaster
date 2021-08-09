@@ -123,16 +123,20 @@ public class WalletFragment extends BaseFragment<WalletViewModel, WalletEvent> i
 
     /**
      * 跳转到币种详情界面
+     *
      * @param productBean 币种信息
      */
     @Override
     public void startCurrencyInfoActivity(ProductBean productBean) {
-        SharedBean.putData(SharedBean.Product, productBean);
-        startActivity(new Intent(getContext(), CurrencyInfoActivity.class));
+        if (productBean.getCapitalBean() != null) {
+            SharedBean.putData(SharedBean.Product, productBean);
+            startActivity(new Intent(getContext(), CurrencyInfoActivity.class));
+        }
     }
 
     /**
      * 跳转到提现界œ面
+     *
      * @param productBean 币种信息
      */
     private void startTransferActivity(ProductBean productBean) {

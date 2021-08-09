@@ -94,6 +94,7 @@ public class MineViewModel extends BaseViewMode<MineEvent> {
                 });
     }
 
+/*
     public void requestBalance(List<ProductBean> productBeanList) {
         for (ProductBean productBean : productBeanList) {
             CapitalBean capitalBean = new CapitalBean();
@@ -112,4 +113,5 @@ public class MineViewModel extends BaseViewMode<MineEvent> {
                     });
         }
     }
+*/
 }
