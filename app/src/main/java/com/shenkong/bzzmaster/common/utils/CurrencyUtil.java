@@ -20,6 +20,7 @@ public class CurrencyUtil {
 
     public static String getProfitUnit(String currency) {
         switch (currency.toLowerCase()) {
+            case "ebzz":
             case "bzz":
                 return "节点";
             case "xch":

@@ -9,7 +9,7 @@ android {
         applicationId "com.shenkong.bzzmaster"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
-        versionCode 10
+        versionCode 12
         versionName "1.2.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
