@@ -94,9 +94,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="锁仓周期"
+        android:layout_marginStart="10dp"
         android:textSize="11sp"
         app:layout_constraintBaseline_toBaselineOf="@id/tvMinimumSale"
-        app:layout_constraintEnd_toStartOf="@id/tvMiningCycleTip"
         app:layout_constraintStart_toEndOf="@+id/tvPriceUnit"
         app:layout_goneMarginBottom="10dp" />
 
@@ -107,9 +107,10 @@
         android:layout_weight="1"
         android:text="365天"
         android:textColor="@color/black"
-        app:layout_constraintTop_toTopOf="@id/tvPrice"
         app:layout_constraintBottom_toBottomOf="@id/tvPrice"
-        app:layout_constraintStart_toStartOf="@id/tvMiningCycleTip" />
+        app:layout_constraintStart_toStartOf="@id/tvMiningCycleTip"
+        app:layout_constraintTop_toTopOf="@id/tvPrice"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvMiningCycleTip"
@@ -120,7 +121,7 @@
         app:layout_constraintBaseline_toBaselineOf="@id/tvMinimumSale"
         app:layout_constraintEnd_toStartOf="@+id/tvPackagingCycleTip"
         app:layout_constraintStart_toEndOf="@id/tvLockUpTip"
-        app:layout_goneMarginStart="20dp" />
+        app:layout_goneMarginStart="0dp" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/packingGroup"

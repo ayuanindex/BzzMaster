@@ -151,6 +151,8 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
         } else if (productPlanBean.getType() == ConstantPool.PlanType_Mixing) {
             // 混合支付计划
             currency = "";
+            tvLockUp.setVisibility(View.GONE);
+            tvLockUpTip.setVisibility(View.GONE);
         }
 
         // 根据币种判断控件是否需要隐藏
@@ -173,7 +175,7 @@ public class HomeProductPlanViewHolder extends MultipleAdapter.MultipleBaseViewH
                 case "ebzz":
                     priceUnit = "/节点";
                     minimumSale = "节点数量" + productPlanBean.getMincompany() + "";
-                    price = Formatter.numberFormat(productPlanBean.getPrice()) + productPlanBean.getCurrency() + "  " + Formatter.numberFormat(productPlanBean.getMixedpayment()) + "USDT";
+                    price = Formatter.numberFormat(productPlanBean.getPrice()) + productPlanBean.getCurrency() + " " + Formatter.numberFormat(productPlanBean.getMixedpayment()) + "USDT";
                     break;
                 case "bzz":/*Swarm币种, 显示节点*/
                     priceUnit = "/节点";
