@@ -13,6 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
+import com.shenkong.bzzmaster.BuildConfig;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.config.ExternalLinks;
 import com.shenkong.bzzmaster.common.utils.Formatter;
@@ -131,7 +132,7 @@ public class MineFragment extends BaseFragment<MineViewModel, MineEvent> impleme
         tvShareAndDownload.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, ExternalLinks.APP_DOWNLOAD_LINK);
+            intent.putExtra(Intent.EXTRA_TEXT, BuildConfig.downloadUrl);
             startActivity(Intent.createChooser(intent, "下载链接"));
         });
     }

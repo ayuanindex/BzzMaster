@@ -57,8 +57,16 @@ public class ContactActivity extends BaseMvpActivity<ContactPresenter> implement
         initDataSubscribe();
 
         mPresenter.setLifecycleProvider(this);
-
-        mPresenter.requestChat();
+        switch (BuildConfig.firm) {
+            case "mifan":
+                tvContactTip.setText(BuildConfig.appName + "技术团队");
+                tvEmail.setText("邮箱:lzy2118053626@hotmail.com");
+                tvPhone.setText("联系电话:18175009828");
+                break;
+            default:
+                mPresenter.requestChat();
+                break;
+        }
     }
 
     @SuppressLint("SetTextI18n")

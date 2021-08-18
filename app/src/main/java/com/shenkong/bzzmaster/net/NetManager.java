@@ -42,7 +42,15 @@ public class NetManager {
         if (BuildConfig.DEBUG) {
             baseUrl = ModelPath.testUrl;
         } else {
-            baseUrl = ModelPath.baseUrl;
+            // 根据渠道选择服务器地址
+            switch (BuildConfig.firm) {
+                case "mifan":
+                    baseUrl = ModelPath.miFanUrl;
+                    break;
+                default:
+                    baseUrl = ModelPath.baseUrl;
+                    break;
+            }
         }
 
         mRetrofit = new Retrofit.Builder()

@@ -16,6 +16,11 @@ public class ModelPath {
     public static final String baseUrl = "http://app.mmskhy.com:8081/";
 
     /**
+     * 米凡数码
+     */
+    public static final String miFanUrl = "http://app.mmskhy.com:8981/";
+
+    /**
      * 测试
      */
     public static final String testUrl = "http://app.mmskhy.com:58081/";

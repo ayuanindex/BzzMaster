@@ -49,7 +49,7 @@ android {
 
     flavorDimensions "channel"
     productFlavors {
-        zy {
+        package_zy {
             applicationId 'com.shenkong.bzzmaster'
             manifestPlaceholders = [
                     firm: 'zy',
@@ -57,10 +57,26 @@ android {
                     fileProviderName: 'com.shenkong.bzzmaster.fileprovider',
             ]
             buildConfigField "String", "firm", '"zy"'
+            buildConfigField "String", "appName", '"深空洪源"'
+            buildConfigField "String", "downloadUrl", '"https://ayuanindex-guangzhou.oss-cn-guangzhou.aliyuncs.com/XingHuiLingHang.apk"'
             signingConfig signingConfigs.release
         }
 
-        beta {
+        /*米凡数码*/
+        package_mifan {
+            applicationId 'com.mifan.bzzmaster'
+            manifestPlaceholders = [
+                    firm: 'mifan',
+                    appName: '@string/app_name_mifanshuma',
+                    fileProviderName: 'com.mifan.bzzmaster.fileprovider',
+            ]
+            buildConfigField "String", "firm", '"mifan"'
+            buildConfigField "String", "appName", '"米凡数码"'
+            buildConfigField "String", "downloadUrl", '"https://ayuanindex-guangzhou.oss-cn-guangzhou.aliyuncs.com/mifan/XingHuiLingHang.apk"'
+            signingConfig signingConfigs.release
+        }
+
+        package_beta {
             applicationId 'com.shenkong.bzzmasterbeta'
             manifestPlaceholders = [
                     firm: 'beta',
@@ -68,6 +84,8 @@ android {
                     fileProviderName: 'com.shenkong.bzzmasterbeta.fileprovider',
             ]
             buildConfigField "String", "firm", '"beta"'
+            buildConfigField "String", "appName", '"Beta深空洪源"'
+            buildConfigField "String", "downloadUrl", '"https://xinghuilinghangbeta-guangzhou.oss-cn-guangzhou.aliyuncs.com/XingHuiLingHang.apk"'
             signingConfig signingConfigs.release
         }
     }

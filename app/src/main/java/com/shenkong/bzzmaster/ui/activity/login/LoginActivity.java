@@ -2,6 +2,7 @@ package com.shenkong.bzzmaster.ui.activity.login;
 
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -9,6 +10,8 @@ import com.blankj.utilcode.util.Utils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.shenkong.bzzmaster.BuildConfig;
 import com.shenkong.bzzmaster.R;
 import com.shenkong.bzzmaster.common.utils.SpUtil;
 import com.shenkong.bzzmaster.model.bean.User;
@@ -28,6 +31,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     private String bizid = "null";
     private TextInputLayout tilPhone;
     private long mExitTime;
+    private TextView tvName;
 
     @Override
     public int getLayoutId() {
@@ -37,6 +41,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
 
     @Override
     protected void initView() {
+        tvName = findViewById(R.id.tvName);
         tilPhone = findViewById(R.id.tilPhone);
         tiePhone = findViewById(R.id.tiePhone);
         tilVerificationCode = findViewById(R.id.tilVerificationCode);
@@ -58,6 +63,7 @@ public class LoginActivity extends BaseMvpActivity<LoginPresenter> implements Lo
     @Override
     protected void initData() {
         tiePhone.setText(SpUtil.getString(this, SpUtil.phone, ""));
+        tvName.setText(BuildConfig.appName);
     }
 
     @Override
