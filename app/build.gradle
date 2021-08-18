@@ -72,7 +72,7 @@ android {
             ]
             buildConfigField "String", "firm", '"mifan"'
             buildConfigField "String", "appName", '"米凡数码"'
-            buildConfigField "String", "downloadUrl", '"https://ayuanindex-guangzhou.oss-cn-guangzhou.aliyuncs.com/mifan/XingHuiLingHang.apk"'
+            buildConfigField "String", "downloadUrl", '"https://ayuanindex-guangzhou.oss-cn-guangzhou.aliyuncs.com/mifan/MiFanShuMa.apk"'
             signingConfig signingConfigs.release
         }
 
