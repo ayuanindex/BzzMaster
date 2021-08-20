@@ -69,7 +69,7 @@ greendao.plugin = "org.greenrobot:greendao-gradle-plugin:$versions.greendao"
 deps.greendao = greendao
 // 工具
 def utils = [:]
-utils.utilcode = "com.blankj:utilcode:$versions.utilcode"
+utils.utilcode = "com.blankj:utilcodex:$versions.utilcode"
 deps.utils = utils
 
 ext.deps = deps

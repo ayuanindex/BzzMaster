@@ -34,7 +34,14 @@ android {
             variant.outputs.all {
                 //在这里修改apk文件名
                 //outputFileName = "Demo${variant.versionName}.apk"
-                outputFileName = "XingHuiLingHang.apk"
+                //outputFileName = "XingHuiLingHang.apk"
+                if (productFlavors[0].name == "package_mifan") {
+                    outputFileName = "MiFanShuMa.apk"
+                } else if (productFlavors[0].name == "package_beta") {
+                    outputFileName = "XingHuiLingHangBeta.apk"
+                } else {
+                    outputFileName = "XingHuiLingHang.apk"
+                }
             }
     }
 
@@ -52,8 +59,8 @@ android {
         package_zy {
             applicationId 'com.shenkong.bzzmaster'
             manifestPlaceholders = [
-                    firm: 'zy',
-                    appName: '@string/app_name',
+                    firm            : 'zy',
+                    appName         : '@string/app_name',
                     fileProviderName: 'com.shenkong.bzzmaster.fileprovider',
             ]
             buildConfigField "String", "firm", '"zy"'
@@ -66,8 +73,8 @@ android {
         package_mifan {
             applicationId 'com.mifan.bzzmaster'
             manifestPlaceholders = [
-                    firm: 'mifan',
-                    appName: '@string/app_name_mifanshuma',
+                    firm            : 'mifan',
+                    appName         : '@string/app_name_mifanshuma',
                     fileProviderName: 'com.mifan.bzzmaster.fileprovider',
             ]
             buildConfigField "String", "firm", '"mifan"'
@@ -79,8 +86,8 @@ android {
         package_beta {
             applicationId 'com.shenkong.bzzmasterbeta'
             manifestPlaceholders = [
-                    firm: 'beta',
-                    appName: '@string/app_namebeta',
+                    firm            : 'beta',
+                    appName         : '@string/app_namebeta',
                     fileProviderName: 'com.shenkong.bzzmasterbeta.fileprovider',
             ]
             buildConfigField "String", "firm", '"beta"'
@@ -101,6 +108,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.3.0'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
     implementation 'androidx.preference:preference:1.1.1'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.31'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01'
 
     // 调色板支持库
