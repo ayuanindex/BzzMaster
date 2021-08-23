@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shenkong.bzzmaster.common.config.StatusCodeMatching;
+import com.shenkong.bzzmaster.common.utils.CurrencyUtil;
 import com.shenkong.bzzmaster.common.utils.Formatter;
 import com.shenkong.bzzmaster.databinding.ItemOrderBinding;
 import com.shenkong.bzzmaster.model.bean.OrderBean;
@@ -43,7 +44,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             holder.itemOrderBinding.tvOrderMoney.setText(Formatter.numberFormat(orderBean.getAmount()) + orderBean.getCurrency());
         }
         holder.itemOrderBinding.tvProductCount.setText(String.valueOf(orderBean.getNumber()));
-        holder.itemOrderBinding.tvProductSize.setText(orderBean.getNumber() + "个");
+        holder.itemOrderBinding.tvProductSize.setText(orderBean.getNumber() + CurrencyUtil.getUnit(orderBean.getCurrency()));
     }
 
     @Override
